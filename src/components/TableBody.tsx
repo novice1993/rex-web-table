@@ -1,21 +1,22 @@
-import { TableProps } from "../type/type";
 import { ReactNode } from "react";
+import { TableProps } from "../type/type";
+import { Table } from "@mantine/core";
 
 const TableBody = <T,>({ table }: TableProps<T>) => {
   const rows = table.getRowModel().rows;
 
   return (
-    <tbody>
+    <Table.Tbody>
       {rows.map((row) => (
-        <tr key={row.id}>
+        <Table.Tr key={row.id}>
           {row.getVisibleCells().map((cell) => (
-            <td key={cell.id}>
+            <Table.Td key={cell.id}>
               {cell.getContext().renderValue() as ReactNode}
-            </td>
+            </Table.Td>
           ))}
-        </tr>
+        </Table.Tr>
       ))}
-    </tbody>
+    </Table.Tbody>
   );
 };
 

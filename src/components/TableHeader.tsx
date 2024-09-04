@@ -1,5 +1,7 @@
 import { useCallback } from "react";
 import { Header } from "@tanstack/react-table";
+
+import { Table } from "@mantine/core";
 import { TableProps } from "../type/type";
 
 const TableHeader = <T,>({ table }: TableProps<T>) => {
@@ -19,17 +21,17 @@ const TableHeader = <T,>({ table }: TableProps<T>) => {
   }, []);
 
   return (
-    <thead>
+    <Table.Thead>
       {tableHeaderData.map((headerGroup) => (
-        <tr key={headerGroup.id}>
+        <Table.Tr key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
-            <th key={header.id}>
+            <Table.Th key={header.id}>
               {header.isPlaceholder ? null : getHeaderContent(header)}
-            </th>
+            </Table.Th>
           ))}
-        </tr>
+        </Table.Tr>
       ))}
-    </thead>
+    </Table.Thead>
   );
 };
 

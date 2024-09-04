@@ -4,6 +4,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 
@@ -59,10 +60,10 @@ function App() {
   });
 
   return (
-    <div>
+    <Table withColumnBorders withRowBorders highlightOnHover>
       <TableHeader table={table} />
       <TableBody table={table} />
-    </div>
+    </Table>
   );
 }
 
