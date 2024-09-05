@@ -1,15 +1,18 @@
 import {
   ColumnDef,
   getCoreRowModel,
+  PaginationState,
   useReactTable,
 } from "@tanstack/react-table";
 
 import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
+import { Pagination } from "@mantine/core";
 
 import { HeaderOptionType } from "./type/type";
 import { data } from "./dummyData";
+import { useMemo, useState } from "react";
 
 export interface Example {
   firstName: string;
@@ -82,10 +85,28 @@ const headerOptionType: HeaderOptionType[] = [
 ];
 
 function App() {
+  // pagination 관련 상태
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  // 전체 page 수
+  const totalPageNum = Math.ceil(data.length / pagination.pageSize);
+
+  // table body에 전달할 content 데이터
+  const paginationData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return data.slice(start, end);
+  }, [pagination.pageIndex, pagination.pageSize]);
+
   const table = useReactTable<Example>({
-    data,
+    data: paginationData,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    pageCount: totalPageNum,
+    state: { pagination },
   });
 
   return (
@@ -98,6 +119,13 @@ function App() {
     >
       <TableHeader table={table} headerOptionType={headerOptionType} />
       <TableBody table={table} />
+      <Pagination
+        total={totalPageNum}
+        value={pagination.pageIndex + 1}
+        onChange={(page) =>
+          setPagination({ ...pagination, pageIndex: page - 1 })
+        }
+      />
     </Table>
   );
 }
