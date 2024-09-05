@@ -8,34 +8,17 @@ import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 
-interface Example {
+import { HeaderOptionType } from "./type/type";
+import { data } from "./dummyData";
+
+export interface Example {
   firstName: string;
   lastName: string;
-  age: number;
+  height: number;
+  weight: number;
+  "10kg": "yes";
+  "20kg": "no";
 }
-
-const data: Example[] = [
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-  { firstName: "John", lastName: "Doe", age: 28 },
-  { firstName: "Jane", lastName: "Doe", age: 26 },
-];
 
 const columns: ColumnDef<Example>[] = [
   {
@@ -47,8 +30,54 @@ const columns: ColumnDef<Example>[] = [
     header: "Last Name",
   },
   {
-    accessorKey: "age",
-    header: "Age",
+    header: "information", // 큰 헤더
+    columns: [
+      {
+        accessorKey: "height",
+        header: "height", // 서브 헤더
+      },
+
+      {
+        header: "weight", // 서브 헤더
+        columns: [
+          { accessorKey: "10kg", header: "10kg" },
+          { accessorKey: "20kg", header: "20kg" },
+        ],
+      },
+    ],
+  },
+];
+
+const headerOptionType: HeaderOptionType[] = [
+  {
+    accessorKey: "firstName",
+    layer: 1,
+    rowSpan: 3,
+    colSpan: 1,
+  },
+  {
+    accessorKey: "lastName",
+    layer: 1,
+    rowSpan: 3,
+    colSpan: 1,
+  },
+  {
+    accessorKey: "information",
+    layer: 1,
+    rowSpan: 1,
+    colSpan: 3,
+  },
+  {
+    accessorKey: "weight",
+    layer: 2,
+    rowSpan: 1,
+    colSpan: 2,
+  },
+  {
+    accessorKey: "height",
+    layer: 2,
+    rowSpan: 2,
+    colSpan: 1,
   },
 ];
 
@@ -60,8 +89,14 @@ function App() {
   });
 
   return (
-    <Table withColumnBorders withRowBorders highlightOnHover>
-      <TableHeader table={table} />
+    <Table
+      withTableBorder
+      withColumnBorders
+      withRowBorders
+      stickyHeader
+      highlightOnHover
+    >
+      <TableHeader table={table} headerOptionType={headerOptionType} />
       <TableBody table={table} />
     </Table>
   );
