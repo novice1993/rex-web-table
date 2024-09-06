@@ -1,5 +1,4 @@
 import {
-  ColumnDef,
   getCoreRowModel,
   PaginationState,
   useReactTable,
@@ -9,12 +8,13 @@ import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 import { Pagination } from "@mantine/core";
+import { Select } from "@mantine/core";
 
-import { HeaderOptionType } from "./type/type";
-import { data } from "./dummyData";
+import { data, columns, headerOptionType } from "./dummyData";
 import { useMemo, useState } from "react";
 
 export interface Example {
+  No: number;
   firstName: string;
   lastName: string;
   height: number;
@@ -23,66 +23,7 @@ export interface Example {
   "20kg": "no";
 }
 
-const columns: ColumnDef<Example>[] = [
-  {
-    accessorKey: "firstName",
-    header: "First Name",
-  },
-  {
-    accessorKey: "lastName",
-    header: "Last Name",
-  },
-  {
-    header: "information", // 큰 헤더
-    columns: [
-      {
-        accessorKey: "height",
-        header: "height", // 서브 헤더
-      },
-
-      {
-        header: "weight", // 서브 헤더
-        columns: [
-          { accessorKey: "10kg", header: "10kg" },
-          { accessorKey: "20kg", header: "20kg" },
-        ],
-      },
-    ],
-  },
-];
-
-const headerOptionType: HeaderOptionType[] = [
-  {
-    accessorKey: "firstName",
-    layer: 1,
-    rowSpan: 3,
-    colSpan: 1,
-  },
-  {
-    accessorKey: "lastName",
-    layer: 1,
-    rowSpan: 3,
-    colSpan: 1,
-  },
-  {
-    accessorKey: "information",
-    layer: 1,
-    rowSpan: 1,
-    colSpan: 3,
-  },
-  {
-    accessorKey: "weight",
-    layer: 2,
-    rowSpan: 1,
-    colSpan: 2,
-  },
-  {
-    accessorKey: "height",
-    layer: 2,
-    rowSpan: 2,
-    colSpan: 1,
-  },
-];
+const pageSizeList = ["10", "15", "20", "25", "30"];
 
 function App() {
   // pagination 관련 상태
@@ -94,13 +35,14 @@ function App() {
   // 전체 page 수
   const totalPageNum = Math.ceil(data.length / pagination.pageSize);
 
-  // table body에 전달할 content 데이터
+  // table body에 전달할 content 데이터 (pagination)
   const paginationData = useMemo(() => {
     const start = pagination.pageIndex * pagination.pageSize;
     const end = start + pagination.pageSize;
     return data.slice(start, end);
   }, [pagination.pageIndex, pagination.pageSize]);
 
+  // hook
   const table = useReactTable<Example>({
     data: paginationData,
     columns,
@@ -109,24 +51,47 @@ function App() {
     state: { pagination },
   });
 
+  // page index event handler
+  const handleChangePageIndex = (page: number) => {
+    setPagination((prevState: PaginationState) => {
+      // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리
+      return { pageSize: prevState.pageSize, pageIndex: page - 1 };
+    });
+  };
+
+  // page size event handler
+  const handleChangePageSize = (pageSize: string | null) => {
+    setPagination((prevState: PaginationState) => {
+      return { pageIndex: prevState.pageIndex, pageSize: Number(pageSize) };
+    });
+  };
+
   return (
-    <Table
-      withTableBorder
-      withColumnBorders
-      withRowBorders
-      stickyHeader
-      highlightOnHover
-    >
-      <TableHeader table={table} headerOptionType={headerOptionType} />
-      <TableBody table={table} />
-      <Pagination
-        total={totalPageNum}
-        value={pagination.pageIndex + 1}
-        onChange={(page) =>
-          setPagination({ ...pagination, pageIndex: page - 1 })
-        }
-      />
-    </Table>
+    <>
+      <Table
+        withTableBorder
+        withColumnBorders
+        withRowBorders
+        stickyHeader
+        highlightOnHover
+      >
+        <TableHeader table={table} headerOptionType={headerOptionType} />
+        <TableBody table={table} />
+      </Table>
+
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Select
+          data={pageSizeList}
+          value={String(pagination.pageSize)}
+          onChange={handleChangePageSize}
+        />
+        <Pagination
+          total={totalPageNum}
+          value={pagination.pageIndex + 1}
+          onChange={handleChangePageIndex}
+        />
+      </div>
+    </>
   );
 }
 
