@@ -1,4 +1,9 @@
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
@@ -8,6 +13,7 @@ import TableFooter from "./components/TableFooter";
 import { data, columns, headerOptionType } from "./dummyData";
 
 import useTablePagination from "./hook/useTablePagination";
+import useTableSorting from "./hook/useTableSorting";
 
 export interface Example {
   No: number;
@@ -20,16 +26,25 @@ export interface Example {
 }
 
 function App() {
-  const { pagination, setPagination, totalPageNum, paginationData } =
-    useTablePagination<Example>(data);
+  const { pagination, setPagination } = useTablePagination(10);
+  const { sorting, setSorting } = useTableSorting();
 
-  // hook
   const table = useReactTable<Example>({
-    data: paginationData,
+    // 1) default table setting
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    pageCount: totalPageNum,
-    state: { pagination },
+
+    // 2) about pagination
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+
+    // 3) about sorting
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+
+    // 해당 hook에서 관리 중인 state
+    state: { pagination, sorting },
   });
 
   return (
@@ -46,7 +61,7 @@ function App() {
       </Table>
 
       <TableFooter
-        totalPageNum={totalPageNum}
+        totalPageNum={table.getPageCount()}
         pagination={pagination}
         setPagination={setPagination}
       />

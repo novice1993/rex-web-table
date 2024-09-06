@@ -1,6 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
 import { Pagination } from "@mantine/core";
 import { PaginationState } from "@tanstack/react-table";
-import { Dispatch, SetStateAction } from "react";
+import { handleChangePageIndex } from "../../util/footer.util";
 
 export interface TablePaginationProps {
   totalPageNum: number;
@@ -11,20 +12,11 @@ export interface TablePaginationProps {
 export const TablePagination = (props: TablePaginationProps) => {
   const { totalPageNum, pagination, setPagination } = props;
 
-  const handleChangePageIndex = (pageNum: number) => {
-    // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리
-    const newPageIndex = pageNum - 1;
-
-    setPagination((prevState: PaginationState) => {
-      return { pageIndex: newPageIndex, pageSize: prevState.pageSize };
-    });
-  };
-
   return (
     <Pagination
       total={totalPageNum}
       value={pagination.pageIndex + 1}
-      onChange={handleChangePageIndex}
+      onChange={(pageIndex) => handleChangePageIndex(pageIndex, setPagination)}
     />
   );
 };
