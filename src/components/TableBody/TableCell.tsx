@@ -1,20 +1,15 @@
 import { ReactNode } from "react";
 import { Cell } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
+import { handleClickTableCell } from "../../util/body.util";
 
-type CellClickEventHandlerType = (params: unknown) => void;
-
-const TableCell = <T,>({
-  cell,
-  cellClickEventHandler,
-}: {
-  cell: Cell<T, unknown>;
-  cellClickEventHandler?: CellClickEventHandlerType;
-}) => {
+const TableCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
   const cellValue = cell.getContext().renderValue() as ReactNode;
 
   return (
-    <Table.Td onClickCapture={cellClickEventHandler}>{cellValue}</Table.Td>
+    <Table.Td onClick={(e) => handleClickTableCell(e, cellValue, cell)}>
+      {cellValue}
+    </Table.Td>
   );
 };
 
