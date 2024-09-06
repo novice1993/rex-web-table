@@ -2,14 +2,26 @@ import { Select } from "@mantine/core";
 import { PaginationState } from "@tanstack/react-table";
 import { Dispatch, SetStateAction } from "react";
 
-interface TablePageSizeSelectProps {
-  pageSizeList: Array<number>;
+export interface TablePageSizeSelectProps {
+  pageSizeList?: Array<number>;
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
 
-const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
-  const { pageSizeList, pagination, setPagination } = props;
+export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
+  const {
+    pageSizeList = [10, 15, 20, 25, 30], // default value 설정
+    pagination,
+    setPagination,
+  } = props;
+
+  const sizeList: Array<number> = pageSizeList;
+
+  // useTablePagination hook에서 설정한 기본 값이 pageSizeList에 없을 경우 추가
+  if (!sizeList.includes(pagination.pageSize)) {
+    sizeList.push(pagination.pageSize);
+    sizeList.sort((a, b) => a - b);
+  }
 
   const converNumToString = (originData: Array<number>) => {
     const result = originData.map((data) => {
@@ -23,6 +35,7 @@ const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
     setPagination((prevState: PaginationState) => {
       // page size 변경에 맞춰 page number 조절
       const currentItemIndex = prevState.pageIndex * prevState.pageSize + 1;
+
       const newPageSize = Number(pageSize);
       const newPageNum = Math.ceil(currentItemIndex / newPageSize);
 
@@ -35,11 +48,9 @@ const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
 
   return (
     <Select
-      data={converNumToString(pageSizeList)}
+      data={converNumToString(sizeList)}
       value={String(pagination.pageSize)}
       onChange={handleChangePageSize}
     />
   );
 };
-
-export default TablePageSizeSelect;

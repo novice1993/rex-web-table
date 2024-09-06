@@ -3,8 +3,7 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
-import TablePagination from "./components/TableFooter/TablePagination";
-import TablePageSizeSelect from "./components/TableFooter/TablePageSizeSelect";
+import TableFooter from "./components/TableFooter";
 
 import { data, columns, headerOptionType } from "./dummyData";
 
@@ -19,8 +18,6 @@ export interface Example {
   "10kg": "yes";
   "20kg": "no";
 }
-
-const pageSizeList = [10, 15, 20, 25, 30];
 
 function App() {
   const { pagination, setPagination, totalPageNum, paginationData } =
@@ -48,18 +45,11 @@ function App() {
         <TableBody table={table} />
       </Table>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <TablePageSizeSelect
-          pageSizeList={pageSizeList}
-          pagination={pagination}
-          setPagination={setPagination}
-        />
-        <TablePagination
-          totalPageNum={totalPageNum}
-          pagination={pagination}
-          setPagination={setPagination}
-        />
-      </div>
+      <TableFooter
+        totalPageNum={totalPageNum}
+        pagination={pagination}
+        setPagination={setPagination}
+      />
     </>
   );
 }

@@ -2,13 +2,13 @@ import { Pagination } from "@mantine/core";
 import { PaginationState } from "@tanstack/react-table";
 import { Dispatch, SetStateAction } from "react";
 
-interface TablePaginationProps {
+export interface TablePaginationProps {
   totalPageNum: number;
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
 
-const TablePagination = (props: TablePaginationProps) => {
+export const TablePagination = (props: TablePaginationProps) => {
   const { totalPageNum, pagination, setPagination } = props;
 
   const handleChangePageIndex = (pageNum: number) => {
@@ -28,5 +28,3 @@ const TablePagination = (props: TablePaginationProps) => {
     />
   );
 };
-
-export default TablePagination;
