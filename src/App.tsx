@@ -7,7 +7,7 @@ import {
 
 import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
-import TableBody from "./components/TableBody";
+import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 
 import { data, columns, headerOptionType } from "./dummyData";

@@ -3,7 +3,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
 
 export const columns: ColumnDef<Example>[] = [
-  { accessorKey: "No", header: "No", enableSorting: true },
+  {
+    accessorKey: "No",
+    header: "No",
+    enableSorting: true,
+  },
   { accessorKey: "firstName", header: "First Name", enableSorting: false },
   {
     accessorKey: "lastName",
