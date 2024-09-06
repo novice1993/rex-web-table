@@ -57,8 +57,6 @@ const TableHeader = <T,>({ table, headerOptionType }: TableProps<T>) => {
 
       headerOptionType?.forEach((option) => {
         if (option.accessorKey === accessorKey) {
-          console.log("yes", accessorKey);
-
           headers.depth = option.layer;
           headers.colSpan = option.colSpan;
           headers.rowSpan = option.rowSpan;

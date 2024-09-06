@@ -11,7 +11,9 @@ import { Pagination } from "@mantine/core";
 import { Select } from "@mantine/core";
 
 import { data, columns, headerOptionType } from "./dummyData";
-import { useMemo, useState } from "react";
+
+import useTablePagination from "./hook/useTablePagination";
+import { useEffect } from "react";
 
 export interface Example {
   No: number;
@@ -26,21 +28,8 @@ export interface Example {
 const pageSizeList = ["10", "15", "20", "25", "30"];
 
 function App() {
-  // pagination 관련 상태
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-
-  // 전체 page 수
-  const totalPageNum = Math.ceil(data.length / pagination.pageSize);
-
-  // table body에 전달할 content 데이터 (pagination)
-  const paginationData = useMemo(() => {
-    const start = pagination.pageIndex * pagination.pageSize;
-    const end = start + pagination.pageSize;
-    return data.slice(start, end);
-  }, [pagination.pageIndex, pagination.pageSize]);
+  const { pagination, setPagination, totalPageNum, paginationData } =
+    useTablePagination<Example>(data);
 
   // hook
   const table = useReactTable<Example>({
@@ -51,18 +40,35 @@ function App() {
     state: { pagination },
   });
 
+  useEffect(() => console.log("%c page 관련 info", "color: red", pagination));
+
   // page index event handler
-  const handleChangePageIndex = (page: number) => {
+  const handleChangePageIndex = (pageNum: number) => {
+    // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리
+    const newPageIndex = pageNum - 1;
+
     setPagination((prevState: PaginationState) => {
-      // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리
-      return { pageSize: prevState.pageSize, pageIndex: page - 1 };
+      return { pageSize: prevState.pageSize, pageIndex: newPageIndex };
     });
   };
 
   // page size event handler
   const handleChangePageSize = (pageSize: string | null) => {
     setPagination((prevState: PaginationState) => {
-      return { pageIndex: prevState.pageIndex, pageSize: Number(pageSize) };
+      // page size 변경에 맞춰 page number 조절
+      const currentItemIndex = prevState.pageIndex * prevState.pageSize;
+      console.log("%c 현재 아이템 index", "color: yellow", currentItemIndex);
+
+      const newPageSize = Number(pageSize);
+      console.log("%c 현재 페이지 size", "color: yellow", newPageSize);
+
+      const newPageNum = Math.ceil(currentItemIndex / newPageSize);
+      console.log("%c 현재 페이지 number", "color: yellow", newPageNum);
+
+      // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리 (단, 0일 경우 제외)
+      const newPageIndex = newPageNum > 0 ? newPageNum - 1 : newPageNum;
+
+      return { pageIndex: newPageIndex, pageSize: newPageSize };
     });
   };
 
