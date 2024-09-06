@@ -1,15 +1,10 @@
-import {
-  getCoreRowModel,
-  PaginationState,
-  useReactTable,
-} from "@tanstack/react-table";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table } from "@mantine/core";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
-import TablePagination from "./components/TablePagination";
-
-import { Select } from "@mantine/core";
+import TablePagination from "./components/TableFooter/TablePagination";
+import TablePageSizeSelect from "./components/TableFooter/TablePageSizeSelect";
 
 import { data, columns, headerOptionType } from "./dummyData";
 
@@ -25,7 +20,7 @@ export interface Example {
   "20kg": "no";
 }
 
-const pageSizeList = ["10", "15", "20", "25", "30"];
+const pageSizeList = [10, 15, 20, 25, 30];
 
 function App() {
   const { pagination, setPagination, totalPageNum, paginationData } =
@@ -39,21 +34,6 @@ function App() {
     pageCount: totalPageNum,
     state: { pagination },
   });
-
-  // page size event handler
-  const handleChangePageSize = (pageSize: string | null) => {
-    setPagination((prevState: PaginationState) => {
-      // page size 변경에 맞춰 page number 조절
-      const currentItemIndex = prevState.pageIndex * prevState.pageSize;
-      const newPageSize = Number(pageSize);
-      const newPageNum = Math.ceil(currentItemIndex / newPageSize);
-
-      // page number에서 -1을 한 값이 data와 연결되는 pageIndex와 일치하므로 -1 처리 (단, 0일 경우 제외)
-      const newPageIndex = newPageNum > 0 ? newPageNum - 1 : newPageNum;
-
-      return { pageIndex: newPageIndex, pageSize: newPageSize };
-    });
-  };
 
   return (
     <>
@@ -69,10 +49,10 @@ function App() {
       </Table>
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Select
-          data={pageSizeList}
-          value={String(pagination.pageSize)}
-          onChange={handleChangePageSize}
+        <TablePageSizeSelect
+          pageSizeList={pageSizeList}
+          pagination={pagination}
+          setPagination={setPagination}
         />
         <TablePagination
           totalPageNum={totalPageNum}
