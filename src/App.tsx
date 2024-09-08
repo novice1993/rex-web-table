@@ -49,13 +49,7 @@ function App() {
 
   return (
     <>
-      <Table
-        withTableBorder
-        withColumnBorders
-        withRowBorders
-        stickyHeader
-        highlightOnHover
-      >
+      <Table withTableBorder withColumnBorders withRowBorders stickyHeader highlightOnHover>
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </Table>

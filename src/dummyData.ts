@@ -13,23 +13,23 @@ export const columns: ColumnDef<Example>[] = [
     accessorKey: "lastName",
     header: "Last Name",
   },
-  {
-    header: "information", // 큰 헤더
-    columns: [
-      {
-        accessorKey: "height",
-        header: "height", // 서브 헤더
-      },
+  // {
+  //   header: "information", // 큰 헤더
+  //   columns: [
+  //     {
+  //       accessorKey: "height",
+  //       header: "height", // 서브 헤더
+  //     },
 
-      {
-        header: "weight", // 서브 헤더
-        columns: [
-          { accessorKey: "10kg", header: "10kg" },
-          { accessorKey: "20kg", header: "20kg" },
-        ],
-      },
-    ],
-  },
+  //     {
+  //       header: "weight", // 서브 헤더
+  //       columns: [
+  //         { accessorKey: "10kg", header: "10kg" },
+  //         { accessorKey: "20kg", header: "20kg" },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];
 
 export const headerOptionType: HeaderOptionType[] = [

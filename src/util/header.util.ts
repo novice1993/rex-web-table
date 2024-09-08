@@ -3,12 +3,10 @@ import { TableProps } from "../type/type";
 
 interface HeaderDataType<T> {
   depth: number;
-  headers: Header<T, unknown>[]; // 정확한 타입을 지정합니다.
+  headers: Header<T, unknown>[];
 }
 
-export const groupByDepthAndSort = <T>(
-  array: Header<T, unknown>[]
-): HeaderDataType<T>[] => {
+const groupByDepthAndSort = <T>(array: Header<T, unknown>[]): HeaderDataType<T>[] => {
   // Step 1: depth에 따라 그룹화
   const grouped = array.reduce<HeaderDataType<T>[]>((acc, obj) => {
     const existingGroup = acc.find((group) => group.depth === obj.depth);
