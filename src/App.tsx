@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-table";
 
 import { Table } from "@mantine/core";
-import TableHeader from "./components/TableHeader";
+import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 
@@ -49,7 +49,13 @@ function App() {
 
   return (
     <>
-      <Table withTableBorder withColumnBorders withRowBorders stickyHeader highlightOnHover>
+      <Table
+        withTableBorder
+        withColumnBorders
+        withRowBorders
+        stickyHeader
+        highlightOnHover
+      >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </Table>
