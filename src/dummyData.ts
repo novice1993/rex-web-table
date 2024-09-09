@@ -12,6 +12,7 @@ export const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "lastName",
     header: "Last Name",
+    enableSorting: false,
   },
   // {
   //   header: "information", // 큰 헤더

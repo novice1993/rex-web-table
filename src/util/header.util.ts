@@ -1,4 +1,5 @@
 import { Header } from "@tanstack/react-table";
+import { SortDirection } from "@tanstack/react-table";
 import { TableProps } from "../type/type";
 
 export interface HeaderDataType<T> {
@@ -69,8 +70,35 @@ export const getHeader = <T>({ table, headerOptionType }: TableProps<T>) => {
   return result;
 };
 
+// Sorting 관련
+enum SortingType {
+  ASCENDING_ORDER = "asc", // 오름차순
+  DESCENDING_ORDER = "desc", // 내림차순
+}
+
+enum SortingDirectionUi {
+  ASCENDING_UI = "▲",
+  DESCENDING_UI = "▼",
+}
+
 export const handleClickHeaderForSorting = <T>(header: Header<T, unknown>) => {
-  if (header.column.getCanSort()) {
-    header.column.toggleSorting();
+  const sortingType = header.column.getIsSorted();
+
+  // 오름차순
+  if (sortingType === SortingType.DESCENDING_ORDER) {
+    return header.column.toggleSorting(false);
+  }
+
+  // 내림차순
+  if (sortingType === SortingType.ASCENDING_ORDER) {
+    return header.column.toggleSorting(true);
+  }
+};
+
+export const getSortingDirectionUi = (sortingType: SortDirection | false) => {
+  if (sortingType === SortingType.ASCENDING_ORDER) {
+    return SortingDirectionUi.ASCENDING_UI;
+  } else if (sortingType === SortingType.DESCENDING_ORDER) {
+    return SortingDirectionUi.DESCENDING_UI;
   }
 };
