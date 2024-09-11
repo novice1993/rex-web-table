@@ -5,8 +5,11 @@ import { useGetTableRowUtil } from "../../hook/useGetTableRowUtil";
 
 // test
 import { useTableSubRowContext } from "../../provider/TableSubRowProvider";
+import TableSubRow from "./TableSubRow";
+import { useRef } from "react";
 
 const TableRow = <T,>({ row }: { row: Row<T> }) => {
+  const subTableId = useRef(0);
   const cellGroup = row.getVisibleCells();
   const { handleClickTableRow } = useGetTableRowUtil({
     row,
@@ -23,11 +26,12 @@ const TableRow = <T,>({ row }: { row: Row<T> }) => {
       </Table.Tr>
 
       {/* Sub Row */}
-      <Table.Tr>
-        {subRowContent.map((subRowContent) => {
-          return <TableCell key={subRowContent.id} cell={subRowContent} />;
-        })}
-      </Table.Tr>
+      {subRowContent.map((content) => {
+        if (content.id === row.id) {
+          subTableId.current += 1;
+          return <TableSubRow key={subTableId.current} row={content} />;
+        }
+      })}
     </>
   );
 };

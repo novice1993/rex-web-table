@@ -6,23 +6,34 @@ import {
   useContext,
   useState,
 } from "react";
-import { Cell } from "@tanstack/react-table";
+import { Row, Table } from "@tanstack/react-table";
 
 interface TableSubRowProviderProps<T> {
-  subRowContent: Array<Cell<T, unknown>>;
-  setSubRowContent: Dispatch<SetStateAction<Array<Cell<T, unknown>>>>;
+  subRowContent: Array<Row<T>>;
+  setSubRowContent: Dispatch<SetStateAction<Array<Row<T>>>>;
+  table: Table<T>;
 }
 
 const TableSubRowContext =
   createContext<TableSubRowProviderProps<unknown> | null>(null);
 
-export const TableSubRowProvider = ({ children }: { children: ReactNode }) => {
-  const [subRowContent, setSubRowContent] = useState<
-    Array<Cell<unknown, unknown>>
-  >([]);
+export const TableSubRowProvider = <T,>({
+  children,
+  table,
+}: {
+  children: ReactNode;
+  table: Table<T>;
+}) => {
+  const [subRowContent, setSubRowContent] = useState<Array<Row<unknown>>>([]);
 
   return (
-    <TableSubRowContext.Provider value={{ subRowContent, setSubRowContent }}>
+    <TableSubRowContext.Provider
+      value={{
+        subRowContent,
+        setSubRowContent,
+        table: table as Table<unknown>,
+      }}
+    >
       {children}
     </TableSubRowContext.Provider>
   );

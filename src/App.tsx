@@ -20,11 +20,7 @@ import { useState } from "react";
 export interface Example {
   No: number;
   firstName: string;
-  lastName: string;
-  height: number;
-  weight: number;
-  "10kg": "yes";
-  "20kg": "no";
+  add: string;
 }
 
 // test
@@ -60,7 +56,7 @@ function App() {
   });
 
   return (
-    <TableSubRowProvider>
+    <TableSubRowProvider table={table}>
       <Table
         withTableBorder
         withColumnBorders
