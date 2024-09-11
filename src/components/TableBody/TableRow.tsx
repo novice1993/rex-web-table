@@ -19,7 +19,7 @@ const TableRow = <T,>({ row }: { row: Row<T> }) => {
 
   return (
     <>
-      <Table.Tr key={row.id} onClickCapture={handleClickTableRow}>
+      <Table.Tr key={row.id} onClick={handleClickTableRow}>
         {cellGroup.map((cell) => {
           return <TableCell key={cell.id} cell={cell} />;
         })}
