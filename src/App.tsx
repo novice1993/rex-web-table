@@ -27,6 +27,9 @@ export interface Example {
   "20kg": "no";
 }
 
+// test
+import { TableSubRowProvider } from "./provider/TableSubRowProvider";
+
 function App() {
   const { pagination, setPagination } = useTablePagination(10);
   const { sorting, setSorting } = useTableSorting();
@@ -57,7 +60,7 @@ function App() {
   });
 
   return (
-    <>
+    <TableSubRowProvider>
       <Table
         withTableBorder
         withColumnBorders
@@ -74,7 +77,7 @@ function App() {
         pagination={pagination}
         setPagination={setPagination}
       />
-    </>
+    </TableSubRowProvider>
   );
 }
 
