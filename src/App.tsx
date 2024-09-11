@@ -1,5 +1,6 @@
 import {
   getCoreRowModel,
+  getExpandedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -14,6 +15,7 @@ import { data, columns, headerOptionType } from "./dummyData";
 
 import useTablePagination from "./hook/useTablePagination";
 import useTableSorting from "./hook/useTableSorting";
+import { useState } from "react";
 
 export interface Example {
   No: number;
@@ -29,6 +31,9 @@ function App() {
   const { pagination, setPagination } = useTablePagination(10);
   const { sorting, setSorting } = useTableSorting();
 
+  // sub table 관련 상태
+  const [expanded, setExpanded] = useState({});
+
   const table = useReactTable<Example>({
     // 1) default table setting
     data,
@@ -43,8 +48,12 @@ function App() {
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
 
+    // 4) about sub table expanded
+    getExpandedRowModel: getExpandedRowModel(),
+    onExpandedChange: setExpanded,
+
     // 해당 hook에서 관리 중인 state
-    state: { pagination, sorting },
+    state: { pagination, sorting, expanded },
   });
 
   return (
