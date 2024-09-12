@@ -1,4 +1,5 @@
 import {
+  ComponentType,
   createContext,
   Dispatch,
   ReactNode,
@@ -7,8 +8,9 @@ import {
   useState,
 } from "react";
 import { Table } from "@tanstack/react-table";
+import DefaultTableContainer from "./DefaultTableContainer";
 
-interface TableSubRowProviderProps<T> {
+interface TableContextProps<T> {
   subRowContent: Array<unknown>;
   setSubRowContent: Dispatch<SetStateAction<Array<unknown>>>;
   table: Table<T>;
@@ -19,26 +21,31 @@ interface TableSubRowProviderProps<T> {
   }) => JSX.Element;
 }
 
-const TableSubRowContext =
-  createContext<TableSubRowProviderProps<unknown> | null>(null);
-
-export const TableSubRowProvider = <T,>({
-  children,
-  table,
-  SubRowComponent,
-}: {
+interface TableProviderProps<T> {
   children: ReactNode;
   table: Table<T>;
+  TableContainer?: ComponentType<{ children: ReactNode }>;
   SubRowComponent: ({
     subRowContent,
   }: {
     subRowContent: unknown;
   }) => JSX.Element;
-}) => {
+}
+
+const TableContext = createContext<TableContextProps<unknown> | null>(null);
+
+export const TableProvider = <T,>(props: TableProviderProps<T>) => {
+  const {
+    children,
+    table,
+    TableContainer = DefaultTableContainer,
+    SubRowComponent,
+  } = props;
+
   const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
 
   return (
-    <TableSubRowContext.Provider
+    <TableContext.Provider
       value={{
         subRowContent,
         setSubRowContent,
@@ -46,19 +53,17 @@ export const TableSubRowProvider = <T,>({
         SubRowComponent,
       }}
     >
-      {children}
-    </TableSubRowContext.Provider>
+      <TableContainer>{children}</TableContainer>
+    </TableContext.Provider>
   );
 };
 
-export const useTableSubRowContext = <T,>() => {
-  const context = useContext(TableSubRowContext);
+export const useTableContext = <T,>() => {
+  const context = useContext(TableContext);
 
   if (!context) {
-    console.error(
-      "useTableSubRowContext must be used within a TableSubRowProvider"
-    );
+    console.error("useTableContext  must be used within a TableProvider");
   }
 
-  return context as TableSubRowProviderProps<T>;
+  return context as TableContextProps<T>;
 };

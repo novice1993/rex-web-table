@@ -14,7 +14,7 @@ export interface Example {
 }
 
 // test
-import { TableSubRowProvider } from "./provider/TableSubRowProvider";
+import { TableProvider } from "./provider/TableProvider";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
 import useTableManager from "./hook/useTableManager";
 import { useState } from "react";
@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <TableSubRowProvider table={table} SubRowComponent={AddSubRow}>
+      <TableProvider table={table} SubRowComponent={AddSubRow}>
         <Table
           withTableBorder
           withColumnBorders
@@ -42,7 +42,7 @@ function App() {
           <TableHeader table={table} headerOptionType={headerOptionType} />
           <TableBody table={table} />
         </Table>
-      </TableSubRowProvider>
+      </TableProvider>
       <TableFooter
         totalPageNum={totalPageNum}
         pagination={pagination}

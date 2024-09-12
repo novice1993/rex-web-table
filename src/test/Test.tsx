@@ -1,7 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import useTableManager from "../hook/useTableManager";
 
-import { Table } from "@mantine/core";
 import TableHeader from "../components/TableHeader";
 import TableBody from "../components/TableBody";
 
@@ -45,7 +44,8 @@ const tableColumns: ColumnDef<TableDataType>[] = [
   },
 ];
 
-import { TableSubRowProvider } from "../provider/TableSubRowProvider";
+import { TableProvider } from "../provider/TableProvider";
+import { ReactNode } from "react";
 
 // 여기 만들어야 함
 const headerOptionType: HeaderOptionType[] = [
@@ -74,18 +74,10 @@ const Test = () => {
   });
 
   return (
-    <TableSubRowProvider table={table} SubRowComponent={AddSubRow}>
-      <Table
-        withTableBorder
-        withColumnBorders
-        withRowBorders
-        stickyHeader
-        highlightOnHover
-      >
-        <TableHeader table={table} headerOptionType={headerOptionType} />
-        <TableBody table={table} />
-      </Table>
-    </TableSubRowProvider>
+    <TableProvider table={table} SubRowComponent={AddSubRow}>
+      <TableHeader table={table} headerOptionType={headerOptionType} />
+      <TableBody table={table} />
+    </TableProvider>
   );
 };
 

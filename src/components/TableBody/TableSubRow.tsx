@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useTableSubRowContext } from "../../provider/TableSubRowProvider";
+import { useTableContext } from "../../provider/TableProvider";
 import { Row } from "@tanstack/react-table";
 
 interface SubRowContentType {
@@ -8,7 +8,7 @@ interface SubRowContentType {
 
 const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
   const subTableId = useRef(0);
-  const { subRowContent, SubRowComponent } = useTableSubRowContext();
+  const { subRowContent, SubRowComponent } = useTableContext();
 
   return (
     <>

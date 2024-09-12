@@ -1,4 +1,4 @@
-import { useTableSubRowContext } from "../provider/TableSubRowProvider";
+import { useTableContext } from "../provider/TableProvider";
 import { Cell, Row } from "@tanstack/react-table";
 import { changeTableCellValue } from "../util/body.util";
 
@@ -13,7 +13,7 @@ export const useGetTableCellUtil = <T>({
 }: TableCellUtilProps<T>) => {
   /** make here necessary util for table cell */
 
-  const { subRowContent, setSubRowContent, table } = useTableSubRowContext<T>();
+  const { subRowContent, setSubRowContent, table } = useTableContext<T>();
 
   const getCellValue = () => {
     const value = cell.getContext().getValue();
