@@ -15,7 +15,7 @@ const AddSubRow = <T,>({ content }: { content: unknown }) => {
   return (
     <Table.Tr
       key={row.id}
-      onClickCapture={handleClickTableRow}
+      onClick={handleClickTableRow}
       style={{ backgroundColor: "darkgray" }}
     >
       {cellGroup.map((cell) => {

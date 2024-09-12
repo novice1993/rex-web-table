@@ -10,7 +10,7 @@ const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
   const subTableId = useRef(0);
   const { subRowContent, SubRowComponent } = useTableContext();
 
-  if (SubRowComponent) {
+  if (subRowContent && SubRowComponent) {
     return (
       <>
         {subRowContent.map((content) => {

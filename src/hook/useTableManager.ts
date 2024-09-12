@@ -8,6 +8,7 @@ import {
 
 import useTablePagination from "./useTablePagination";
 import useTableSorting from "./useTableSorting";
+import { useState } from "react";
 
 interface TableManagerProps<T> {
   data: T[];
@@ -21,6 +22,9 @@ const useTableManager = <T>(props: TableManagerProps<T>) => {
 
   const { pagination, setPagination } = useTablePagination();
   const { sorting, setSorting } = useTableSorting();
+
+  // subRowContent
+  const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
 
   const table = useReactTable<T>({
     // 1) default table setting
@@ -45,6 +49,8 @@ const useTableManager = <T>(props: TableManagerProps<T>) => {
     pagination,
     setPagination,
     totalPageNum: table.getPageCount(),
+    subRowContent,
+    setSubRowContent,
   };
 };
 
