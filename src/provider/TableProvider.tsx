@@ -25,6 +25,19 @@ interface TableContextProps<T> {
 
   // function to custom cell value
   setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
+
+  // event handler when click table cell
+  onCellClick?: ({
+    cell,
+    table,
+    subRowContent,
+    setSubRowContent,
+  }: {
+    cell?: Cell<T, unknown>;
+    table?: Table<T>;
+    subRowContent?: Array<unknown>;
+    setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
+  }) => void;
 }
 
 interface TableProviderProps<T> {
@@ -38,6 +51,19 @@ interface TableProviderProps<T> {
 
   //
   setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
+
+  // event handler when click table cell
+  onCellClick?: ({
+    cell,
+    table,
+    subRowContent,
+    setSubRowContent,
+  }: {
+    cell?: Cell<T, unknown>;
+    table?: Table<T>;
+    subRowContent?: Array<unknown>;
+    setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
+  }) => void;
 }
 
 const TableContext = createContext<TableContextProps<unknown> | null>(null);
@@ -51,6 +77,7 @@ export const TableProvider = <T,>(props: TableProviderProps<T>) => {
     SubRowComponent,
 
     setCellValue = getCellValue,
+    onCellClick,
   } = props;
 
   const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
@@ -72,6 +99,19 @@ export const TableProvider = <T,>(props: TableProviderProps<T>) => {
         setCellValue: setCellValue as (
           cell: Cell<unknown, unknown>
         ) => ReactNode,
+
+        //
+        onCellClick: onCellClick as ({
+          cell,
+          table,
+          subRowContent,
+          setSubRowContent,
+        }: {
+          cell?: Cell<unknown, unknown>;
+          table?: Table<unknown>;
+          subRowContent?: Array<unknown>;
+          setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
+        }) => void,
       }}
     >
       <TableContainer>{children}</TableContainer>
