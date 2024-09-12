@@ -5,7 +5,10 @@ interface TableRowUtilProps<T> {
   hasClickEvent: boolean;
 }
 
-export const useGetTableRowUtil = <T>({ row, hasClickEvent }: TableRowUtilProps<T>) => {
+export const useGetTableRowUtil = <T>({
+  row,
+  hasClickEvent,
+}: TableRowUtilProps<T>) => {
   /** make here necessary util for table row */
 
   const handleClickTableRow = () => {

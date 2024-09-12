@@ -4,9 +4,13 @@ import { changeTableCellValue } from "../util/body.util";
 
 interface TableCellUtilProps<T> {
   cell: Cell<T, unknown>;
+  hasClickEvent: boolean;
 }
 
-export const useGetTableCellUtil = <T>({ cell }: TableCellUtilProps<T>) => {
+export const useGetTableCellUtil = <T>({
+  cell,
+  hasClickEvent,
+}: TableCellUtilProps<T>) => {
   /** make here necessary util for table cell */
 
   const { subRowContent, setSubRowContent, table } = useTableSubRowContext<T>();
@@ -18,6 +22,7 @@ export const useGetTableCellUtil = <T>({ cell }: TableCellUtilProps<T>) => {
 
   const handleClickTableCell = () => {
     /** write here action for click event */
+    if (!hasClickEvent) return;
 
     const addTableSubRow = () => {
       if (cell.column.id === "add") {
@@ -25,26 +30,25 @@ export const useGetTableCellUtil = <T>({ cell }: TableCellUtilProps<T>) => {
         const cellValue = cell.getValue();
 
         if (cellValue === "-") {
-          const updatedRow = subRowContent.filter((content: Row<T>) => {
-            return content.index !== row.index;
+          const updatedRow = subRowContent.filter((content: unknown) => {
+            const typedContent = content as Row<T>;
+            return typedContent.index !== row.index;
           });
 
           return setSubRowContent(updatedRow);
+        } else {
+          const updatedRow = changeTableCellValue(row, table, "No", "");
+          const reUpdatedRow = changeTableCellValue(
+            updatedRow,
+            table,
+            "add",
+            "-"
+          );
+          reUpdatedRow.index = subRowContent.length;
+          const newSubRowContent = [...subRowContent, reUpdatedRow];
+
+          setSubRowContent(newSubRowContent);
         }
-
-        const updatedRow = changeTableCellValue(row, table, "No", "");
-        const reUpdatedRow = changeTableCellValue(
-          updatedRow,
-          table,
-          "add",
-          "-"
-        );
-        reUpdatedRow.index = subRowContent.length;
-
-        const newSubRowContent = [...subRowContent, reUpdatedRow];
-
-        console.log(newSubRowContent);
-        setSubRowContent(newSubRowContent);
       }
     };
 
