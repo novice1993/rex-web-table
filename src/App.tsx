@@ -1,11 +1,13 @@
-import { Button, Table } from "@mantine/core";
+import useTableManager from "./hook/useTableManager";
+import { Table } from "@mantine/core";
+
+import { TableProvider } from "./provider/TableProvider";
 import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
+import AddSubRow from "./components/SubRowComponents/AddSubRow";
 
 import { data, columns, headerOptionType } from "./dummyData";
-
-import Test from "./test/Test";
 
 export interface Example {
   No: number;
@@ -13,15 +15,7 @@ export interface Example {
   add: string;
 }
 
-// test
-import { TableProvider } from "./provider/TableProvider";
-import AddSubRow from "./components/SubRowComponents/AddSubRow";
-import useTableManager from "./hook/useTableManager";
-import { useState } from "react";
-
 function App() {
-  const [isTestRender, setTestRender] = useState(false);
-
   const { table, pagination, setPagination, totalPageNum } = useTableManager({
     data,
     columns,
@@ -48,18 +42,6 @@ function App() {
         pagination={pagination}
         setPagination={setPagination}
       />
-
-      <div style={{ marginTop: "100px" }}>
-        <Button
-          onClick={() => {
-            setTestRender(!isTestRender);
-          }}
-        >
-          Render Test Table
-        </Button>
-
-        <div style={{ marginTop: "30px" }}>{isTestRender && <Test />}</div>
-      </div>
     </>
   );
 }
