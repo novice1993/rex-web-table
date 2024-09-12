@@ -14,22 +14,14 @@ interface TableContextProps<T> {
   subRowContent: Array<unknown>;
   setSubRowContent: Dispatch<SetStateAction<Array<unknown>>>;
   table: Table<T>;
-  SubRowComponent: ({
-    subRowContent,
-  }: {
-    subRowContent: unknown;
-  }) => JSX.Element;
+  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
 }
 
 interface TableProviderProps<T> {
   children: ReactNode;
   table: Table<T>;
   TableContainer?: ComponentType<{ children: ReactNode }>;
-  SubRowComponent: ({
-    subRowContent,
-  }: {
-    subRowContent: unknown;
-  }) => JSX.Element;
+  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
 }
 
 const TableContext = createContext<TableContextProps<unknown> | null>(null);

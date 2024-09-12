@@ -10,23 +10,25 @@ const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
   const subTableId = useRef(0);
   const { subRowContent, SubRowComponent } = useTableContext();
 
-  return (
-    <>
-      {subRowContent.map((content) => {
-        const typedContent = content as SubRowContentType;
+  if (SubRowComponent) {
+    return (
+      <>
+        {subRowContent.map((content) => {
+          const typedContent = content as SubRowContentType;
 
-        if (typedContent.id === row.id) {
-          subTableId.current += 1;
-          return (
-            <SubRowComponent
-              key={subTableId.current}
-              subRowContent={typedContent}
-            />
-          );
-        }
-      })}
-    </>
-  );
+          if (typedContent.id === row.id) {
+            subTableId.current += 1;
+            return (
+              <SubRowComponent
+                key={subTableId.current}
+                content={typedContent}
+              />
+            );
+          }
+        })}
+      </>
+    );
+  }
 };
 
 export default TableSubRow;

@@ -4,7 +4,6 @@ import useTableManager from "../hook/useTableManager";
 import TableHeader from "../components/TableHeader";
 import TableBody from "../components/TableBody";
 
-import AddSubRow from "../components/SubRowComponents/AddSubRow";
 import { HeaderOptionType } from "../type/type";
 
 interface TableDataType {
@@ -45,7 +44,6 @@ const tableColumns: ColumnDef<TableDataType>[] = [
 ];
 
 import { TableProvider } from "../provider/TableProvider";
-import { ReactNode } from "react";
 
 // 여기 만들어야 함
 const headerOptionType: HeaderOptionType[] = [
@@ -74,7 +72,7 @@ const Test = () => {
   });
 
   return (
-    <TableProvider table={table} SubRowComponent={AddSubRow}>
+    <TableProvider table={table}>
       <TableHeader table={table} headerOptionType={headerOptionType} />
       <TableBody table={table} />
     </TableProvider>

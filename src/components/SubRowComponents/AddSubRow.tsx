@@ -3,8 +3,8 @@ import { Row } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
 import TableBodyCell from "../TableBody/TableBodyCell";
 
-const AddSubRow = <T,>({ subRowContent }: { subRowContent: unknown }) => {
-  const row = subRowContent as Row<T>;
+const AddSubRow = <T,>({ content }: { content: unknown }) => {
+  const row = content as Row<T>;
 
   const cellGroup = row.getVisibleCells();
   const { handleClickTableRow } = useGetTableRowUtil({
