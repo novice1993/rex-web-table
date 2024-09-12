@@ -1,4 +1,10 @@
-import { Row, Table, createRow } from "@tanstack/react-table";
+import { ReactNode } from "react";
+import { Cell, Row, Table, createRow } from "@tanstack/react-table";
+
+export const getCellValue = <T>(cell: Cell<T, unknown>) => {
+  const value = cell.getContext().getValue() as ReactNode;
+  return value as ReactNode;
+};
 
 export const changeTableCellValue = <T>(
   row: Row<T>,

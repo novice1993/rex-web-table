@@ -1,14 +1,22 @@
-import { MouseEvent, ReactNode } from "react";
+import { MouseEvent } from "react";
 import { Cell } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
+import { useTableContext } from "../../provider/TableProvider";
+// import { getCellValue } from "../../util/body.util";
+
 import { useGetTableCellUtil } from "../../hook/useGetTableCellUtil";
 
 const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
-  const { getCellValue, handleClickTableCell } = useGetTableCellUtil({
+  const { setCellValue } = useTableContext();
+
+  const { handleClickTableCell } = useGetTableCellUtil({
     cell,
     hasClickEvent: true,
   });
-  const cellValue = getCellValue() as ReactNode;
+
+  if (!setCellValue) return;
+
+  const cellValue = setCellValue(cell as Cell<unknown, unknown>);
 
   const handleClickEvent = (e: MouseEvent<HTMLTableCellElement>) => {
     e.stopPropagation();
