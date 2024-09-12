@@ -1,25 +1,31 @@
-import { useGetTableRowUtil } from "../../hook/useGetTableRowUtil";
+import { useRef } from "react";
+import { useTableSubRowContext } from "../../provider/TableSubRowProvider";
 import { Row } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
-import TableCell from "./TableCell";
+
+interface SubRowContentType {
+  id: string | number;
+}
 
 const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
-  const cellGroup = row.getVisibleCells();
-  const { handleClickTableRow } = useGetTableRowUtil({
-    row,
-    hasClickEvent: true,
-  });
+  const subTableId = useRef(0);
+  const { subRowContent, SubRowComponent } = useTableSubRowContext();
 
   return (
-    <Table.Tr
-      key={row.id}
-      onClickCapture={handleClickTableRow}
-      style={{ backgroundColor: "darkgray" }}
-    >
-      {cellGroup.map((cell) => {
-        return <TableCell key={cell.id} cell={cell} />;
+    <>
+      {subRowContent.map((content) => {
+        const typedContent = content as SubRowContentType;
+
+        if (typedContent.id === row.id) {
+          subTableId.current += 1;
+          return (
+            <SubRowComponent
+              key={subTableId.current}
+              subRowContent={typedContent}
+            />
+          );
+        }
       })}
-    </Table.Tr>
+    </>
   );
 };
 

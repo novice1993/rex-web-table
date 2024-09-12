@@ -3,8 +3,11 @@ import { Cell } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
 import { useGetTableCellUtil } from "../../hook/useGetTableCellUtil";
 
-const TableCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
-  const { getCellValue, handleClickTableCell } = useGetTableCellUtil({ cell });
+const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
+  const { getCellValue, handleClickTableCell } = useGetTableCellUtil({
+    cell,
+    hasClickEvent: true,
+  });
   const cellValue = getCellValue() as ReactNode;
 
   const handleClickEvent = (e: MouseEvent<HTMLTableCellElement>) => {
@@ -15,4 +18,4 @@ const TableCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
   return <Table.Td onClick={handleClickEvent}>{cellValue}</Table.Td>;
 };
 
-export default TableCell;
+export default TableBodyCell;

@@ -6,13 +6,17 @@ import {
   useContext,
   useState,
 } from "react";
-import { Row, Table } from "@tanstack/react-table";
+import { Table } from "@tanstack/react-table";
 
 interface TableSubRowProviderProps<T> {
-  subRowContent: Array<Row<T>>;
-  setSubRowContent: Dispatch<SetStateAction<Array<Row<T>>>>;
+  subRowContent: Array<unknown>;
+  setSubRowContent: Dispatch<SetStateAction<Array<unknown>>>;
   table: Table<T>;
-  SubRowComponent: ({ row }: { row: Row<T> }) => JSX.Element;
+  SubRowComponent: ({
+    subRowContent,
+  }: {
+    subRowContent: unknown;
+  }) => JSX.Element;
 }
 
 const TableSubRowContext =
@@ -25,9 +29,13 @@ export const TableSubRowProvider = <T,>({
 }: {
   children: ReactNode;
   table: Table<T>;
-  SubRowComponent: ({ row }: { row: Row<T> }) => JSX.Element;
+  SubRowComponent: ({
+    subRowContent,
+  }: {
+    subRowContent: unknown;
+  }) => JSX.Element;
 }) => {
-  const [subRowContent, setSubRowContent] = useState<Array<Row<unknown>>>([]);
+  const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
 
   return (
     <TableSubRowContext.Provider
@@ -35,11 +43,7 @@ export const TableSubRowProvider = <T,>({
         subRowContent,
         setSubRowContent,
         table: table as Table<unknown>,
-        SubRowComponent: SubRowComponent as ({
-          row,
-        }: {
-          row: Row<unknown>;
-        }) => JSX.Element,
+        SubRowComponent,
       }}
     >
       {children}
@@ -51,7 +55,7 @@ export const useTableSubRowContext = <T,>() => {
   const context = useContext(TableSubRowContext);
 
   if (!context) {
-    throw new Error(
+    console.error(
       "useTableSubRowContext must be used within a TableSubRowProvider"
     );
   }
