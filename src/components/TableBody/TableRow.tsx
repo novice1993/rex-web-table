@@ -5,7 +5,6 @@ import { useGetTableRowUtil } from "../../hook/useGetTableRowUtil";
 
 // test
 import { useTableSubRowContext } from "../../provider/TableSubRowProvider";
-import TableSubRow from "./TableSubRow";
 import { useRef } from "react";
 
 const TableRow = <T,>({ row }: { row: Row<T> }) => {
@@ -15,7 +14,7 @@ const TableRow = <T,>({ row }: { row: Row<T> }) => {
     row,
     hasClickEvent: true,
   });
-  const { subRowContent } = useTableSubRowContext();
+  const { subRowContent, SubRowComponent } = useTableSubRowContext();
 
   return (
     <>
@@ -29,7 +28,7 @@ const TableRow = <T,>({ row }: { row: Row<T> }) => {
       {subRowContent.map((content) => {
         if (content.id === row.id) {
           subTableId.current += 1;
-          return <TableSubRow key={subTableId.current} row={content} />;
+          return <SubRowComponent key={subTableId.current} row={content} />;
         }
       })}
     </>

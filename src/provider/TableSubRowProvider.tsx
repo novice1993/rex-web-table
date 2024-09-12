@@ -12,6 +12,7 @@ interface TableSubRowProviderProps<T> {
   subRowContent: Array<Row<T>>;
   setSubRowContent: Dispatch<SetStateAction<Array<Row<T>>>>;
   table: Table<T>;
+  SubRowComponent: ({ row }: { row: Row<T> }) => JSX.Element;
 }
 
 const TableSubRowContext =
@@ -20,9 +21,11 @@ const TableSubRowContext =
 export const TableSubRowProvider = <T,>({
   children,
   table,
+  SubRowComponent,
 }: {
   children: ReactNode;
   table: Table<T>;
+  SubRowComponent: ({ row }: { row: Row<T> }) => JSX.Element;
 }) => {
   const [subRowContent, setSubRowContent] = useState<Array<Row<unknown>>>([]);
 
@@ -32,6 +35,11 @@ export const TableSubRowProvider = <T,>({
         subRowContent,
         setSubRowContent,
         table: table as Table<unknown>,
+        SubRowComponent: SubRowComponent as ({
+          row,
+        }: {
+          row: Row<unknown>;
+        }) => JSX.Element,
       }}
     >
       {children}

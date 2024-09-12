@@ -25,6 +25,7 @@ export interface Example {
 
 // test
 import { TableSubRowProvider } from "./provider/TableSubRowProvider";
+import TableSubRow from "./components/TableBody/TableSubRow";
 
 function App() {
   const { pagination, setPagination } = useTablePagination(10);
@@ -56,7 +57,7 @@ function App() {
   });
 
   return (
-    <TableSubRowProvider table={table}>
+    <TableSubRowProvider table={table} SubRowComponent={TableSubRow}>
       <Table
         withTableBorder
         withColumnBorders
