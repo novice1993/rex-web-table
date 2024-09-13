@@ -17,14 +17,17 @@ export const columns: ColumnDef<Example>[] = [
     accessorKey: "firstName",
     header: "First Name",
     enableSorting: false,
-    cell: () => {
+    cell: ({ getValue }) => {
+      const cellValue = getValue() as string;
+
       return (
         <div
           onClick={(e) => {
             e.stopPropagation();
+            console.log(getValue());
           }}
         >
-          <input type="checkbox" />
+          {cellValue}
         </div>
       );
     },
