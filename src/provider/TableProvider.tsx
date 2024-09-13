@@ -2,75 +2,50 @@ import {
   ComponentType,
   createContext,
   Dispatch,
-  MouseEvent,
+  PropsWithChildren,
   ReactNode,
   SetStateAction,
   useContext,
 } from "react";
-import { Cell, Table } from "@tanstack/react-table";
+import { Table } from "@tanstack/react-table";
 import DefaultTableContainer from "./DefaultTableContainer";
-
-import { getCellValue } from "../util/body.util";
 
 interface TableContextProps<T> {
   // table instance data
   table: Table<T>;
 
-  // sub row content data & component
+  // sub row content datat
   subRowContent?: Array<unknown>;
   setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
+
+  // sub row componen
   SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
-
-  // function to custom cell value
-  setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
-
-  // event handler when click table cell
-  onCellClick?: ({
-    cell,
-    event,
-  }: {
-    cell?: Cell<T, unknown>;
-    event?: MouseEvent<HTMLTableCellElement>;
-  }) => void;
 }
 
 interface TableProviderProps<T> {
-  children: ReactNode;
-  //
   table: Table<T>;
-
   //
   TableContainer?: ComponentType<{ children: ReactNode }>;
 
   //
   subRowContent?: Array<unknown>;
   setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
-  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
 
   //
-  setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
-
-  // event handler when click table cell
-  onCellClick?: ({
-    cell,
-  }: {
-    cell?: Cell<T, unknown>;
-    event?: MouseEvent<HTMLTableCellElement>;
-  }) => void;
+  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
 }
 
 const TableContext = createContext<TableContextProps<unknown> | null>(null);
 
-export const TableProvider = <T,>(props: TableProviderProps<T>) => {
+export const TableProvider = <T,>(
+  props: PropsWithChildren<TableProviderProps<T>>
+) => {
   const {
     children,
     table,
 
     TableContainer = DefaultTableContainer,
     SubRowComponent,
-
-    setCellValue = getCellValue,
-    onCellClick,
 
     subRowContent,
     setSubRowContent,
@@ -88,18 +63,6 @@ export const TableProvider = <T,>(props: TableProviderProps<T>) => {
 
         //
         SubRowComponent,
-
-        //
-        setCellValue: setCellValue as (
-          cell: Cell<unknown, unknown>
-        ) => ReactNode,
-
-        //
-        onCellClick: onCellClick as ({
-          cell,
-        }: {
-          cell?: Cell<unknown, unknown>;
-        }) => void,
       }}
     >
       <TableContainer>{children}</TableContainer>

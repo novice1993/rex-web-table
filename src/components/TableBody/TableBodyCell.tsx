@@ -1,21 +1,16 @@
 import { Cell } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
-import { useTableContext } from "../../provider/TableProvider";
-import { MouseEvent } from "react";
 
 const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
-  const cellData = cell as Cell<unknown, unknown>;
-  const { setCellValue, onCellClick } = useTableContext();
-
-  const cellValue = setCellValue ? setCellValue(cellData) : null;
-
-  const handleClickCell = (event: MouseEvent<HTMLTableCellElement>) => {
-    if (onCellClick) {
-      onCellClick({ cell: cellData, event });
+  const getCellContent = () => {
+    if (typeof cell.column.columnDef.cell === "function") {
+      return cell.column.columnDef.cell(cell.getContext());
+    } else {
+      return cell.getValue();
     }
   };
 
-  return <Table.Td onClick={(e) => handleClickCell(e)}>{cellValue}</Table.Td>;
+  return <Table.Td style={{ width: "inherit" }}>{getCellContent()}</Table.Td>;
 };
 
 export default TableBodyCell;
