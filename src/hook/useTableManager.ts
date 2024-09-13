@@ -1,4 +1,5 @@
 import {
+  Cell,
   ColumnDef,
   getCoreRowModel,
   getPaginationRowModel,
@@ -13,18 +14,21 @@ import { useState } from "react";
 interface TableManagerProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
-  isPagination: boolean;
-  isSorting: boolean;
+  isPagination?: boolean;
+  isSorting?: boolean;
 }
 
 const useTableManager = <T>(props: TableManagerProps<T>) => {
-  const { data, columns, isPagination, isSorting } = props;
+  const { data, columns, isPagination = false, isSorting = false } = props;
 
   const { pagination, setPagination } = useTablePagination();
   const { sorting, setSorting } = useTableSorting();
 
   // subRowContent
   const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
+
+  // cell data
+  const [cellData, setCellData] = useState<Array<Cell<T, unknown>>>([]);
 
   const table = useReactTable<T>({
     // 1) default table setting
@@ -41,7 +45,7 @@ const useTableManager = <T>(props: TableManagerProps<T>) => {
     onSortingChange: setSorting,
 
     // 해당 hook에서 관리 중인 state
-    state: { pagination, sorting },
+    state: { pagination, sorting: isSorting ? sorting : undefined },
   });
 
   return {
@@ -49,6 +53,10 @@ const useTableManager = <T>(props: TableManagerProps<T>) => {
     pagination,
     setPagination,
     totalPageNum: table.getPageCount(),
+
+    cellData,
+    setCellData,
+
     subRowContent,
     setSubRowContent,
   };

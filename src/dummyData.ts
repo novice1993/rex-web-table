@@ -6,7 +6,7 @@ export const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "No",
     header: "No",
-    enableSorting: true,
+    enableSorting: false,
   },
   { accessorKey: "firstName", header: "First Name", enableSorting: false },
   {
