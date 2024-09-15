@@ -1,79 +1,37 @@
-import {
-  ComponentType,
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  ReactNode,
-  SetStateAction,
-  useContext,
-} from "react";
-import { Table } from "@tanstack/react-table";
+import { ComponentType, createContext, PropsWithChildren, ReactNode, useContext } from "react";
 import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
 
-interface TableContextProps<T> {
-  // table instance data
-  table: Table<T>;
-
-  // sub row content datat
-  subRowContent?: Array<unknown>;
-  setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
-
-  // sub row componen
+interface TableContextProps {
   SubRowComponent?: () => JSX.Element;
 }
 
-interface TableProviderProps<T> {
-  table: Table<T>;
-  //
+interface TableProviderProps {
   TableContainer?: ComponentType<{ children: ReactNode }>;
-
-  //
-  subRowContent?: Array<unknown>;
-  setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
-
-  //
   SubRowComponent?: () => JSX.Element;
 }
 
-const TableContext = createContext<TableContextProps<unknown> | null>(null);
+const TableContext = createContext<TableContextProps | null>(null);
 
-export const TableProvider = <T,>(props: PropsWithChildren<TableProviderProps<T>>) => {
-  const {
-    children,
-    table,
-
-    TableContainer = DefaultTableContainer,
-    SubRowComponent,
-
-    subRowContent,
-    setSubRowContent,
-  } = props;
+export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
+  const { TableContainer = DefaultTableContainer, SubRowComponent } = props;
 
   return (
     <TableContext.Provider
       value={{
-        //
-        table: table as Table<unknown>,
-
-        //
-        subRowContent,
-        setSubRowContent,
-
-        //
         SubRowComponent,
       }}
     >
-      <TableContainer>{children}</TableContainer>
+      <TableContainer>{props.children}</TableContainer>
     </TableContext.Provider>
   );
 };
 
-export const useTableContext = <T,>() => {
+export const useTableContext = () => {
   const context = useContext(TableContext);
 
   if (!context) {
     console.error("useTableContext  must be used within a TableProvider");
   }
 
-  return context as TableContextProps<T>;
+  return context as TableContextProps;
 };

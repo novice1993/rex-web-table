@@ -23,12 +23,7 @@ const useTable = <T>(props: TableManagerProps<T>) => {
 
   const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState<SortingState>([{ id: "No", desc: false }]);
-
-  // about sub row expand
   const [expanded, setExpanded] = useState<ExpandedState>({});
-
-  // subRowContent
-  const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
 
   const table = useReactTable<T>({
     data,
@@ -56,8 +51,6 @@ const useTable = <T>(props: TableManagerProps<T>) => {
     pagination,
     setPagination,
     totalPageNum: table.getPageCount(),
-    subRowContent,
-    setSubRowContent,
   };
 };
 

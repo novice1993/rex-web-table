@@ -13,42 +13,37 @@ export interface Example {
   add: string;
 }
 
-const columns: ColumnDef<Example>[] = [
-  {
-    accessorKey: "No",
-    header: "No",
-  },
-  {
-    accessorKey: "firstName",
-    header: "First Name",
-  },
-  {
-    accessorKey: "add",
-    header: "add",
-    cell: ({ row }) => {
-      const handleClickCell = () => {
-        row.toggleExpanded();
-      };
-
-      return <div onClick={handleClickCell}>test</div>;
-    },
-  },
-];
-
 function App() {
-  const { table, subRowContent, setSubRowContent } = useTable<Example>({
+  const columns: ColumnDef<Example>[] = [
+    {
+      accessorKey: "No",
+      header: "No",
+    },
+    {
+      accessorKey: "firstName",
+      header: "First Name",
+    },
+    {
+      accessorKey: "add",
+      header: "add",
+      cell: ({ row }) => {
+        const handleClickCell = () => {
+          row.toggleExpanded();
+        };
+
+        return <div onClick={handleClickCell}>test</div>;
+      },
+    },
+  ];
+
+  const { table } = useTable<Example>({
     data,
     columns,
   });
 
   return (
     <>
-      <TableProvider
-        table={table}
-        subRowContent={subRowContent}
-        setSubRowContent={setSubRowContent}
-        SubRowComponent={AddSubRow}
-      >
+      <TableProvider SubRowComponent={AddSubRow}>
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>
