@@ -7,9 +7,7 @@ export interface HeaderDataType<T> {
   headers: Header<T, unknown>[];
 }
 
-const groupByDepthAndSort = <T>(
-  array: Header<T, unknown>[]
-): HeaderDataType<T>[] => {
+const groupByDepthAndSort = <T>(array: Header<T, unknown>[]): HeaderDataType<T>[] => {
   // Step 1: depth에 따라 그룹화
   const grouped = array.reduce<HeaderDataType<T>[]>((acc, obj) => {
     const existingGroup = acc.find((group) => group.depth === obj.depth);

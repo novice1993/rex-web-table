@@ -37,9 +37,7 @@ interface TableProviderProps<T> {
 
 const TableContext = createContext<TableContextProps<unknown> | null>(null);
 
-export const TableProvider = <T,>(
-  props: PropsWithChildren<TableProviderProps<T>>
-) => {
+export const TableProvider = <T,>(props: PropsWithChildren<TableProviderProps<T>>) => {
   const {
     children,
     table,
