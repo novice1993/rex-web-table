@@ -1,5 +1,5 @@
 const AddSubRow = () => {
-  return <div style={{ background: "darkgray" }}>test sub row</div>;
+  return <div style={{ width: "100%", background: "darkgray" }}>test sub row</div>;
 };
 
 export default AddSubRow;

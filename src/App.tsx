@@ -25,6 +25,13 @@ const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "add",
     header: "add",
+    cell: ({ row }) => {
+      const handleClickCell = () => {
+        row.toggleExpanded();
+      };
+
+      return <div onClick={handleClickCell}>test</div>;
+    },
   },
 ];
 

@@ -15,7 +15,7 @@ const TableBodyRow = <T,>({ row }: { row: Row<T> }) => {
       </Table.Tr>
 
       {/* Sub Row */}
-      <TableSubRow />
+      {row.getIsExpanded() && <TableSubRow row={row} />}
     </>
   );
 };
