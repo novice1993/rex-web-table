@@ -18,12 +18,7 @@ const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
 
           if (typedContent.id === row.id) {
             subTableId.current += 1;
-            return (
-              <SubRowComponent
-                key={subTableId.current}
-                content={typedContent}
-              />
-            );
+            return <SubRowComponent key={subTableId.current} content={typedContent} />;
           }
         })}
       </>
