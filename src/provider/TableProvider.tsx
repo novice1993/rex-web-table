@@ -19,7 +19,7 @@ interface TableContextProps<T> {
   setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
 
   // sub row componen
-  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
+  SubRowComponent?: () => JSX.Element;
 }
 
 interface TableProviderProps<T> {
@@ -32,7 +32,7 @@ interface TableProviderProps<T> {
   setSubRowContent?: Dispatch<SetStateAction<Array<unknown>>>;
 
   //
-  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
+  SubRowComponent?: () => JSX.Element;
 }
 
 const TableContext = createContext<TableContextProps<unknown> | null>(null);

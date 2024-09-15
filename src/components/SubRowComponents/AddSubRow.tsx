@@ -1,18 +1,5 @@
-import { Row } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
-import TableBodyCell from "../TableBody/TableBodyCell";
-
-const AddSubRow = <T,>({ content }: { content: unknown }) => {
-  const row = content as Row<T>;
-  const cellGroup = row.getVisibleCells();
-
-  return (
-    <Table.Tr key={row.id} style={{ backgroundColor: "darkgray" }}>
-      {cellGroup.map((cell) => {
-        return <TableBodyCell key={cell.id} cell={cell} />;
-      })}
-    </Table.Tr>
-  );
+const AddSubRow = () => {
+  return <div style={{ background: "darkgray" }}>test sub row</div>;
 };
 
 export default AddSubRow;
