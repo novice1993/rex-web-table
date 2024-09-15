@@ -1,4 +1,4 @@
-import useTableManager from "./hook/useTableManager";
+import useTable from "./hook/useTable";
 
 import { TableProvider } from "./provider/TableProvider";
 import TableHeader from "./components/TableHeader/index";
@@ -29,7 +29,7 @@ const columns: ColumnDef<Example>[] = [
 ];
 
 function App() {
-  const { table, subRowContent, setSubRowContent } = useTableManager<Example>({
+  const { table, subRowContent, setSubRowContent } = useTable<Example>({
     data,
     columns,
   });

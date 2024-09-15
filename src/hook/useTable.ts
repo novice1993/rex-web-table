@@ -16,7 +16,7 @@ interface TableManagerProps<T> {
   isPagination?: boolean;
 }
 
-const useTableManager = <T>(props: TableManagerProps<T>) => {
+const useTable = <T>(props: TableManagerProps<T>) => {
   const { data, columns, isPagination = false } = props;
 
   const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
@@ -52,4 +52,4 @@ const useTableManager = <T>(props: TableManagerProps<T>) => {
   };
 };
 
-export default useTableManager;
+export default useTable;
