@@ -8,7 +8,7 @@ import {
   useContext,
 } from "react";
 import { Table } from "@tanstack/react-table";
-import DefaultTableContainer from "./DefaultTableContainer";
+import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
 
 interface TableContextProps<T> {
   // table instance data
