@@ -43,7 +43,7 @@ function App() {
 
   return (
     <>
-      <TableProvider SubRowComponent={AddSubRow}>
+      <TableProvider SubRowComponent={AddSubRow} useParentRowUi={true}>
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>

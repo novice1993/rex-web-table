@@ -1,26 +1,34 @@
-import { ComponentType, createContext, PropsWithChildren, ReactNode, useContext } from "react";
+import {
+  ComponentType,
+  createContext,
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+} from "react";
 import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
 
 interface TableContextProps {
-  SubRowComponent?: () => JSX.Element;
+  SubRowComponent?: ComponentType<{ contents: Array<object> }>;
+  useParentRowUi?: boolean;
 }
 
 interface TableProviderProps {
   TableContainer?: ComponentType<{ children: ReactNode }>;
-  SubRowComponent?: () => JSX.Element;
+  SubRowComponent?: ComponentType<{ contents: Array<object> }>;
+  useParentRowUi?: boolean;
 }
 
 const TableContext = createContext<TableContextProps | null>(null);
 
 export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
-  const { TableContainer = DefaultTableContainer, SubRowComponent } = props;
+  const {
+    TableContainer = DefaultTableContainer,
+    SubRowComponent,
+    useParentRowUi,
+  } = props;
 
   return (
-    <TableContext.Provider
-      value={{
-        SubRowComponent,
-      }}
-    >
+    <TableContext.Provider value={{ SubRowComponent, useParentRowUi }}>
       <TableContainer>{props.children}</TableContainer>
     </TableContext.Provider>
   );
