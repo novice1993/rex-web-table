@@ -1,7 +1,7 @@
 import { Table } from "@mantine/core";
 import { useRef } from "react";
 
-const DefaultSubRow = ({ contents }: { contents: Array<unknown> }) => {
+const DefaultSubRow = ({ contents }: { contents: Array<object> }) => {
   const key = useRef(0);
 
   return contents.map((content) => {
