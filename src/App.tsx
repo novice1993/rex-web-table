@@ -14,7 +14,7 @@ import { subRowContentsAtom } from "./atom/subRowContentsAtom";
 
 /**
  * 구현 필요한 부분
- *  1) row click event setting 기능
+ *  1) row click event setting 기능 -> ok
  *  2) column/data setting
  *     sub row content setting
  *      -> 설정 관련해서 정리
@@ -43,7 +43,9 @@ function App() {
       accessorKey: "add",
       header: "add",
       cell: ({ row }) => {
-        const handleClickCell = () => {
+        const handleClickCell = (e: React.MouseEvent<HTMLTableCellElement>) => {
+          e.stopPropagation();
+
           if (!row.getIsExpanded()) {
             row.toggleExpanded();
           }
@@ -83,9 +85,18 @@ function App() {
     isPagination: true,
   });
 
+  const rowClickEvent = (row: Row<unknown>) => {
+    row.toggleExpanded();
+    console.log(row.original);
+  };
+
   return (
     <>
-      <TableProvider SubRowComponent={AddSubRow} useParentRowUi={true}>
+      <TableProvider
+        SubRowComponent={AddSubRow}
+        useParentRowUi={true}
+        rowClickEvent={rowClickEvent}
+      >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>
