@@ -1,4 +1,10 @@
-import { ComponentType, createContext, PropsWithChildren, ReactNode, useContext } from "react";
+import {
+  ComponentType,
+  createContext,
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+} from "react";
 import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
 import { Row } from "@tanstack/react-table";
 
@@ -6,6 +12,7 @@ interface TableContextProps {
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   useParentRowUi?: boolean;
   rowClickEvent?: (row: Row<unknown>) => void;
+  subRowClickEvent?: () => void;
 }
 
 interface TableProviderProps {
@@ -13,6 +20,7 @@ interface TableProviderProps {
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   useParentRowUi?: boolean;
   rowClickEvent?: (row: Row<unknown>) => void;
+  subRowClickEvent?: () => void;
 }
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -23,10 +31,18 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
     SubRowComponent,
     useParentRowUi,
     rowClickEvent,
+    subRowClickEvent,
   } = props;
 
   return (
-    <TableContext.Provider value={{ SubRowComponent, useParentRowUi, rowClickEvent }}>
+    <TableContext.Provider
+      value={{
+        SubRowComponent,
+        useParentRowUi,
+        rowClickEvent,
+        subRowClickEvent,
+      }}
+    >
       <TableContainer>{props.children}</TableContainer>
     </TableContext.Provider>
   );

@@ -76,21 +76,6 @@ function App() {
     },
   ];
 
-  const addSubRowContent = <T,>(row: Row<T>, subRowContent: object) => {
-    setSubRowContents((prevState) => {
-      const prevSubRowData = prevState[row.index];
-
-      if (prevSubRowData) {
-        const newSubRowData = [...prevSubRowData, subRowContent];
-        prevState[row.index] = newSubRowData;
-      } else {
-        prevState[row.index] = [subRowContent];
-      }
-
-      return prevState;
-    });
-  };
-
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data,
     columns,
@@ -101,12 +86,17 @@ function App() {
     row.toggleExpanded();
   };
 
+  const subRowClickEvent = () => {
+    alert("click sub row");
+  };
+
   return (
     <>
       <TableProvider
         SubRowComponent={AddSubRow}
         useParentRowUi={true}
         rowClickEvent={rowClickEvent}
+        subRowClickEvent={subRowClickEvent}
       >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
