@@ -11,6 +11,7 @@ import { ColumnDef, Row } from "@tanstack/react-table";
 // test
 import { useSetAtom } from "jotai";
 import { subRowContentsAtom } from "./atom/subRowContentsAtom";
+import { useSubRowContent } from "./hook/useSubRowContent";
 
 /**
  * 구현 필요한 부분
@@ -29,6 +30,8 @@ export interface Example {
 
 function App() {
   const setSubRowContents = useSetAtom(subRowContentsAtom);
+  const { getSubRowContentOfSelected, setSubRowContenttOfSelected } =
+    useSubRowContent();
 
   const columns: ColumnDef<Example>[] = [
     {
@@ -56,7 +59,16 @@ function App() {
             add: row.original.add,
           };
 
-          addSubRowContent(row, subRowContent);
+          const prevState = getSubRowContentOfSelected(row.index);
+
+          if (prevState && prevState.length !== 0) {
+            const newSubRowContents = [...prevState, subRowContent];
+            setSubRowContenttOfSelected(row.index, newSubRowContents);
+          } else {
+            setSubRowContenttOfSelected(row.index, [subRowContent]);
+          }
+
+          // addSubRowContent(row, subRowContent);
         };
 
         return <div onClick={handleClickCell}>test</div>;
@@ -87,7 +99,6 @@ function App() {
 
   const rowClickEvent = (row: Row<unknown>) => {
     row.toggleExpanded();
-    console.log(row.original);
   };
 
   return (
