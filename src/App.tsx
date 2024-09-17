@@ -12,6 +12,15 @@ import { ColumnDef, Row } from "@tanstack/react-table";
 import { useSetAtom } from "jotai";
 import { subRowContentsAtom } from "./atom/subRowContentsAtom";
 
+/**
+ * 구현 필요한 부분
+ *  1) row click event setting 기능
+ *  2) column/data setting
+ *     sub row content setting
+ *      -> 설정 관련해서 정리
+ *  3) flow chart 정리
+ */
+
 export interface Example {
   No: number;
   firstName: string;
@@ -56,16 +65,15 @@ function App() {
   const addSubRowContent = <T,>(row: Row<T>, subRowContent: object) => {
     setSubRowContents((prevState) => {
       const prevSubRowData = prevState[row.index];
-      const newState = [...prevState]; // 새로운 상태를 복사하여 생성
 
       if (prevSubRowData) {
         const newSubRowData = [...prevSubRowData, subRowContent];
-        newState[row.index] = newSubRowData;
+        prevState[row.index] = newSubRowData;
       } else {
-        newState[row.index] = [subRowContent];
+        prevState[row.index] = [subRowContent];
       }
 
-      return newState;
+      return prevState;
     });
   };
 
