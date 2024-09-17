@@ -3,6 +3,7 @@ import useTable from "./hook/useTable";
 import { TableProvider } from "./provider/TableProvider";
 import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
+import TableFooter from "./components/TableFooter";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
 import { data, headerOptionType } from "./dummyData";
 import { ColumnDef, Row } from "@tanstack/react-table";
@@ -68,9 +69,10 @@ function App() {
     });
   };
 
-  const { table } = useTable<Example>({
+  const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data,
     columns,
+    isPagination: true,
   });
 
   return (
@@ -79,6 +81,11 @@ function App() {
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>
+      <TableFooter
+        totalPageNum={totalPageNum}
+        pagination={pagination}
+        setPagination={setPagination}
+      />
     </>
   );
 }
