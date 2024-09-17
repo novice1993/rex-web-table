@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atomWithImmer } from "jotai-immer";
 
-export const subRowContentsAtom = atom<Array<object[]>>([]);
+export const subRowContentsAtom = atomWithImmer<Array<object[]>>([]);
