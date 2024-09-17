@@ -9,8 +9,6 @@ import { data, headerOptionType } from "./dummyData";
 import { ColumnDef, Row } from "@tanstack/react-table";
 
 // test
-import { useSetAtom } from "jotai";
-import { subRowContentsAtom } from "./atom/subRowContentsAtom";
 import { useSubRowContent } from "./hook/useSubRowContent";
 
 /**
@@ -29,7 +27,6 @@ export interface Example {
 }
 
 function App() {
-  const setSubRowContents = useSetAtom(subRowContentsAtom);
   const { getSubRowContentOfSelected, setSubRowContenttOfSelected } =
     useSubRowContent();
 
@@ -67,8 +64,6 @@ function App() {
           } else {
             setSubRowContenttOfSelected(row.index, [subRowContent]);
           }
-
-          // addSubRowContent(row, subRowContent);
         };
 
         return <div onClick={handleClickCell}>test</div>;
@@ -86,8 +81,32 @@ function App() {
     row.toggleExpanded();
   };
 
+  const subRowCellClickEvent = ({
+    cellIndex,
+    rowIndex,
+    e,
+  }: {
+    cellIndex: number;
+    rowIndex?: number;
+    e?: React.MouseEvent<HTMLTableCellElement>;
+  }) => {
+    if (cellIndex !== 2) return;
+
+    if (rowIndex !== undefined) {
+      e?.stopPropagation();
+
+      const prevSubRowContent = getSubRowContentOfSelected(rowIndex);
+      const testState = [...prevSubRowContent];
+
+      if (testState.length !== 0) {
+        testState.pop();
+        setSubRowContenttOfSelected(rowIndex, testState);
+      }
+    }
+  };
+
   const subRowClickEvent = () => {
-    alert("click sub row");
+    alert("test func!!");
   };
 
   return (
@@ -97,6 +116,7 @@ function App() {
         useParentRowUi={true}
         rowClickEvent={rowClickEvent}
         subRowClickEvent={subRowClickEvent}
+        subRowCellClickEvent={subRowCellClickEvent}
       >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />

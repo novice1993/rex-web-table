@@ -1,23 +1,48 @@
 import { Table } from "@mantine/core";
 import { useRef } from "react";
+import { useTableContext } from "../../provider/TableProvider";
 
 const DefaultSubRow = ({
+  rowIndex,
   contents,
-  subRowClickEvent,
 }: {
+  rowIndex: number;
   contents: Array<object>;
-  subRowClickEvent: (e: React.MouseEvent<HTMLTableRowElement>) => void;
 }) => {
   const key = useRef(0);
+  const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
+
+  const handleClickSubRow = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    if (subRowClickEvent) {
+      e.stopPropagation();
+      subRowClickEvent();
+    }
+  };
+
+  const handleClickSubRowCell = (
+    e: React.MouseEvent<HTMLTableCellElement>,
+    index: number
+  ) => {
+    if (subRowCellClickEvent) {
+      subRowCellClickEvent({ cellIndex: index, rowIndex, e });
+    }
+  };
 
   return contents.map((content) => {
     const values = Object.values(content as object);
     key.current += 1;
 
     return (
-      <Table.Tr key={key.current} onClick={subRowClickEvent}>
-        {values.map((value) => {
-          return <Table.Td key={value}>{value}</Table.Td>;
+      <Table.Tr key={key.current} onClick={handleClickSubRow}>
+        {values.map((value, index) => {
+          return (
+            <Table.Td
+              key={value}
+              onClick={(e) => handleClickSubRowCell(e, index)}
+            >
+              {value}
+            </Table.Td>
+          );
         })}
       </Table.Tr>
     );

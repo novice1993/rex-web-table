@@ -9,8 +9,10 @@ const TableBodyRow = <T,>({ row }: { row: Row<T> }) => {
   const { rowClickEvent } = useTableContext();
 
   const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e.stopPropagation();
-    if (rowClickEvent) rowClickEvent(row as Row<unknown>);
+    if (rowClickEvent) {
+      e.stopPropagation();
+      rowClickEvent(row as Row<unknown>);
+    }
   };
 
   return (

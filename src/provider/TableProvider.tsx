@@ -1,4 +1,4 @@
-import {
+import React, {
   ComponentType,
   createContext,
   PropsWithChildren,
@@ -13,6 +13,15 @@ interface TableContextProps {
   useParentRowUi?: boolean;
   rowClickEvent?: (row: Row<unknown>) => void;
   subRowClickEvent?: () => void;
+  subRowCellClickEvent?: ({
+    cellIndex,
+    rowIndex,
+    e,
+  }: {
+    cellIndex: number;
+    rowIndex?: number;
+    e?: React.MouseEvent<HTMLTableCellElement>;
+  }) => void;
 }
 
 interface TableProviderProps {
@@ -21,6 +30,15 @@ interface TableProviderProps {
   useParentRowUi?: boolean;
   rowClickEvent?: (row: Row<unknown>) => void;
   subRowClickEvent?: () => void;
+  subRowCellClickEvent?: ({
+    cellIndex,
+    rowIndex,
+    e,
+  }: {
+    cellIndex: number;
+    rowIndex?: number;
+    e?: React.MouseEvent<HTMLTableCellElement>;
+  }) => void;
 }
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -32,6 +50,7 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
     useParentRowUi,
     rowClickEvent,
     subRowClickEvent,
+    subRowCellClickEvent,
   } = props;
 
   return (
@@ -41,6 +60,7 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
         useParentRowUi,
         rowClickEvent,
         subRowClickEvent,
+        subRowCellClickEvent,
       }}
     >
       <TableContainer>{props.children}</TableContainer>

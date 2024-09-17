@@ -7,6 +7,10 @@ interface ContentType {
 const AddSubRow = ({ contents }: { contents: Array<object> }) => {
   const subRowData = contents as ContentType[];
 
+  const handleClickRow = (index: number) => {
+    alert("this is test success!!" + index);
+  };
+
   return subRowData.map((data, index) => {
     return (
       <div
@@ -16,7 +20,9 @@ const AddSubRow = ({ contents }: { contents: Array<object> }) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
+          border: "1px solid black",
         }}
+        onClick={() => handleClickRow(index)}
       >
         <div style={{ flex: "1 0 0" }}>{data.no}</div>
         <div style={{ flex: "1 0 0" }}>{data.name}</div>
