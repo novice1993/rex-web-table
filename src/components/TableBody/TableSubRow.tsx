@@ -1,32 +1,31 @@
-import { useRef } from "react";
+import { useAtomValue } from "jotai";
 import { useTableContext } from "../../provider/TableProvider";
-import { Row } from "@tanstack/react-table";
 
-interface SubRowContentType {
-  id: string | number;
-}
+import DefaultSubRow from "./DefaultSubRow";
+import { Row } from "@tanstack/react-table";
+import { Table } from "@mantine/core";
+
+import { subRowContentsAtom } from "../../atom/subRowContentsAtom";
 
 const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
-  const subTableId = useRef(0);
-  const { subRowContent, SubRowComponent } = useTableContext();
+  const { SubRowComponent, useParentRowUi } = useTableContext();
+
+  const subRowContents = useAtomValue(subRowContentsAtom);
+  const contents = subRowContents[row.index];
+
+  if (!contents) return;
+
+  if (useParentRowUi) {
+    return <DefaultSubRow rowIndex={row.index} contents={contents} />;
+  }
 
   if (SubRowComponent) {
     return (
-      <>
-        {subRowContent.map((content) => {
-          const typedContent = content as SubRowContentType;
-
-          if (typedContent.id === row.id) {
-            subTableId.current += 1;
-            return (
-              <SubRowComponent
-                key={subTableId.current}
-                content={typedContent}
-              />
-            );
-          }
-        })}
-      </>
+      <Table.Tr>
+        <Table.Td colSpan={row.getVisibleCells().length}>
+          <SubRowComponent contents={contents} />
+        </Table.Td>
+      </Table.Tr>
     );
   }
 };

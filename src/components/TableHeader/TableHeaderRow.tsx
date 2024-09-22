@@ -8,7 +8,7 @@ interface TableHeaderRowProps<T> {
 
 const TableHeaderRow = <T,>({ headerGroup }: TableHeaderRowProps<T>) => {
   return (
-    <Table.Tr key={headerGroup.depth}>
+    <Table.Tr>
       {headerGroup.headers.map((header) => (
         <TableHeaderCell key={header.id} header={header} />
       ))}

@@ -1,90 +1,79 @@
-import {
+import React, {
   ComponentType,
   createContext,
-  Dispatch,
+  PropsWithChildren,
   ReactNode,
-  SetStateAction,
   useContext,
-  useState,
 } from "react";
-import { Cell, Table } from "@tanstack/react-table";
-import DefaultTableContainer from "./DefaultTableContainer";
+import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
+import { Row } from "@tanstack/react-table";
 
-import { getCellValue } from "../util/body.util";
-
-interface TableContextProps<T> {
-  // table instance data
-  table: Table<T>;
-
-  // sub row content data
-  subRowContent: Array<unknown>;
-  setSubRowContent: Dispatch<SetStateAction<Array<unknown>>>;
-
-  // sub row component
-  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
-
-  // function to custom cell value
-  setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
+interface TableContextProps {
+  SubRowComponent?: ComponentType<{ contents: Array<object> }>;
+  useParentRowUi?: boolean;
+  rowClickEvent?: (row: Row<unknown>) => void;
+  subRowClickEvent?: () => void;
+  subRowCellClickEvent?: ({
+    cellIndex,
+    rowIndex,
+    e,
+  }: {
+    cellIndex: number;
+    rowIndex?: number;
+    e?: React.MouseEvent<HTMLTableCellElement>;
+  }) => void;
 }
 
-interface TableProviderProps<T> {
-  children: ReactNode;
-  //
-  table: Table<T>;
-
-  //
+interface TableProviderProps {
   TableContainer?: ComponentType<{ children: ReactNode }>;
-  SubRowComponent?: ({ content }: { content: unknown }) => JSX.Element;
-
-  //
-  setCellValue?: (cell: Cell<T, unknown>) => ReactNode;
+  SubRowComponent?: ComponentType<{ contents: Array<object> }>;
+  useParentRowUi?: boolean;
+  rowClickEvent?: (row: Row<unknown>) => void;
+  subRowClickEvent?: () => void;
+  subRowCellClickEvent?: ({
+    cellIndex,
+    rowIndex,
+    e,
+  }: {
+    cellIndex: number;
+    rowIndex?: number;
+    e?: React.MouseEvent<HTMLTableCellElement>;
+  }) => void;
 }
 
-const TableContext = createContext<TableContextProps<unknown> | null>(null);
+const TableContext = createContext<TableContextProps | null>(null);
 
-export const TableProvider = <T,>(props: TableProviderProps<T>) => {
+export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
   const {
-    children,
-    table,
-
     TableContainer = DefaultTableContainer,
     SubRowComponent,
-
-    setCellValue = getCellValue,
+    useParentRowUi,
+    rowClickEvent,
+    subRowClickEvent,
+    subRowCellClickEvent,
   } = props;
-
-  const [subRowContent, setSubRowContent] = useState<Array<unknown>>([]);
 
   return (
     <TableContext.Provider
       value={{
-        //
-        table: table as Table<unknown>,
-
-        //
-        subRowContent,
-        setSubRowContent,
-
-        //
         SubRowComponent,
-
-        //
-        setCellValue: setCellValue as (
-          cell: Cell<unknown, unknown>
-        ) => ReactNode,
+        useParentRowUi,
+        rowClickEvent,
+        subRowClickEvent,
+        subRowCellClickEvent,
       }}
     >
-      <TableContainer>{children}</TableContainer>
+      <TableContainer>{props.children}</TableContainer>
     </TableContext.Provider>
   );
 };
 
-export const useTableContext = <T,>() => {
+export const useTableContext = () => {
   const context = useContext(TableContext);
 
   if (!context) {
     console.error("useTableContext  must be used within a TableProvider");
   }
 
-  return context as TableContextProps<T>;
+  return context as TableContextProps;
 };

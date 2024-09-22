@@ -1,28 +1,35 @@
-import { useGetTableRowUtil } from "../../hook/useGetTableRowUtil";
-import { Row } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
-import TableBodyCell from "../TableBody/TableBodyCell";
+interface ContentType {
+  no: string;
+  name: string;
+  add: string;
+}
 
-const AddSubRow = <T,>({ content }: { content: unknown }) => {
-  const row = content as Row<T>;
+const AddSubRow = ({ contents }: { contents: Array<object> }) => {
+  const subRowData = contents as ContentType[];
 
-  const cellGroup = row.getVisibleCells();
-  const { handleClickTableRow } = useGetTableRowUtil({
-    row,
-    hasClickEvent: true,
+  const handleClickRow = (index: number) => {
+    alert("this is test success!!" + index);
+  };
+
+  return subRowData.map((data, index) => {
+    return (
+      <div
+        key={index}
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          border: "1px solid black",
+        }}
+        onClick={() => handleClickRow(index)}
+      >
+        <div style={{ flex: "1 0 0" }}>{data.no}</div>
+        <div style={{ flex: "1 0 0" }}>{data.name}</div>
+        <div style={{ flex: "1 0 0" }}>{data.add}</div>
+      </div>
+    );
   });
-
-  return (
-    <Table.Tr
-      key={row.id}
-      onClickCapture={handleClickTableRow}
-      style={{ backgroundColor: "darkgray" }}
-    >
-      {cellGroup.map((cell) => {
-        return <TableBodyCell key={cell.id} cell={cell} />;
-      })}
-    </Table.Tr>
-  );
 };
 
 export default AddSubRow;
