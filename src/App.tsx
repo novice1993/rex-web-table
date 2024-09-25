@@ -14,6 +14,15 @@ export interface Example {
   add: string;
 }
 
+const dummyData: Array<Example> = [
+  { No: 1, firstName: "kim", add: "+" },
+  { No: 2, firstName: "kim", add: "+" },
+  { No: 3, firstName: "kim", add: "+" },
+  { No: 4, firstName: "kim", add: "+" },
+  { No: 5, firstName: "kim", add: "+" },
+  { No: 6, firstName: "kim", add: "+" },
+];
+
 function App() {
   const columns: ColumnDef<Example>[] = [
     {
@@ -31,7 +40,7 @@ function App() {
   ];
 
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
-    data,
+    data: dummyData,
     columns,
     isPagination: true,
   });
