@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+// import { Table } from "@mantine/core";
 import { Row } from "@tanstack/react-table";
 import TableCell from "./TableBodyCell";
 import TableSubRow from "./TableSubRow";
@@ -15,13 +15,26 @@ const TableBodyRow = <T,>({ row }: { row: Row<T> }) => {
     }
   };
 
+  // return (
+  //   <>
+  //     <Table.Tr key={row.id} onClick={handleRowClick}>
+  //       {cellGroup.map((cell) => {
+  //         return <TableCell key={cell.id} cell={cell} />;
+  //       })}
+  //     </Table.Tr>
+
+  //     {/* Sub Row */}
+  //     {row.getIsExpanded() && <TableSubRow row={row} />}
+  //   </>
+  // );
+
   return (
     <>
-      <Table.Tr key={row.id} onClick={handleRowClick}>
+      <tr key={row.id} onClick={handleRowClick} style={{ cursor: "pointer" }}>
         {cellGroup.map((cell) => {
           return <TableCell key={cell.id} cell={cell} />;
         })}
-      </Table.Tr>
+      </tr>
 
       {/* Sub Row */}
       {row.getIsExpanded() && <TableSubRow row={row} />}

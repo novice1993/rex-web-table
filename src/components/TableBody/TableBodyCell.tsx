@@ -1,5 +1,5 @@
 import { Cell } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
+// import { Table } from "@mantine/core";
 
 const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
   // typeof fucntion 일 경우, columns 생성 시 custom 한 cell value 적용
@@ -8,7 +8,12 @@ const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
       ? cell.column.columnDef.cell(cell.getContext())
       : cell.getValue();
 
-  return <Table.Td style={{ width: "inherit" }}>{cellValue}</Table.Td>;
+  // return <Table.Td style={{ width: "inherit" }}>{cellValue}</Table.Td>;
+  return (
+    <td style={{ width: "inherit", padding: "8px", border: "1px solid #ddd" }}>
+      {cellValue}
+    </td>
+  );
 };
 
 export default TableBodyCell;
