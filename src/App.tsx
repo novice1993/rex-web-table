@@ -27,13 +27,22 @@ const dummyData: Array<Example> = [
   { No: 10, firstName: "kim", add: "-" },
   { No: 11, firstName: "kim", add: "-" },
   { No: 12, firstName: "kim", add: "-" },
+  { No: 13, firstName: "kim", add: "-" },
+  { No: 14, firstName: "kim", add: "-" },
+  { No: 15, firstName: "kim", add: "-" },
+  { No: 16, firstName: "kim", add: "-" },
+  { No: 17, firstName: "kim", add: "-" },
+  { No: 18, firstName: "kim", add: "-" },
+  { No: 19, firstName: "kim", add: "-" },
+  { No: 20, firstName: "kim", add: "-" },
+  { No: 21, firstName: "kim", add: "-" },
 ];
 
 const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "No",
     header: "No",
-    size: 30,
+    size: 100,
   },
   {
     accessorKey: "firstName",
