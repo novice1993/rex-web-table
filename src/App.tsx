@@ -5,7 +5,7 @@ import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
-import { headerOptionType } from "./dummyData";
+import { HeaderOptionType } from "./type/type";
 import { ColumnDef, Row } from "@tanstack/react-table";
 
 export interface Example {
@@ -23,22 +23,33 @@ const dummyData: Array<Example> = [
   { No: 6, firstName: "kim", add: "+" },
 ];
 
-function App() {
-  const columns: ColumnDef<Example>[] = [
-    {
-      accessorKey: "No",
-      header: "No",
-    },
-    {
-      accessorKey: "firstName",
-      header: "First Name",
-    },
-    {
-      accessorKey: "add",
-      header: "add",
-    },
-  ];
+const headerOptionType: HeaderOptionType[] = [
+  { accessorKey: "No", layer: 1, rowSpan: 3, colSpan: 1 },
+  { accessorKey: "firstName", layer: 1, rowSpan: 3, colSpan: 1 },
+  {
+    accessorKey: "add",
+    layer: 1,
+    rowSpan: 3,
+    colSpan: 1,
+  },
+];
 
+const columns: ColumnDef<Example>[] = [
+  {
+    accessorKey: "No",
+    header: "No",
+  },
+  {
+    accessorKey: "firstName",
+    header: "First Name",
+  },
+  {
+    accessorKey: "add",
+    header: "add",
+  },
+];
+
+function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data: dummyData,
     columns,
@@ -51,7 +62,11 @@ function App() {
 
   return (
     <>
-      <TableProvider SubRowComponent={AddSubRow} rowClickEvent={rowClickEvent}>
+      <TableProvider
+        SubRowComponent={AddSubRow}
+        rowClickEvent={rowClickEvent}
+        useParentRowUi={true}
+      >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>
