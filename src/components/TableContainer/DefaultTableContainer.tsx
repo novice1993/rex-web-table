@@ -3,13 +3,7 @@ import { Table } from "@mantine/core";
 
 const DefaultTableContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <Table
-      withTableBorder
-      withColumnBorders
-      withRowBorders
-      stickyHeader
-      highlightOnHover
-    >
+    <Table withTableBorder withColumnBorders withRowBorders stickyHeader>
       {children}
     </Table>
   );

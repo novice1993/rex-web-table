@@ -1,7 +1,10 @@
 import { ReactNode } from "react";
 import { Table } from "@mantine/core";
 import { Header } from "@tanstack/react-table";
-import { handleClickHeaderForSorting, getSortingDirectionUi } from "../../util/header.util";
+import {
+  handleClickHeaderForSorting,
+  getSortingDirectionUi,
+} from "../../util/header.util";
 
 interface TableHeaderCellProps<T> {
   header: Header<T, unknown>;
@@ -9,7 +12,6 @@ interface TableHeaderCellProps<T> {
 
 const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
   const headerName = header.column.columnDef.header as ReactNode;
-
   const sortingType = header.column.getIsSorted();
   const sortingTypeIcon = getSortingDirectionUi(sortingType);
 
@@ -19,6 +21,7 @@ const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
       colSpan={header.colSpan}
       rowSpan={header.rowSpan}
       style={{
+        width: `${header.getSize()}px`,
         textAlign: "center",
       }}
       onClick={() => handleClickHeaderForSorting(header)}

@@ -22,7 +22,7 @@ const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
   if (SubRowComponent) {
     return (
       <Table.Tr>
-        <Table.Td colSpan={row.getVisibleCells().length}>
+        <Table.Td colSpan={row.getVisibleCells().length} style={{ padding: 0 }}>
           <SubRowComponent contents={contents} />
         </Table.Td>
       </Table.Tr>
