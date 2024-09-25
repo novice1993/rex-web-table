@@ -1,8 +1,8 @@
-import { TablePagination, TablePaginationProps } from "./TablePagination";
 import {
   TablePageSizeSelect,
   TablePageSizeSelectProps,
 } from "./TablePageSizeSelect";
+import { TablePagination, TablePaginationProps } from "./TablePagination";
 
 type TableFooterProps = TablePaginationProps & TablePageSizeSelectProps;
 

@@ -20,6 +20,13 @@ const dummyData: Array<Example> = [
   { No: 3, firstName: "kim", add: "-" },
   { No: 4, firstName: "kim", add: "-" },
   { No: 5, firstName: "kim", add: "-" },
+  { No: 6, firstName: "kim", add: "-" },
+  { No: 7, firstName: "kim", add: "-" },
+  { No: 8, firstName: "kim", add: "-" },
+  { No: 9, firstName: "kim", add: "-" },
+  { No: 10, firstName: "kim", add: "-" },
+  { No: 11, firstName: "kim", add: "-" },
+  { No: 12, firstName: "kim", add: "-" },
 ];
 
 function App() {
