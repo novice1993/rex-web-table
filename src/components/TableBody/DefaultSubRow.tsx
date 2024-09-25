@@ -21,24 +21,28 @@ const DefaultSubRow = ({
 
   const handleClickSubRowCell = (
     e: React.MouseEvent<HTMLTableCellElement>,
-    index: number
+    cellIndex: number,
+    rowIndex: number,
+    itemIndex: number
   ) => {
     if (subRowCellClickEvent) {
-      subRowCellClickEvent({ cellIndex: index, rowIndex, e });
+      subRowCellClickEvent({ cellIndex, rowIndex, itemIndex, e });
     }
   };
 
-  return contents.map((content) => {
+  return contents.map((content, itemIndex) => {
     const values = Object.values(content as object);
     key.current += 1;
 
     return (
       <Table.Tr key={key.current} onClick={handleClickSubRow}>
-        {values.map((value, index) => {
+        {values.map((value, cellIndex) => {
           return (
             <Table.Td
               key={value}
-              onClick={(e) => handleClickSubRowCell(e, index)}
+              onClick={(e) =>
+                handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
+              }
             >
               {value}
             </Table.Td>
