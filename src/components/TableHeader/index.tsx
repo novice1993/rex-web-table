@@ -1,4 +1,3 @@
-import { Table } from "@mantine/core";
 import { TableProps } from "../../type/type";
 import { getHeader } from "../../util/header.util";
 
@@ -8,11 +7,11 @@ const TableHeader = <T,>({ table, headerOptionType }: TableProps<T>) => {
   const headerGroups = getHeader({ table, headerOptionType });
 
   return (
-    <Table.Thead>
+    <thead>
       {headerGroups.map((headerGroup) => (
         <TableHeaderRow key={headerGroup.depth} headerGroup={headerGroup} />
       ))}
-    </Table.Thead>
+    </thead>
   );
 };
 

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Table } from "@mantine/core";
 import { Header } from "@tanstack/react-table";
 import {
   handleClickHeaderForSorting,
@@ -16,21 +15,23 @@ const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
   const sortingTypeIcon = getSortingDirectionUi(sortingType);
 
   return (
-    <Table.Th
+    <th
       key={header.id}
       colSpan={header.colSpan}
       rowSpan={header.rowSpan}
       style={{
         width: `${header.getSize()}px`,
         textAlign: "center",
+        padding: "8px",
+        border: "1px solid #ddd",
       }}
       onClick={() => handleClickHeaderForSorting(header)}
     >
       <div style={{ display: "flex", justifyContent: "center", gap: "3px" }}>
         <span>{headerName}</span>
-        <span>{sortingTypeIcon}</span>
+        <span style={{ cursor: "pointer" }}>{sortingTypeIcon}</span>
       </div>
-    </Table.Th>
+    </th>
   );
 };
 

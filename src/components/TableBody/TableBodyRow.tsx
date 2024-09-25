@@ -1,7 +1,6 @@
-import { Table } from "@mantine/core";
-import { Row } from "@tanstack/react-table";
 import TableCell from "./TableBodyCell";
 import TableSubRow from "./TableSubRow";
+import { Row } from "@tanstack/react-table";
 import { useTableContext } from "../../provider/TableProvider";
 
 const TableBodyRow = <T,>({ row }: { row: Row<T> }) => {
@@ -17,11 +16,11 @@ const TableBodyRow = <T,>({ row }: { row: Row<T> }) => {
 
   return (
     <>
-      <Table.Tr key={row.id} onClick={handleRowClick}>
+      <tr key={row.id} onClick={handleRowClick} style={{ cursor: "pointer" }}>
         {cellGroup.map((cell) => {
           return <TableCell key={cell.id} cell={cell} />;
         })}
-      </Table.Tr>
+      </tr>
 
       {/* Sub Row */}
       {row.getIsExpanded() && <TableSubRow row={row} />}

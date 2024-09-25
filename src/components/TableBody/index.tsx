@@ -1,16 +1,15 @@
-import { TableProps } from "../../type/type";
-import { Table } from "@mantine/core";
 import TableBodyRow from "./TableBodyRow";
+import { TableProps } from "../../type/type";
 
 const TableBody = <T,>({ table }: TableProps<T>) => {
   const rows = table.getRowModel().rows;
 
   return (
-    <Table.Tbody>
+    <tbody>
       {rows.map((row) => (
         <TableBodyRow key={row.id} row={row} />
       ))}
-    </Table.Tbody>
+    </tbody>
   );
 };
 

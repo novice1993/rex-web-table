@@ -48,7 +48,9 @@ function App() {
     },
   ];
 
+function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
+    data: dummyData,
     data: dummyData,
     columns,
     isPagination: true,
