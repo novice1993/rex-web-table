@@ -3,7 +3,7 @@ import { useTableContext } from "../../provider/TableProvider";
 
 import DefaultSubRow from "./DefaultSubRow";
 import { Row } from "@tanstack/react-table";
-import { Table } from "@mantine/core";
+// import { Table } from "@mantine/core";
 
 import { subRowContentsAtom } from "../../atom/subRowContentsAtom";
 
@@ -21,11 +21,14 @@ const TableSubRow = <T,>({ row }: { row: Row<T> }) => {
 
   if (SubRowComponent) {
     return (
-      <Table.Tr>
-        <Table.Td colSpan={row.getVisibleCells().length}>
+      <tr>
+        <td
+          colSpan={row.getVisibleCells().length}
+          style={{ padding: "8px", border: "1px solid #ddd" }}
+        >
           <SubRowComponent contents={contents} />
-        </Table.Td>
-      </Table.Tr>
+        </td>
+      </tr>
     );
   }
 };

@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+// import { Table } from "@mantine/core";
 import { useRef } from "react";
 import { useTableContext } from "../../provider/TableProvider";
 
@@ -34,21 +34,39 @@ const DefaultSubRow = ({
     const values = Object.values(content as object);
     key.current += 1;
 
+    // return (
+    //   <Table.Tr key={key.current} onClick={handleClickSubRow}>
+    //     {values.map((value, cellIndex) => {
+    //       return (
+    //         <Table.Td
+    //           key={value}
+    //           onClick={(e) =>
+    //             handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
+    //           }
+    //         >
+    //           {value}
+    //         </Table.Td>
+    //       );
+    //     })}
+    //   </Table.Tr>
+    // );
+
     return (
-      <Table.Tr key={key.current} onClick={handleClickSubRow}>
+      <tr key={key.current} onClick={handleClickSubRow}>
         {values.map((value, cellIndex) => {
           return (
-            <Table.Td
+            <td
               key={value}
               onClick={(e) =>
                 handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
               }
+              style={{ padding: "8px", border: "1px solid #ddd" }}
             >
               {value}
-            </Table.Td>
+            </td>
           );
         })}
-      </Table.Tr>
+      </tr>
     );
   });
 };

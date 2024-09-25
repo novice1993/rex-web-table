@@ -6,7 +6,7 @@ import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
 import { headerOptionType } from "./dummyData";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 
 export interface Example {
   No: number;
@@ -45,9 +45,13 @@ function App() {
     isPagination: true,
   });
 
+  const rowClickEvent = (row: Row<unknown>) => {
+    row.toggleExpanded();
+  };
+
   return (
     <>
-      <TableProvider SubRowComponent={AddSubRow}>
+      <TableProvider SubRowComponent={AddSubRow} rowClickEvent={rowClickEvent}>
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />
       </TableProvider>
