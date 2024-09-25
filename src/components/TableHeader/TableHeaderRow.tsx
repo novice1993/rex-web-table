@@ -1,4 +1,3 @@
-// import { Table } from "@mantine/core";
 import { HeaderDataType } from "../../util/header.util";
 import TableHeaderCell from "./TableHeaderCell";
 
@@ -7,14 +6,6 @@ interface TableHeaderRowProps<T> {
 }
 
 const TableHeaderRow = <T,>({ headerGroup }: TableHeaderRowProps<T>) => {
-  // return (
-  //   <Table.Tr>
-  //     {headerGroup.headers.map((header) => (
-  //       <TableHeaderCell key={header.id} header={header} />
-  //     ))}
-  //   </Table.Tr>
-  // );
-
   return (
     <tr>
       {headerGroup.headers.map((header) => (

@@ -3,7 +3,6 @@ import { useTableContext } from "../../provider/TableProvider";
 
 import DefaultSubRow from "./DefaultSubRow";
 import { Row } from "@tanstack/react-table";
-// import { Table } from "@mantine/core";
 
 import { subRowContentsAtom } from "../../atom/subRowContentsAtom";
 
