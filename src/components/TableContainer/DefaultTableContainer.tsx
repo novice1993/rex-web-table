@@ -1,11 +1,16 @@
 import { ReactNode } from "react";
-import { Table } from "@mantine/core";
 
 const DefaultTableContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <Table withTableBorder withColumnBorders withRowBorders stickyHeader highlightOnHover>
+    <table
+      style={{
+        width: "100%",
+        borderCollapse: "collapse", // 테두리 중복 방지
+        tableLayout: "fixed", // 열 크기를 고정
+      }}
+    >
       {children}
-    </Table>
+    </table>
   );
 };
 

@@ -5,35 +5,8 @@ import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
-import { headerOptionType } from "./dummyData";
+import { HeaderOptionType } from "./type/type";
 import { ColumnDef, Row } from "@tanstack/react-table";
-
-import { useLayoutEffect, useState } from "react";
-import { useSubRowContent } from "./hook/useSubRowContent";
-
-// const subRowCellClickEvent = ({
-//   cellIndex,
-//   rowIndex,
-//   e,
-// }: {
-//   cellIndex: number;
-//   rowIndex?: number;
-//   e?: React.MouseEvent<HTMLTableCellElement>;
-// }) => {
-//   if (cellIndex !== 2) return;
-
-//   if (rowIndex !== undefined) {
-//     e?.stopPropagation();
-
-//     const prevSubRowContent = getSubRowContentOfSelected(rowIndex);
-//     const testState = [...prevSubRowContent];
-
-//     if (testState.length !== 0) {
-//       testState.pop();
-//       setSubRowContenttOfSelected(rowIndex, testState);
-//     }
-//   }
-// };
 
 export interface Example {
   No: number;
@@ -41,55 +14,44 @@ export interface Example {
   add: string;
 }
 
+const dummyData: Array<Example> = [
+  { No: 1, firstName: "kim", add: "+" },
+  { No: 2, firstName: "kim", add: "+" },
+  { No: 3, firstName: "kim", add: "+" },
+  { No: 4, firstName: "kim", add: "+" },
+  { No: 5, firstName: "kim", add: "+" },
+  { No: 6, firstName: "kim", add: "+" },
+];
+
+const headerOptionType: HeaderOptionType[] = [
+  { accessorKey: "No", layer: 1, rowSpan: 3, colSpan: 1 },
+  { accessorKey: "firstName", layer: 1, rowSpan: 3, colSpan: 1 },
+  {
+    accessorKey: "add",
+    layer: 1,
+    rowSpan: 3,
+    colSpan: 1,
+  },
+];
+
+const columns: ColumnDef<Example>[] = [
+  {
+    accessorKey: "No",
+    header: "No",
+  },
+  {
+    accessorKey: "firstName",
+    header: "First Name",
+  },
+  {
+    accessorKey: "add",
+    header: "add",
+  },
+];
+
 function App() {
-  const { getSubRowContentOfSelected, setSubRowContenttOfSelected } =
-    useSubRowContent();
-
-  const columns: ColumnDef<Example>[] = [
-    {
-      accessorKey: "No",
-      header: "No",
-    },
-    {
-      accessorKey: "firstName",
-      header: "First Name",
-    },
-    {
-      accessorKey: "add",
-      header: "add",
-      cell: ({ row }) => {
-        const handleClickCell = (e: React.MouseEvent<HTMLTableCellElement>) => {
-          e.stopPropagation();
-
-          if (!row.getIsExpanded()) {
-            row.toggleExpanded();
-          }
-
-          const subRowContent = {
-            no: row.original.No,
-            name: row.original.firstName,
-            add: row.original.add,
-          };
-
-          const prevState = getSubRowContentOfSelected(row.index);
-
-          if (prevState && prevState.length !== 0) {
-            const newSubRowContents = [...prevState, subRowContent];
-            setSubRowContenttOfSelected(row.index, newSubRowContents);
-          } else {
-            setSubRowContenttOfSelected(row.index, [subRowContent]);
-          }
-        };
-
-        return <div onClick={handleClickCell}>test</div>;
-      },
-    },
-  ];
-
-  // data
-  const [data, setData] = useState([]);
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
-    data: data,
+    data: dummyData,
     columns,
     isPagination: true,
   });
@@ -98,28 +60,12 @@ function App() {
     row.toggleExpanded();
   };
 
-  useLayoutEffect(function setTableData() {
-    const apiUrl = "http://localhost:8080/table/type/1";
-
-    const getdata = async () => {
-      const result = await fetch(apiUrl, {
-        method: "GET",
-      });
-      const data = await result.json();
-      if (data) setData(data);
-    };
-
-    getdata();
-  }, []);
-
   return (
     <>
       <TableProvider
         SubRowComponent={AddSubRow}
-        useParentRowUi={true}
         rowClickEvent={rowClickEvent}
-        // subRowClickEvent={subRowClickEvent}
-        // subRowCellClickEvent={subRowCellClickEvent}
+        useParentRowUi={true}
       >
         <TableHeader table={table} headerOptionType={headerOptionType} />
         <TableBody table={table} />

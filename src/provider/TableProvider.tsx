@@ -16,10 +16,12 @@ interface TableContextProps {
   subRowCellClickEvent?: ({
     cellIndex,
     rowIndex,
+    itemIndex,
     e,
   }: {
     cellIndex: number;
     rowIndex?: number;
+    itemIndex?: number;
     e?: React.MouseEvent<HTMLTableCellElement>;
   }) => void;
 }

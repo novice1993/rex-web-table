@@ -1,6 +1,6 @@
 interface ContentType {
-  no: string;
-  name: string;
+  No: string;
+  firstName: string;
   add: string;
 }
 
@@ -24,8 +24,8 @@ const AddSubRow = ({ contents }: { contents: Array<object> }) => {
         }}
         onClick={() => handleClickRow(index)}
       >
-        <div style={{ flex: "1 0 0" }}>{data.no}</div>
-        <div style={{ flex: "1 0 0" }}>{data.name}</div>
+        <div style={{ flex: "1 0 0" }}>{data.No}</div>
+        <div style={{ flex: "1 0 0" }}>{data.firstName}</div>
         <div style={{ flex: "1 0 0" }}>{data.add}</div>
       </div>
     );
