@@ -9,6 +9,9 @@ export interface TablePaginationProps {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
 
+const prevButtonIcon = "<";
+const nextButtonIcon = ">";
+
 export const TablePagination = (props: TablePaginationProps) => {
   const { totalPageNum, pagination, setPagination } = props;
 
@@ -24,7 +27,7 @@ export const TablePagination = (props: TablePaginationProps) => {
         disabled={pagination.pageIndex === 0}
         onClick={() => handleClickPageButton(pagination.pageIndex)}
       >
-        Previous
+        {prevButtonIcon}
       </button>
 
       {/* 페이지 번호 버튼 */}
@@ -39,7 +42,7 @@ export const TablePagination = (props: TablePaginationProps) => {
         disabled={pagination.pageIndex === totalPageNum - 1}
         onClick={() => handleClickPageButton(pagination.pageIndex + 2)}
       >
-        Next
+        {nextButtonIcon}
       </button>
     </div>
   );
