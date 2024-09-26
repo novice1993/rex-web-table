@@ -1,9 +1,7 @@
-import { Select } from "@mantine/core";
 import { PaginationState } from "@tanstack/react-table";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import {
   checkDefaultSizeExist,
-  convertNumToString,
   handleChangePageSize,
 } from "../../util/footer.util";
 
@@ -15,21 +13,31 @@ export interface TablePageSizeSelectProps {
 
 export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
   const {
-    pageSizeList = [10, 15, 20, 25, 30], // default value 설정
+    pageSizeList = [10, 15, 20, 25, 30], // 기본값 설정
     pagination,
     setPagination,
   } = props;
 
   const sizeList: Array<number> = pageSizeList;
 
-  // useTablePagination hook에서 설정한 기본 pageSize가 pageSizeList에 없을 경우 추가
+  // 기본 페이지 크기 추가 확인
   checkDefaultSizeExist(sizeList, pagination.pageSize);
 
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    handleChangePageSize(event.target.value, setPagination);
+  };
+
   return (
-    <Select
-      data={convertNumToString(sizeList)}
+    <select
+      id="pageSizeSelect"
       value={String(pagination.pageSize)}
-      onChange={(pageSize) => handleChangePageSize(pageSize, setPagination)}
-    />
+      onChange={handleSelectChange}
+    >
+      {sizeList.map((size) => (
+        <option key={size} value={size}>
+          {size}
+        </option>
+      ))}
+    </select>
   );
 };

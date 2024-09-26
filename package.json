@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.12.2",
-    "@mantine/hooks": "^7.12.2",
     "@tanstack/react-table": "^8.20.5",
     "jotai": "^2.9.3",
     "jotai-immer": "^0.4.1",

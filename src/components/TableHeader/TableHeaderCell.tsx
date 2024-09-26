@@ -20,6 +20,7 @@ const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
       colSpan={header.colSpan}
       rowSpan={header.rowSpan}
       style={{
+        width: `${header.getSize()}px`,
         textAlign: "center",
         padding: "8px",
         border: "1px solid #ddd",
