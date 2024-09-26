@@ -15,13 +15,18 @@ const nextButtonIcon = ">";
 export const TablePagination = (props: TablePaginationProps) => {
   const { totalPageNum, pagination, setPagination } = props;
 
-  // 페이지 변경 핸들러
   const handleClickPageButton = (pageIndex: number) => {
     handleChangePageIndex(pageIndex, setPagination);
   };
 
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        gap: "6px",
+      }}
+    >
       {/* Previous 버튼 */}
       <button
         disabled={pagination.pageIndex === 0}
