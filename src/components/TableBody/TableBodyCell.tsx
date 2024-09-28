@@ -1,6 +1,17 @@
+import { CSSProperties } from "react";
 import { Cell } from "@tanstack/react-table";
 
-const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
+interface TableBodyCellProps<T> {
+  cell: Cell<T, unknown>;
+  style?: CSSProperties;
+  className?: string;
+}
+
+const TableBodyCell = <T,>({
+  cell,
+  style,
+  className,
+}: TableBodyCellProps<T>) => {
   // typeof fucntion 일 경우, columns 생성 시 custom 한 cell value 적용
   const cellValue =
     typeof cell.column.columnDef.cell === "function"
@@ -8,7 +19,7 @@ const TableBodyCell = <T,>({ cell }: { cell: Cell<T, unknown> }) => {
       : cell.getValue();
 
   return (
-    <td style={{ width: "inherit", padding: "8px", border: "1px solid #ddd" }}>
+    <td style={style} className={className}>
       {cellValue}
     </td>
   );
