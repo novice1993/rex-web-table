@@ -20,13 +20,57 @@ const AddSubRow = ({ contents }: { contents: Array<object> }) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
-          border: "1px solid black",
+
+          // padding: "2px",
         }}
         onClick={() => handleClickRow(index)}
       >
-        <div style={{ flex: "1 0 0" }}>{data.No}</div>
-        <div style={{ flex: "1 0 0" }}>{data.firstName}</div>
-        <div style={{ flex: "1 0 0" }}>{data.add}</div>
+        <div
+          style={{
+            flex: "1 0 0",
+            border: "1px solid black",
+            borderLeft: "none",
+            borderRight: "none",
+          }}
+        >
+          {data.No}
+        </div>
+        <div
+          style={{
+            flex: "1 0 0",
+            border: "1px solid black",
+            borderRight: "none",
+          }}
+        >
+          {data.firstName}
+        </div>
+        <div
+          style={{
+            flex: "1 0 0",
+            border: "1px solid black",
+            borderRight: "none",
+          }}
+        >
+          {data.add}
+        </div>
+        <div
+          style={{
+            flex: "1 0 0",
+            border: "1px solid black",
+            borderRight: "none",
+          }}
+        >
+          test
+        </div>
+        <div
+          style={{
+            flex: "1 0 0",
+            border: "1px solid black",
+            borderRight: "none",
+          }}
+        >
+          test
+        </div>
       </div>
     );
   });

@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { Table } from "@tanstack/react-table";
 
 export interface HeaderOptionType {
@@ -9,4 +10,6 @@ export interface HeaderOptionType {
 export interface TableProps<T> {
   table: Table<T>;
   headerOptionType?: HeaderOptionType[];
+  style?: CSSProperties;
+  className?: string;
 }

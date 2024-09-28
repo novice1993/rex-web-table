@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 import { Header } from "@tanstack/react-table";
 import {
   handleClickHeaderForSorting,
@@ -7,9 +7,15 @@ import {
 
 interface TableHeaderCellProps<T> {
   header: Header<T, unknown>;
+  style?: CSSProperties;
+  className?: string;
 }
 
-const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
+const TableHeaderCell = <T,>({
+  header,
+  style,
+  className,
+}: TableHeaderCellProps<T>) => {
   const headerName = header.column.columnDef.header as ReactNode;
   const sortingType = header.column.getIsSorted();
   const sortingTypeIcon = getSortingDirectionUi(sortingType);
@@ -17,17 +23,22 @@ const TableHeaderCell = <T,>({ header }: TableHeaderCellProps<T>) => {
   return (
     <th
       key={header.id}
-      colSpan={header.colSpan}
-      rowSpan={header.rowSpan}
+      className={className}
       style={{
         width: `${header.getSize()}px`,
-        textAlign: "center",
-        padding: "8px",
-        border: "1px solid #ddd",
+        ...style,
       }}
+      colSpan={header.colSpan}
+      rowSpan={header.rowSpan}
       onClick={() => handleClickHeaderForSorting(header)}
     >
-      <div style={{ display: "flex", justifyContent: "center", gap: "3px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "3px",
+        }}
+      >
         <span>{headerName}</span>
         <span style={{ cursor: "pointer" }}>{sortingTypeIcon}</span>
       </div>

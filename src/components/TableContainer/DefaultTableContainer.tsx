@@ -5,8 +5,8 @@ const DefaultTableContainer = ({ children }: { children: ReactNode }) => {
     <table
       style={{
         width: "100%",
-        borderCollapse: "collapse", // 테두리 중복 방지
-        tableLayout: "fixed", // 열 크기를 고정
+        borderCollapse: "collapse",
+        tableLayout: "fixed",
       }}
     >
       {children}

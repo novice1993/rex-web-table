@@ -1,13 +1,16 @@
-import { useRef } from "react";
+import { CSSProperties, useRef } from "react";
 import { useTableContext } from "../../provider/TableProvider";
 
-const DefaultSubRow = ({
-  rowIndex,
-  contents,
-}: {
+interface DefaultSubRowProps {
   rowIndex: number;
   contents: Array<object>;
-}) => {
+  style?: CSSProperties;
+  className?: string;
+  subRowStyle?: CSSProperties;
+}
+
+const DefaultSubRow = (props: DefaultSubRowProps) => {
+  const { rowIndex, contents, style, className, subRowStyle } = props;
   const key = useRef(0);
   const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
 
@@ -39,10 +42,11 @@ const DefaultSubRow = ({
           return (
             <td
               key={value}
+              style={{ ...style, ...subRowStyle }}
+              className={className}
               onClick={(e) =>
                 handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
               }
-              style={{ padding: "8px", border: "1px solid #ddd" }}
             >
               {value}
             </td>
