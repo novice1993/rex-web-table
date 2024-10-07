@@ -12,10 +12,19 @@ interface TableSubRowProps<T> {
   style?: CSSProperties;
   className?: string;
   subRowStyle?: CSSProperties;
+  subRowClassName?: string;
+  subRowHoverColor?: string;
 }
 
 const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
-  const { row, style, className, subRowStyle } = props;
+  const {
+    row,
+    style,
+    className,
+    subRowStyle,
+    subRowClassName,
+    subRowHoverColor,
+  } = props;
   const { SubRowComponent, useParentRowUi } = useTableContext();
 
   const subRowContents = useAtomValue(subRowContentsAtom);
@@ -31,6 +40,8 @@ const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
         style={style}
         className={className}
         subRowStyle={subRowStyle}
+        subRowClassName={subRowClassName}
+        subRowHoverColor={subRowHoverColor}
       />
     );
   }

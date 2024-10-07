@@ -1,0 +1,7 @@
+.row:checked {
+  background-color: var(--row-hover-color) !important;
+}
+
+.subRow:hover {
+  background-color: var(--subRow-hover-color) !important;
+}

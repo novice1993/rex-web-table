@@ -19,7 +19,10 @@ const TableBodyCell = <T,>({
       : cell.getValue();
 
   return (
-    <td style={style} className={className}>
+    <td
+      style={{ ...style, backgroundColor: "transparent" }}
+      className={className}
+    >
       {cellValue}
     </td>
   );
