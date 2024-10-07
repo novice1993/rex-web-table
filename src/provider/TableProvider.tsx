@@ -6,12 +6,11 @@ import React, {
   useContext,
 } from "react";
 import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
-import { Row } from "@tanstack/react-table";
 
 interface TableContextProps {
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   useParentRowUi?: boolean;
-  rowClickEvent?: (row: Row<unknown>) => void;
+  rowClickEvent?: () => void;
   subRowClickEvent?: () => void;
   subRowCellClickEvent?: ({
     cellIndex,
@@ -30,7 +29,7 @@ interface TableProviderProps {
   TableContainer?: ComponentType<{ children: ReactNode }>;
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   useParentRowUi?: boolean;
-  rowClickEvent?: (row: Row<unknown>) => void;
+  rowClickEvent?: () => void;
   subRowClickEvent?: () => void;
   subRowCellClickEvent?: ({
     cellIndex,

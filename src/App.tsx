@@ -5,9 +5,13 @@ import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import AddSubRow from "./components/SubRowComponents/AddSubRow";
-import { ColumnDef, Row } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
 import { HeaderOptionType } from "./type/type";
+import {
+  getClickedRowContent,
+  getClickedSubRowContent,
+} from "./util/content.util";
 
 export interface Example {
   No: number;
@@ -72,12 +76,21 @@ function App() {
     isPagination: true,
   });
 
-  const handleClickRow = (row: Row<unknown>) => {
-    row.toggleExpanded();
+  const handleClickRow = () => {
+    const result = getClickedRowContent();
+    console.log(result);
   };
 
   return (
     <>
+      <button
+        onClick={() => {
+          console.log(getClickedSubRowContent());
+        }}
+      >
+        테스트 버튼
+      </button>
+
       <TableProvider
         SubRowComponent={AddSubRow}
         rowClickEvent={handleClickRow}
@@ -97,7 +110,6 @@ function App() {
         <TableBody
           table={table}
           style={{
-            // backgroundColor: "blue",
             border: "1px solid black",
             textAlign: "center",
           }}

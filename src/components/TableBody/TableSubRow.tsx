@@ -40,7 +40,10 @@ const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
   if (SubRowComponent) {
     return (
       <tr>
-        <td colSpan={row.getVisibleCells().length} style={{ padding: 0 }}>
+        <td
+          colSpan={row.getVisibleCells().length}
+          style={{ ...style, backgroundColor: undefined, padding: 0 }}
+        >
           <SubRowComponent contents={contents} />
         </td>
       </tr>

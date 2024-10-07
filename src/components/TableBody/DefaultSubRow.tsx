@@ -1,5 +1,7 @@
 import { CSSProperties, useRef } from "react";
 import { useTableContext } from "../../provider/TableProvider";
+import { setClickedSubRowContent } from "../../util/content.util";
+
 import "./style.css";
 
 interface DefaultSubRowProps {
@@ -19,9 +21,14 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
   const key = useRef(0);
   const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
 
-  const handleClickSubRow = (e: React.MouseEvent<HTMLTableRowElement>) => {
+  const handleClickSubRow = (
+    e: React.MouseEvent<HTMLTableRowElement>,
+    content: object
+  ) => {
+    e.stopPropagation();
+    setClickedSubRowContent(content);
+
     if (subRowClickEvent) {
-      e.stopPropagation();
       subRowClickEvent();
     }
   };
@@ -54,7 +61,7 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
             "--subRow-hover-color": `${subRowStyles?.hoverColor}`,
           } as CSSProperties
         }
-        onClick={handleClickSubRow}
+        onClick={(e) => handleClickSubRow(e, content)}
       >
         {values.map((value, cellIndex) => {
           return (
