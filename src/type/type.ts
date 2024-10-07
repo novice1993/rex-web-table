@@ -12,3 +12,9 @@ export interface TableProps<T> {
   headerOptionType?: HeaderOptionType[];
   style?: CSSProperties;
 }
+
+export interface CellClickEventParam {
+  cellIndex: number;
+  rowIndex: number;
+  e: React.MouseEvent<HTMLTableCellElement>;
+}

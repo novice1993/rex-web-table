@@ -1,55 +1,33 @@
-import React, {
+import {
   ComponentType,
   createContext,
   PropsWithChildren,
-  ReactNode,
   useContext,
 } from "react";
-import DefaultTableContainer from "../components/TableContainer/DefaultTableContainer";
-
-interface TableContextProps {
-  SubRowComponent?: ComponentType<{ contents: Array<object> }>;
-  useParentRowUi?: boolean;
-  rowClickEvent?: () => void;
-  subRowClickEvent?: () => void;
-  subRowCellClickEvent?: ({
-    cellIndex,
-    rowIndex,
-    itemIndex,
-    e,
-  }: {
-    cellIndex: number;
-    rowIndex?: number;
-    itemIndex?: number;
-    e?: React.MouseEvent<HTMLTableCellElement>;
-  }) => void;
-}
+import TableContainer from "../components/TableContainer/TableContainer";
+import { CellClickEventParam } from "../type/type";
 
 interface TableProviderProps {
-  TableContainer?: ComponentType<{ children: ReactNode }>;
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   useParentRowUi?: boolean;
   rowClickEvent?: () => void;
+  cellClickEvent?: ({ cellIndex, rowIndex, e }: CellClickEventParam) => void;
   subRowClickEvent?: () => void;
   subRowCellClickEvent?: ({
     cellIndex,
     rowIndex,
     e,
-  }: {
-    cellIndex: number;
-    rowIndex?: number;
-    e?: React.MouseEvent<HTMLTableCellElement>;
-  }) => void;
+  }: CellClickEventParam) => void;
 }
 
-const TableContext = createContext<TableContextProps | null>(null);
+const TableContext = createContext<TableProviderProps | null>(null);
 
 export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
   const {
-    TableContainer = DefaultTableContainer,
     SubRowComponent,
     useParentRowUi,
     rowClickEvent,
+    cellClickEvent,
     subRowClickEvent,
     subRowCellClickEvent,
   } = props;
@@ -60,6 +38,7 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
         SubRowComponent,
         useParentRowUi,
         rowClickEvent,
+        cellClickEvent,
         subRowClickEvent,
         subRowCellClickEvent,
       }}
@@ -76,5 +55,5 @@ export const useTableContext = () => {
     console.error("useTableContext  must be used within a TableProvider");
   }
 
-  return context as TableContextProps;
+  return context as TableProviderProps;
 };

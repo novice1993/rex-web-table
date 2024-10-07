@@ -1,11 +1,13 @@
 import { CSSProperties, useRef } from "react";
 import { useTableContext } from "../../provider/TableProvider";
-import { setClickedSubRowContent } from "../../util/content.util";
+import {
+  setClickedRowContent,
+  setClickedCellContent,
+} from "../../util/content.util";
 
 import "./style.css";
 
 interface DefaultSubRowProps {
-  rowIndex: number;
   contents: Array<object>;
   style?: CSSProperties;
 
@@ -16,7 +18,7 @@ interface DefaultSubRowProps {
 }
 
 const DefaultSubRow = (props: DefaultSubRowProps) => {
-  const { rowIndex, contents, style, subRowStyles } = props;
+  const { contents, style, subRowStyles } = props;
 
   const key = useRef(0);
   const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
@@ -26,7 +28,7 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
     content: object
   ) => {
     e.stopPropagation();
-    setClickedSubRowContent(content);
+    setClickedRowContent(content);
 
     if (subRowClickEvent) {
       subRowClickEvent();
@@ -36,15 +38,14 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
   const handleClickSubRowCell = (
     e: React.MouseEvent<HTMLTableCellElement>,
     cellIndex: number,
-    rowIndex: number,
-    itemIndex: number
+    rowIndex: number
   ) => {
     if (subRowCellClickEvent) {
-      subRowCellClickEvent({ cellIndex, rowIndex, itemIndex, e });
+      subRowCellClickEvent({ cellIndex, rowIndex, e });
     }
   };
 
-  return contents.map((content, itemIndex) => {
+  return contents.map((content, rowIndex) => {
     const values = Object.values(content as object);
     key.current += 1;
 
@@ -72,9 +73,10 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
                 ...subRowStyles?.style,
                 backgroundColor: undefined,
               }}
-              onClick={(e) =>
-                handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
-              }
+              onClick={(e) => {
+                setClickedCellContent(value);
+                handleClickSubRowCell(e, cellIndex, rowIndex);
+              }}
             >
               {value}
             </td>

@@ -29,7 +29,6 @@ const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
   if (useParentRowUi) {
     return (
       <DefaultSubRow
-        rowIndex={row.index}
         contents={contents}
         style={style}
         subRowStyles={subRowStyles}

@@ -65,8 +65,16 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
         }
         className="row"
       >
-        {cellGroup.map((cell) => {
-          return <TableCell key={cell.id} cell={cell} style={style} />;
+        {cellGroup.map((cell, index) => {
+          return (
+            <TableCell
+              key={cell.id}
+              cell={cell}
+              index={index}
+              rowIndex={row.index}
+              style={style}
+            />
+          );
         })}
       </tr>
 

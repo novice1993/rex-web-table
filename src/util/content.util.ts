@@ -9,13 +9,13 @@ export const getClickedRowContent = () => {
   return clickedRowContent;
 };
 
-/** sub row content */
-let clickedSubRowContent: unknown;
+/** main cell content */
+let clickedCellContent: unknown;
 
-export const setClickedSubRowContent = <T>(content: T) => {
-  clickedSubRowContent = content;
+export const setClickedCellContent = (content: unknown) => {
+  clickedCellContent = content;
 };
 
-export const getClickedSubRowContent = () => {
-  return clickedSubRowContent;
+export const getClickedCellContent = () => {
+  return clickedCellContent;
 };

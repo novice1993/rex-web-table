@@ -10,8 +10,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
 import {
   getClickedRowContent,
-  getClickedSubRowContent,
+  getClickedCellContent,
 } from "./util/content.util";
+
+import { CellClickEventParam } from "./type/type";
 
 export interface Example {
   No: number;
@@ -81,11 +83,23 @@ function App() {
     console.log(result);
   };
 
+  const handleClickCell = ({ cellIndex, e }: CellClickEventParam) => {
+    if (cellIndex === 3) {
+      e.stopPropagation();
+    }
+  };
+
+  const handleSubRowCellClick = ({ cellIndex }: CellClickEventParam) => {
+    if (cellIndex === 1) {
+      console.log("맞음...");
+    }
+  };
+
   return (
     <>
       <button
         onClick={() => {
-          console.log(getClickedSubRowContent());
+          console.log(getClickedRowContent());
         }}
       >
         테스트 버튼
@@ -93,7 +107,9 @@ function App() {
 
       <TableProvider
         SubRowComponent={AddSubRow}
-        rowClickEvent={handleClickRow}
+        // rowClickEvent={handleClickRow}
+        subRowCellClickEvent={handleSubRowCellClick}
+        cellClickEvent={handleClickCell}
         useParentRowUi={true}
       >
         <TableHeader
