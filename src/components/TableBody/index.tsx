@@ -6,24 +6,16 @@ interface TableBodyProps<T> extends TableProps<T> {
   interactiveStyles: {
     hoverColor?: string;
     clickedColor?: string;
-    subRowHoverColor?: string;
   };
-
-  subRowExpand?: boolean;
-  subRowStyle?: CSSProperties;
-  subRowClassName?: string;
+  subRowProps?: {
+    isExpand: boolean;
+    style?: CSSProperties;
+    hoverColor?: string;
+  };
 }
 
 const TableBody = <T,>(props: TableBodyProps<T>) => {
-  const {
-    table,
-    style,
-    className,
-    subRowExpand,
-    subRowStyle,
-    subRowClassName,
-    interactiveStyles,
-  } = props;
+  const { table, style, subRowProps, interactiveStyles } = props;
   const rows = table.getRowModel().rows;
 
   return (
@@ -32,11 +24,8 @@ const TableBody = <T,>(props: TableBodyProps<T>) => {
         <TableBodyRow
           key={row.id}
           style={style}
-          className={className}
           row={row}
-          subRowExpand={subRowExpand}
-          subRowStyle={subRowStyle}
-          subRowClassName={subRowClassName}
+          subRowProps={subRowProps}
           interactiveStyles={interactiveStyles}
         />
       ))}

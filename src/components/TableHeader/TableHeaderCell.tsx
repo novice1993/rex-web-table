@@ -8,14 +8,9 @@ import {
 interface TableHeaderCellProps<T> {
   header: Header<T, unknown>;
   style?: CSSProperties;
-  className?: string;
 }
 
-const TableHeaderCell = <T,>({
-  header,
-  style,
-  className,
-}: TableHeaderCellProps<T>) => {
+const TableHeaderCell = <T,>({ header, style }: TableHeaderCellProps<T>) => {
   const headerName = header.column.columnDef.header as ReactNode;
   const sortingType = header.column.getIsSorted();
   const sortingTypeIcon = getSortingDirectionUi(sortingType);
@@ -23,7 +18,6 @@ const TableHeaderCell = <T,>({
   return (
     <th
       key={header.id}
-      className={className}
       style={{
         width: `${header.getSize()}px`,
         ...style,

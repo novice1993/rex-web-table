@@ -11,5 +11,4 @@ export interface TableProps<T> {
   table: Table<T>;
   headerOptionType?: HeaderOptionType[];
   style?: CSSProperties;
-  className?: string;
 }

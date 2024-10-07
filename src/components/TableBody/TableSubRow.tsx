@@ -10,21 +10,15 @@ import { subRowContentsAtom } from "../../atom/subRowContentsAtom";
 interface TableSubRowProps<T> {
   row: Row<T>;
   style?: CSSProperties;
-  className?: string;
-  subRowStyle?: CSSProperties;
-  subRowClassName?: string;
-  subRowHoverColor?: string;
+
+  subRowStyles?: {
+    style?: CSSProperties;
+    hoverColor?: string;
+  };
 }
 
 const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
-  const {
-    row,
-    style,
-    className,
-    subRowStyle,
-    subRowClassName,
-    subRowHoverColor,
-  } = props;
+  const { row, style, subRowStyles } = props;
   const { SubRowComponent, useParentRowUi } = useTableContext();
 
   const subRowContents = useAtomValue(subRowContentsAtom);
@@ -38,10 +32,7 @@ const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
         rowIndex={row.index}
         contents={contents}
         style={style}
-        className={className}
-        subRowStyle={subRowStyle}
-        subRowClassName={subRowClassName}
-        subRowHoverColor={subRowHoverColor}
+        subRowStyles={subRowStyles}
       />
     );
   }
@@ -49,14 +40,7 @@ const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
   if (SubRowComponent) {
     return (
       <tr>
-        <td
-          colSpan={row.getVisibleCells().length}
-          style={{
-            ...style,
-            padding: 0,
-          }}
-          className={className}
-        >
+        <td colSpan={row.getVisibleCells().length} style={{ padding: 0 }}>
           <SubRowComponent contents={contents} />
         </td>
       </tr>

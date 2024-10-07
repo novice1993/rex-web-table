@@ -65,8 +65,6 @@ const headerOption: HeaderOptionType[] = [
   { accessorKey: "add", layer: 1, colSpan: 1, rowSpan: 2 },
 ];
 
-import style from "./style.module.css";
-
 function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data: dummyData,
@@ -88,21 +86,28 @@ function App() {
         <TableHeader
           table={table}
           headerOptionType={headerOption}
-          className={style.tableHeader}
+          style={{
+            textAlign: "center",
+            padding: "4px",
+            border: "1px solid black",
+            fontSize: "11px",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
         />
         <TableBody
           table={table}
           style={{
-            backgroundColor: "blue",
+            // backgroundColor: "blue",
             border: "1px solid black",
             textAlign: "center",
           }}
           interactiveStyles={{
             hoverColor: "red",
-            subRowHoverColor: "yellow",
           }}
-          subRowExpand={true}
-          subRowStyle={{ backgroundColor: "pink" }}
+          subRowProps={{
+            isExpand: true,
+            hoverColor: "green",
+          }}
         />
       </TableProvider>
 

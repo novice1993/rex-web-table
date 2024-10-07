@@ -8,33 +8,24 @@ import "./style.css";
 interface TableBodyRowProps<T> {
   row: Row<T>;
   style?: CSSProperties;
-  className?: string;
 
-  subRowExpand?: boolean;
-  subRowStyle?: CSSProperties;
-  subRowClassName?: string;
+  subRowProps?: {
+    isExpand: boolean;
+    style?: CSSProperties;
+    hoverColor?: string;
+  };
 
   interactiveStyles: {
     hoverColor?: string;
     clickedColor?: string;
-    subRowHoverColor?: string;
   };
 }
 
 const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
-  const {
-    row,
-    style,
-    subRowStyle,
-    interactiveStyles,
-
-    className,
-    subRowClassName,
-    subRowExpand,
-  } = props;
+  const { row, style, interactiveStyles, subRowProps } = props;
 
   const cellGroup = row.getVisibleCells();
-  const { hoverColor, clickedColor, subRowHoverColor } = interactiveStyles;
+  const { hoverColor, clickedColor } = interactiveStyles;
 
   const { rowClickEvent } = useTableContext();
   const [isRowClicked, setRowClick] = useState(false);
@@ -67,26 +58,19 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
         className="row"
       >
         {cellGroup.map((cell) => {
-          return (
-            <TableCell
-              key={cell.id}
-              cell={cell}
-              style={style}
-              className={className}
-            />
-          );
+          return <TableCell key={cell.id} cell={cell} style={style} />;
         })}
       </tr>
 
       {/* Sub Row */}
-      {subRowExpand && row.getIsExpanded() && (
+      {subRowProps?.isExpand && row.getIsExpanded() && (
         <TableSubRow
           row={row}
           style={style}
-          className={className}
-          subRowStyle={subRowStyle}
-          subRowClassName={subRowClassName}
-          subRowHoverColor={subRowHoverColor}
+          subRowStyles={{
+            style: subRowProps.style,
+            hoverColor: subRowProps.hoverColor,
+          }}
         />
       )}
     </>
