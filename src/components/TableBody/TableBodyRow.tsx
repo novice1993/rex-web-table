@@ -31,6 +31,10 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
   const [isRowClicked, setRowClick] = useState(false);
 
   const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    if (subRowProps?.isExpand) {
+      row.toggleExpanded();
+    }
+
     if (clickedColor) {
       setRowClick(!isRowClicked);
     }
@@ -63,13 +67,13 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
       </tr>
 
       {/* Sub Row */}
-      {subRowProps?.isExpand && row.getIsExpanded() && (
+      {row.getIsExpanded() && (
         <TableSubRow
           row={row}
           style={style}
           subRowStyles={{
-            style: subRowProps.style,
-            hoverColor: subRowProps.hoverColor,
+            style: subRowProps?.style,
+            hoverColor: subRowProps?.hoverColor,
           }}
         />
       )}
