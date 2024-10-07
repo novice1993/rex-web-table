@@ -99,9 +99,10 @@ function App() {
           }}
           interactiveStyles={{
             hoverColor: "red",
-            clickedColor: "pink",
             subRowHoverColor: "yellow",
           }}
+          subRowExpand={true}
+          subRowStyle={{ backgroundColor: "pink" }}
         />
       </TableProvider>
 

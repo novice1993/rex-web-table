@@ -1,4 +1,4 @@
-.row:checked {
+.row:hover {
   background-color: var(--row-hover-color) !important;
 }
 
