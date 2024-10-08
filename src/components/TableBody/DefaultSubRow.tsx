@@ -1,22 +1,36 @@
 import { CSSProperties, useRef } from "react";
 import { useTableContext } from "../../provider/TableProvider";
+import {
+  setClickedRowContent,
+  setClickedCellContent,
+} from "../../util/content.util";
+
+import "./style.css";
 
 interface DefaultSubRowProps {
-  rowIndex: number;
   contents: Array<object>;
   style?: CSSProperties;
-  className?: string;
-  subRowStyle?: CSSProperties;
+
+  subRowStyles?: {
+    style?: CSSProperties;
+    hoverColor?: string;
+  };
 }
 
 const DefaultSubRow = (props: DefaultSubRowProps) => {
-  const { rowIndex, contents, style, className, subRowStyle } = props;
+  const { contents, style, subRowStyles } = props;
+
   const key = useRef(0);
   const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
 
-  const handleClickSubRow = (e: React.MouseEvent<HTMLTableRowElement>) => {
+  const handleClickSubRow = (
+    e: React.MouseEvent<HTMLTableRowElement>,
+    content: object
+  ) => {
+    e.stopPropagation();
+    setClickedRowContent(content);
+
     if (subRowClickEvent) {
-      e.stopPropagation();
       subRowClickEvent();
     }
   };
@@ -24,29 +38,45 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
   const handleClickSubRowCell = (
     e: React.MouseEvent<HTMLTableCellElement>,
     cellIndex: number,
-    rowIndex: number,
-    itemIndex: number
+    rowIndex: number
   ) => {
     if (subRowCellClickEvent) {
-      subRowCellClickEvent({ cellIndex, rowIndex, itemIndex, e });
+      subRowCellClickEvent({ cellIndex, rowIndex, e });
     }
   };
 
-  return contents.map((content, itemIndex) => {
+  return contents.map((content, rowIndex) => {
     const values = Object.values(content as object);
     key.current += 1;
 
     return (
-      <tr key={key.current} onClick={handleClickSubRow}>
+      <tr
+        key={key.current}
+        className="subRow"
+        style={
+          {
+            cursor: "default",
+            backgroundColor: subRowStyles?.style?.backgroundColor
+              ? subRowStyles?.style?.backgroundColor
+              : style?.backgroundColor,
+            "--subRow-hover-color": `${subRowStyles?.hoverColor}`,
+          } as CSSProperties
+        }
+        onClick={(e) => handleClickSubRow(e, content)}
+      >
         {values.map((value, cellIndex) => {
           return (
             <td
               key={value}
-              style={{ ...style, ...subRowStyle }}
-              className={className}
-              onClick={(e) =>
-                handleClickSubRowCell(e, cellIndex, rowIndex, itemIndex)
-              }
+              style={{
+                ...style,
+                ...subRowStyles?.style,
+                backgroundColor: undefined,
+              }}
+              onClick={(e) => {
+                setClickedCellContent(value);
+                handleClickSubRowCell(e, cellIndex, rowIndex);
+              }}
             >
               {value}
             </td>

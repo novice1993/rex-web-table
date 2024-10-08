@@ -1,13 +1,21 @@
+import { CSSProperties } from "react";
 import TableBodyRow from "./TableBodyRow";
 import { TableProps } from "../../type/type";
-import { CSSProperties } from "react";
 
 interface TableBodyProps<T> extends TableProps<T> {
-  subRowStyle?: CSSProperties;
+  interactiveStyles?: {
+    hoverColor?: string;
+    clickedColor?: string;
+  };
+  subRowProps?: {
+    isExpand: boolean;
+    style?: CSSProperties;
+    hoverColor?: string;
+  };
 }
 
 const TableBody = <T,>(props: TableBodyProps<T>) => {
-  const { table, style, className, subRowStyle } = props;
+  const { table, style, subRowProps, interactiveStyles } = props;
   const rows = table.getRowModel().rows;
 
   return (
@@ -16,9 +24,9 @@ const TableBody = <T,>(props: TableBodyProps<T>) => {
         <TableBodyRow
           key={row.id}
           style={style}
-          className={className}
           row={row}
-          subRowStyle={subRowStyle}
+          subRowProps={subRowProps}
+          interactiveStyles={interactiveStyles}
         />
       ))}
     </tbody>

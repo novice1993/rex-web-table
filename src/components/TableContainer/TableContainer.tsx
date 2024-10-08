@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-const DefaultTableContainer = ({ children }: { children: ReactNode }) => {
+const TableContainer = ({ children }: { children: ReactNode }) => {
   return (
     <table
       style={{
@@ -14,4 +14,4 @@ const DefaultTableContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default DefaultTableContainer;
+export default TableContainer;

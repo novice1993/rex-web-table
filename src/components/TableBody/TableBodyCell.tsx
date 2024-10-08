@@ -1,25 +1,42 @@
 import { CSSProperties } from "react";
 import { Cell } from "@tanstack/react-table";
+import { setClickedCellContent } from "../../util/content.util";
+import { useTableContext } from "../../provider/TableProvider";
 
 interface TableBodyCellProps<T> {
   cell: Cell<T, unknown>;
+  index: number;
+  rowIndex: number;
   style?: CSSProperties;
-  className?: string;
 }
 
 const TableBodyCell = <T,>({
   cell,
+  index,
+  rowIndex,
   style,
-  className,
 }: TableBodyCellProps<T>) => {
-  // typeof fucntion 일 경우, columns 생성 시 custom 한 cell value 적용
+  const { cellClickEvent } = useTableContext();
+
+  // If it's a function, apply custom cell value when generating columns
   const cellValue =
     typeof cell.column.columnDef.cell === "function"
       ? cell.column.columnDef.cell(cell.getContext())
       : cell.getValue();
 
+  const handleClickCell = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    setClickedCellContent(cellValue);
+
+    if (cellClickEvent) {
+      cellClickEvent({ cellIndex: index, rowIndex, e });
+    }
+  };
+
   return (
-    <td style={style} className={className}>
+    <td
+      style={{ ...style, backgroundColor: undefined }}
+      onClick={handleClickCell}
+    >
       {cellValue}
     </td>
   );

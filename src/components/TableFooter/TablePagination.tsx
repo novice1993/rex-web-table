@@ -27,7 +27,7 @@ export const TablePagination = (props: TablePaginationProps) => {
         gap: "6px",
       }}
     >
-      {/* Previous 버튼 */}
+      {/* Previous Button */}
       <button
         disabled={pagination.pageIndex === 0}
         onClick={() => handleClickPageButton(pagination.pageIndex)}
@@ -35,14 +35,14 @@ export const TablePagination = (props: TablePaginationProps) => {
         {prevButtonIcon}
       </button>
 
-      {/* 페이지 번호 버튼 */}
+      {/* Page Num Button */}
       <TablePageNumbers
         pageIndex={pagination.pageIndex}
         totalPageNum={totalPageNum}
         handleClickPageButton={handleClickPageButton}
       />
 
-      {/* Next 버튼 */}
+      {/* Next Button */}
       <button
         disabled={pagination.pageIndex === totalPageNum - 1}
         onClick={() => handleClickPageButton(pagination.pageIndex + 2)}

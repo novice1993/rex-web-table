@@ -12,11 +12,11 @@ export const useSubRowContent = () => {
     setContents(newContents);
   };
 
-  const getSubRowContentOfSelected = (rowIndex: number) => {
+  const getSubRowContentOfSelectedRow = (rowIndex: number) => {
     return contents[rowIndex];
   };
 
-  const setSubRowContenttOfSelected = (
+  const setSubRowContenttOfSelectedRow = (
     rowIndex: number,
     newSubRowContent: Array<object>
   ) => {
@@ -29,7 +29,7 @@ export const useSubRowContent = () => {
   return {
     getSubRowContentOfEntrie,
     setSubRowContentOfEntire,
-    getSubRowContentOfSelected,
-    setSubRowContenttOfSelected,
+    getSubRowContentOfSelectedRow,
+    setSubRowContenttOfSelectedRow,
   };
 };
