@@ -17,7 +17,7 @@ interface TableBodyRowProps<T> {
     hoverColor?: string;
   };
 
-  interactiveStyles: {
+  interactiveStyles?: {
     hoverColor?: string;
     clickedColor?: string;
   };
@@ -27,7 +27,6 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
   const { row, style, interactiveStyles, subRowProps } = props;
 
   const cellGroup = row.getVisibleCells();
-  const { hoverColor, clickedColor } = interactiveStyles;
 
   const { rowClickEvent } = useTableContext();
   const [isRowClicked, setRowClick] = useState(false);
@@ -40,7 +39,7 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
       row.toggleExpanded();
     }
 
-    if (clickedColor) {
+    if (interactiveStyles?.clickedColor) {
       setRowClick(!isRowClicked);
     }
 
@@ -57,9 +56,9 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
         style={
           {
             cursor: "default",
-            "--row-hover-color": `${hoverColor}`,
+            "--row-hover-color": `${interactiveStyles?.hoverColor}`,
             backgroundColor: isRowClicked
-              ? clickedColor
+              ? interactiveStyles?.clickedColor
               : style?.backgroundColor,
           } as CSSProperties
         }

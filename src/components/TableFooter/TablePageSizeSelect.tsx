@@ -13,14 +13,12 @@ export interface TablePageSizeSelectProps {
 
 export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
   const {
-    pageSizeList = [10, 15, 20, 25, 30], // 기본값 설정
+    pageSizeList = [10, 15, 20, 25, 30],
     pagination,
     setPagination,
   } = props;
 
   const sizeList: Array<number> = pageSizeList;
-
-  // 기본 페이지 크기 추가 확인
   checkDefaultSizeExist(sizeList, pagination.pageSize);
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {

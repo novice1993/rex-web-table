@@ -3,7 +3,7 @@ import TableBodyRow from "./TableBodyRow";
 import { TableProps } from "../../type/type";
 
 interface TableBodyProps<T> extends TableProps<T> {
-  interactiveStyles: {
+  interactiveStyles?: {
     hoverColor?: string;
     clickedColor?: string;
   };

@@ -18,7 +18,7 @@ const TableBodyCell = <T,>({
 }: TableBodyCellProps<T>) => {
   const { cellClickEvent } = useTableContext();
 
-  // typeof fucntion 일 경우, columns 생성 시 custom 한 cell value 적용
+  // If it's a function, apply custom cell value when generating columns
   const cellValue =
     typeof cell.column.columnDef.cell === "function"
       ? cell.column.columnDef.cell(cell.getContext())

@@ -17,7 +17,7 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
   return (
     <div style={{ display: "flex", gap: "6px" }}>
       {pageNumberContents.map((content, idx) => {
-        /** 줄임 표시 (⋯) 인 경우 */
+        /** When it is an ellipsis (⋯) */
         if (content === "dots") {
           return (
             <div key={idx} style={{ margin: "0 4px" }}>
@@ -26,7 +26,7 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
           );
         }
 
-        /** 페이지 번호인 경우 */
+        /** When it is a page number */
         return (
           <button
             key={idx}

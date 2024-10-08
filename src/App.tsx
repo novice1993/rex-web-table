@@ -4,16 +4,8 @@ import { TableProvider } from "./provider/TableProvider";
 import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
-import AddSubRow from "./components/SubRowComponents/AddSubRow";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { HeaderOptionType } from "./type/type";
-import {
-  getClickedRowContent,
-  getClickedCellContent,
-} from "./util/content.util";
-
-import { CellClickEventParam } from "./type/type";
 
 export interface Example {
   No: number;
@@ -78,43 +70,12 @@ function App() {
     isPagination: true,
   });
 
-  const handleClickRow = () => {
-    const result = getClickedRowContent();
-    console.log(result);
-  };
-
-  const handleClickCell = ({ cellIndex, e }: CellClickEventParam) => {
-    if (cellIndex === 3) {
-      e.stopPropagation();
-    }
-  };
-
-  const handleSubRowCellClick = ({ cellIndex }: CellClickEventParam) => {
-    if (cellIndex === 1) {
-      console.log("맞음...");
-    }
-  };
-
   return (
     <>
-      <button
-        onClick={() => {
-          console.log(getClickedRowContent());
-        }}
-      >
-        테스트 버튼
-      </button>
-
-      <TableProvider
-        SubRowComponent={AddSubRow}
-        // rowClickEvent={handleClickRow}
-        subRowCellClickEvent={handleSubRowCellClick}
-        cellClickEvent={handleClickCell}
-        useParentRowUi={true}
-      >
+      <TableProvider useParentRowUi={true}>
         <TableHeader
           table={table}
-          headerOptionType={headerOption}
+          headerOption={headerOption}
           style={{
             textAlign: "center",
             padding: "4px",
@@ -129,13 +90,7 @@ function App() {
             border: "1px solid black",
             textAlign: "center",
           }}
-          interactiveStyles={{
-            hoverColor: "red",
-          }}
-          subRowProps={{
-            isExpand: true,
-            hoverColor: "green",
-          }}
+          subRowProps={{ isExpand: true }}
         />
       </TableProvider>
 
