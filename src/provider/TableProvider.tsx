@@ -9,6 +9,7 @@ import { CellClickEventParam } from "../type/type";
 
 interface TableProviderProps {
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
+  subRowContents?: Array<object[]>;
   useParentRowUi?: boolean;
   rowClickEvent?: () => void;
   cellClickEvent?: ({ cellIndex, rowIndex, e }: CellClickEventParam) => void;
@@ -25,6 +26,7 @@ const TableContext = createContext<TableProviderProps | null>(null);
 export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
   const {
     SubRowComponent,
+    subRowContents,
     useParentRowUi,
     rowClickEvent,
     cellClickEvent,
@@ -36,6 +38,7 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
     <TableContext.Provider
       value={{
         SubRowComponent,
+        subRowContents,
         useParentRowUi,
         rowClickEvent,
         cellClickEvent,

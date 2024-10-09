@@ -1,11 +1,8 @@
 import { CSSProperties } from "react";
-import { useAtomValue } from "jotai";
+import { Row } from "@tanstack/react-table";
 import { useTableContext } from "../../provider/TableProvider";
 
 import DefaultSubRow from "./DefaultSubRow";
-import { Row } from "@tanstack/react-table";
-
-import { subRowContentsAtom } from "../../atom/subRowContentsAtom";
 
 interface TableSubRowProps<T> {
   row: Row<T>;
@@ -19,11 +16,10 @@ interface TableSubRowProps<T> {
 
 const TableSubRow = <T,>(props: TableSubRowProps<T>) => {
   const { row, style, subRowStyles } = props;
-  const { SubRowComponent, useParentRowUi } = useTableContext();
+  const { SubRowComponent, subRowContents, useParentRowUi } = useTableContext();
 
-  const subRowContents = useAtomValue(subRowContentsAtom);
-  const contents = subRowContents[row.index];
-
+  let contents;
+  if (subRowContents) contents = subRowContents[row.index];
   if (!contents) return;
 
   if (useParentRowUi) {

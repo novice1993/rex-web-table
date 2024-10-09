@@ -6,6 +6,7 @@ import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
+import { useSubRowContents } from "./hook/useSubRowContents";
 
 export interface Example {
   No: number;
@@ -63,16 +64,72 @@ const headerOption: HeaderOptionType[] = [
   { accessorKey: "add", layer: 1, colSpan: 1, rowSpan: 2 },
 ];
 
+const subRowDummy = [
+  [
+    {
+      No: 10,
+      firstName: "park",
+      lastName: "h",
+      add: "-",
+    },
+    {
+      No: 20,
+      firstName: "park",
+      add: "-",
+    },
+    {
+      No: 30,
+      firstName: "park",
+      add: "-",
+    },
+    {
+      No: 40,
+      firstName: "park",
+      add: "-",
+    },
+  ],
+  [
+    {
+      No: 10,
+      firstName: "park",
+      add: "-",
+    },
+    {
+      No: 20,
+      firstName: "park",
+      add: "-",
+    },
+    {
+      No: 30,
+      firstName: "park",
+      add: "-",
+    },
+    {
+      No: 40,
+      firstName: "park",
+      add: "-",
+    },
+  ],
+];
+
+/**
+ * 1. sub row -> jotai 제거 후 props로 전달? (O)
+ * 2. rowCell click 시 렌더링 여부 관리
+ * 3. 페이지네이션 오류 수정
+ * 4. 문서화
+ */
+
 function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data: dummyData,
     columns,
     isPagination: true,
   });
+  const { subRowContents } = useSubRowContents(subRowDummy);
 
   return (
     <>
-      <TableProvider useParentRowUi={true}>
+      <TableProvider useParentRowUi={true} subRowContents={subRowContents}>
         <TableHeader
           table={table}
           headerOption={headerOption}
@@ -90,7 +147,12 @@ function App() {
             border: "1px solid black",
             textAlign: "center",
           }}
-          subRowProps={{ isExpand: true }}
+          subRowProps={{
+            isExpand: true,
+            style: {
+              backgroundColor: "ivory",
+            },
+          }}
         />
       </TableProvider>
 
