@@ -60,7 +60,7 @@ export const generatePageNumbers = (
 
   /* When the total number of pages is 7 or less */
   if (totalPageNum <= 7) {
-    return Array.from(createStartPages(5));
+    return Array.from(createStartPages(totalPageNum));
   }
 
   /* When the total number of pages is 8 or more */
