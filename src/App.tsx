@@ -8,6 +8,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
 import { useSubRowContents } from "./hook/useSubRowContents";
 
+import { CellClickEventParam } from "./type/type";
+import { useState } from "react";
+
 export interface Example {
   No: number;
   firstName: string;
@@ -115,6 +118,8 @@ const subRowDummy = [
 /**
  * 1. sub row -> jotai 제거 후 props로 전달? (O)
  * 2. rowCell click 시 렌더링 여부 관리
+ *  -> 일반적으로는 row를 클릭했을 때 expand 되어야 함
+ *  -> 하지만 특정 cell에 한해서는, 클릭 시 expand만 되고 다시 철회는 작동하지 않아야 함
  * 3. 페이지네이션 오류 수정
  * 4. 문서화
  */
@@ -127,9 +132,28 @@ function App() {
   });
   const { subRowContents } = useSubRowContents(subRowDummy);
 
+  const [isExpand, setExpand] = useState(false);
+
+  const handleClickRow = () => {
+    // setExpand(!isExpand);
+    // if (!isExpand) setExpand(true);
+  };
+
+  const handleClickAddCell = ({ e, cellIndex }: CellClickEventParam) => {
+    if (cellIndex === 3) {
+      e.stopPropagation();
+      if (!isExpand) setExpand(true);
+    }
+  };
+
   return (
     <>
-      <TableProvider useParentRowUi={true} subRowContents={subRowContents}>
+      <TableProvider
+        useParentRowUi={true}
+        subRowContents={subRowContents}
+        rowClickEvent={handleClickRow}
+        cellClickEvent={handleClickAddCell}
+      >
         <TableHeader
           table={table}
           headerOption={headerOption}
@@ -148,7 +172,7 @@ function App() {
             textAlign: "center",
           }}
           subRowProps={{
-            isExpand: true,
+            isExpand,
             style: {
               backgroundColor: "ivory",
             },
