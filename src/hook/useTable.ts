@@ -6,8 +6,6 @@ import {
   useReactTable,
   PaginationState,
   SortingState,
-  ExpandedState,
-  getExpandedRowModel,
 } from "@tanstack/react-table";
 
 import { useState } from "react";
@@ -21,9 +19,13 @@ interface TableManagerProps<T> {
 const useTable = <T>(props: TableManagerProps<T>) => {
   const { data, columns, isPagination = false } = props;
 
-  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
-  const [sorting, setSorting] = useState<SortingState>([{ id: "No", desc: false }]);
-  const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "No", desc: false },
+  ]);
 
   const table = useReactTable<T>({
     data,
@@ -39,11 +41,7 @@ const useTable = <T>(props: TableManagerProps<T>) => {
     onSortingChange: setSorting,
     enableSortingRemoval: false,
 
-    // 3) about sub row expand
-    getExpandedRowModel: getExpandedRowModel(),
-    onExpandedChange: setExpanded,
-
-    state: { pagination, sorting, expanded },
+    state: { pagination, sorting },
   });
 
   return {

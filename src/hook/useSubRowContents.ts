@@ -7,7 +7,9 @@ interface ReturnType {
 
 type ContentsType = Array<object[]> | undefined;
 
-export const useSubRowContents = (initState?: Array<object[]>): ReturnType => {
+const useSubRowContents = (initState?: Array<object[]>): ReturnType => {
   const [subRowContents, setSubRowContents] = useState<ContentsType>(initState);
   return { subRowContents, setSubRowContents };
 };
+
+export default useSubRowContents;

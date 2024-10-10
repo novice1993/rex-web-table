@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, Dispatch, SetStateAction } from "react";
 import TableBodyRow from "./TableBodyRow";
 import { TableProps } from "../../type/type";
 
@@ -8,7 +8,7 @@ interface TableBodyProps<T> extends TableProps<T> {
     clickedColor?: string;
   };
   subRowProps?: {
-    isExpand: boolean;
+    expandState?: boolean[];
     style?: CSSProperties;
     hoverColor?: string;
   };
