@@ -1,4 +1,4 @@
-import { CSSProperties, useState, Dispatch, SetStateAction } from "react";
+import { CSSProperties, useState } from "react";
 import { Row } from "@tanstack/react-table";
 import { setClickedRowContent } from "../../util/content.util";
 
