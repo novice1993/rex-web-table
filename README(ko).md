@@ -30,8 +30,6 @@
 
 <pre>
 📦src
- ┣ 📂atom
- ┃ ┗ 📜subRowContentsAtom.ts
  ┣ 📂components
  ┃ ┣ 📂TableBody
  ┃ ┃ ┣ 📜DefaultSubRow.tsx
@@ -142,6 +140,8 @@
   | `style` | `CSSProperties` | `inline Style` 을 통해 `CSS` 속성을 설정할 수 있습니다. <br/><br/> \* `useParentRowUi`를 `true`로 설정했을 때에 한함. <br/> `SubRowComponent` 를 전달한 경우, 해당 컴포넌트 내에서 직접 커스텀 하면 됨| `optional` |
   | `hoverColor` | `string` | `subRow`에 마우스를 hover 했을 때 발생하는 배경색을 설정할 수 있습니다. <br/><br/> \* `useParentRowUi`를 `true`로 설정했을 때에 한함. <br/> `SubRowComponent` 를 전달한 경우, 해당 컴포넌트 내에서 직접 커스텀 하면 됨 | `optional` |
 
+<br/>
+
 #### 4) TableFooter
 
 - 페이지네이션 기능을 담당하는 컴포넌트로, 해당 기능이 필요할 경우 선택적으로 활용 가능합니다.
@@ -204,17 +204,23 @@
   | `setExpandState` | `Dispatch<SetStateAction<boolean[]>>` | `expandState` 에 대한 상태관리 함수입니다. |
   | `changeSubRowExpandState` | `function` | 인자로 `rowIndex`를 받아서, 클릭한 `row`의 `expandState`를 변경하는 동작을 수행합니다. |
 
-#### 8) content.util.ts
+<br/>
 
-#### 7) Type
+#### 8) getClickedRowContent, getClickedCellContent
+
+- 클릭한 `row` 와 `cell` 의 `value` 를 반환하는 함수입니다.
+
+<br/>
+
+#### 9) Type
 
 - `props` 데이터, 커스텀 훅 및 이벤트 핸들러의 파라미터 설정 시 활용되는 `Type` 입니다.
   | Type | Explain |
   | ------------------ | -------------------------------------------------------------------- |
   | `ColumnDef` | `useTable` 의 파라미터 `columns` 데이터 관련 `Type` 입니다. |
-  | `Row` | `TableBodyRow` 에 활용되는 `Row` 데이터 관련 `Type` 입니다. |
-  | `Cell` | `TableBodyCell` 에 활용되는 `Cell` 데이터 관련 `Type` 입니다. |
   | `HeaderOptionType` | `TableHeader` 에 전달하는 `headerOption` `props` 관련 `Type` 입니다. |
+  | `RowClickEventParam` | `row` 클릭 이벤트의 파라미터 관련 `Type` 입니다. |
+  | `CellClickEventParam` | `cell` 클릭 이벤트의 파라미터 관련 `Type` 입니다. |
 
   <br/>
 
