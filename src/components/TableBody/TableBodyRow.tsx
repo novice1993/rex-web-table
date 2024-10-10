@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useState, Dispatch, SetStateAction } from "react";
 import { Row } from "@tanstack/react-table";
 import { setClickedRowContent } from "../../util/content.util";
 
@@ -12,7 +12,7 @@ interface TableBodyRowProps<T> {
   style?: CSSProperties;
 
   subRowProps?: {
-    isExpand: boolean;
+    expandState?: boolean[];
     style?: CSSProperties;
     hoverColor?: string;
   };
@@ -32,19 +32,14 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
   const [isRowClicked, setRowClick] = useState(false);
 
   const handleClickRow = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e.stopPropagation();
     setClickedRowContent(row.original);
-
-    if (subRowProps?.isExpand) {
-      row.toggleExpanded();
-    }
 
     if (interactiveStyles?.clickedColor) {
       setRowClick(!isRowClicked);
     }
 
     if (rowClickEvent) {
-      rowClickEvent();
+      rowClickEvent({ rowIndex: row.index, e });
     }
   };
 
@@ -78,7 +73,7 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
       </tr>
 
       {/* Sub Row */}
-      {row.getIsExpanded() && (
+      {subRowProps?.expandState?.[row.index] && (
         <TableSubRow
           row={row}
           style={style}

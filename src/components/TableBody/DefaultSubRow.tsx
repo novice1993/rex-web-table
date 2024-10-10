@@ -24,14 +24,14 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
   const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
 
   const handleClickSubRow = (
+    rowIndex: number,
     e: React.MouseEvent<HTMLTableRowElement>,
     content: object
   ) => {
-    e.stopPropagation();
     setClickedRowContent(content);
 
     if (subRowClickEvent) {
-      subRowClickEvent();
+      subRowClickEvent({ rowIndex, e });
     }
   };
 
@@ -62,7 +62,7 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
             "--subRow-hover-color": `${subRowStyles?.hoverColor}`,
           } as CSSProperties
         }
-        onClick={(e) => handleClickSubRow(e, content)}
+        onClick={(e) => handleClickSubRow(rowIndex, e, content)}
       >
         {values.map((value, cellIndex) => {
           return (

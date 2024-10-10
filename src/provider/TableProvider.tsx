@@ -5,15 +5,15 @@ import {
   useContext,
 } from "react";
 import TableContainer from "../components/TableContainer/TableContainer";
-import { CellClickEventParam } from "../type/type";
+import { RowClickEventParam, CellClickEventParam } from "../type/type";
 
 interface TableProviderProps {
   SubRowComponent?: ComponentType<{ contents: Array<object> }>;
   subRowContents?: Array<object[]>;
   useParentRowUi?: boolean;
-  rowClickEvent?: () => void;
+  rowClickEvent?: ({ rowIndex, e }: RowClickEventParam) => void;
   cellClickEvent?: ({ cellIndex, rowIndex, e }: CellClickEventParam) => void;
-  subRowClickEvent?: () => void;
+  subRowClickEvent?: ({ rowIndex, e }: RowClickEventParam) => void;
   subRowCellClickEvent?: ({
     cellIndex,
     rowIndex,

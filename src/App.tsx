@@ -6,10 +6,8 @@ import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
 import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
-import { useSubRowContents } from "./hook/useSubRowContents";
-
-import { CellClickEventParam } from "./type/type";
-import { useState } from "react";
+import useSubRowContents from "./hook/useSubRowContents";
+import useSubRowExpand from "./hook/useSubRowExpand";
 
 export interface Example {
   No: number;
@@ -27,95 +25,6 @@ const dummyData: Array<Example> = [
   { No: 7, firstName: "kim", add: "-" },
   { No: 8, firstName: "kim", add: "-" },
   { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 8, firstName: "kim", add: "-" },
-  { No: 9, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
 ];
 
 const columns: ColumnDef<Example>[] = [
@@ -204,15 +113,6 @@ const subRowDummy = [
   ],
 ];
 
-/**
- * 1. sub row -> jotai 제거 후 props로 전달? (O)
- * 2. rowCell click 시 렌더링 여부 관리
- *  -> 일반적으로는 row를 클릭했을 때 expand 되어야 함
- *  -> 하지만 특정 cell에 한해서는, 클릭 시 expand만 되고 다시 철회는 작동하지 않아야 함
- * 3. 페이지네이션 오류 수정
- * 4. 문서화
- */
-
 function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data: dummyData,
@@ -220,19 +120,10 @@ function App() {
     isPagination: true,
   });
   const { subRowContents } = useSubRowContents(subRowDummy);
+  const { expandState, changeSubRowExpandState } = useSubRowExpand();
 
-  const [isExpand, setExpand] = useState(false);
-
-  const handleClickRow = () => {
-    // setExpand(!isExpand);
-    // if (!isExpand) setExpand(true);
-  };
-
-  const handleClickAddCell = ({ e, cellIndex }: CellClickEventParam) => {
-    if (cellIndex === 3) {
-      e.stopPropagation();
-      if (!isExpand) setExpand(true);
-    }
+  const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
+    changeSubRowExpandState(rowIndex);
   };
 
   return (
@@ -241,7 +132,6 @@ function App() {
         useParentRowUi={true}
         subRowContents={subRowContents}
         rowClickEvent={handleClickRow}
-        cellClickEvent={handleClickAddCell}
       >
         <TableHeader
           table={table}
@@ -261,7 +151,7 @@ function App() {
             textAlign: "center",
           }}
           subRowProps={{
-            isExpand,
+            expandState,
             style: {
               backgroundColor: "ivory",
             },
