@@ -1,8 +1,8 @@
 import { useState, Dispatch, SetStateAction } from "react";
 
 interface ReturnType {
-  subRowContents: object[][] | undefined;
-  setSubRowContents: Dispatch<SetStateAction<object[][] | undefined>>;
+  subRowContents: Array<object[]> | undefined;
+  setSubRowContents: Dispatch<SetStateAction<Array<object[]> | undefined>>;
 }
 
 type ContentsType = Array<object[]> | undefined;

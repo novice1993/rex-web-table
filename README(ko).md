@@ -183,19 +183,28 @@
 
 <br/>
 
-#### 6) useSubRowContent
+#### 6) useSubRowContents
 
-- `SubRow` 에 활용되는 데이터를 조회, 수정하는 함수를 반환하는 커스텀 훅입니다.
-- 내부적으로 `jotai atom` 을 활용하여 값을 저장합니다.
+- `TableProvider` 의 `subRowContents` 에 전달할 상태와 상태관리 함수를 반환하는 커스텀 훅입니다.
 - 훅이 반환하는 값은 아래와 같습니다.
-  | Returned Value | Explain |
-  | --------------------------- | ------------------------------------------------------------------------------------------------- |
-  | `getSubRowContentOfEntire` | 전체 `SubRow` 데이터를 조회하는 함수입니다. |
-  | `setSubRowContentOfEntire` | 전체 `SubRow` 데이터를 수정하는 함수입니다. |
-  | `getSubRowContentOfSelected` | 특정 `Row`에 종속되는 `SubRow` 데이터를 조회하는 함수입니다. |
-  | `setSubRowContentOfSelected` | 특정 `Row`에 종속되는 `SubRow` 데이터를 수정하는 함수입니다. |
+  | Returned Value | Type | Explain |
+  | --------------------------- | ---------- | --------------------------------------------------------------------------------- |
+  | `subRoeContents` | `Array<object[]>` | `TableProvider` 의 `subRowContents` `props` 로 활용되는 상태입니다. |
+  | `setSubRowContents` | `Dispatch<SetStateAction<Array<object[]>>>` | `subRowContents` 에 대한 상태관리 함수입니다. |
 
 <br/>
+
+#### 7) useSubRowExpand
+
+- `TableBody` 의 `expandState` 에 전달할 상태와 상태관리 함수를 반환하는 커스텀 훅입니다.
+- 훅이 반환하는 값은 아래와 같습니다.
+  | Returned Value | Type | Explain |
+  | --------------------------- | ---------- | --------------------------------------------------------------------------------- |
+  | `expandState` | `Array<boolean>` | `TableBody` 의 `expandState` `props` 로 활용되는 상태입니다. |
+  | `setExpandState` | `Dispatch<SetStateAction<boolean[]>>` | `expandState` 에 대한 상태관리 함수입니다. |
+  | `changeSubRowExpandState` | `function` | 인자로 `rowIndex`를 받아서, 클릭한 `row`의 `expandState`를 변경하는 동작을 수행합니다. |
+
+#### 8) content.util.ts
 
 #### 7) Type
 
