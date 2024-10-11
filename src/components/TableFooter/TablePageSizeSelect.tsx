@@ -1,9 +1,6 @@
+import { Dispatch, SetStateAction, ChangeEvent, useLayoutEffect } from "react";
 import { PaginationState } from "@tanstack/react-table";
-import { Dispatch, SetStateAction, ChangeEvent } from "react";
-import {
-  checkDefaultSizeExist,
-  handleChangePageSize,
-} from "../../util/footer.util";
+import { getMedianIndexOfArray, changePageSize } from "../../util/footer.util";
 
 export interface TablePageSizeSelectProps {
   pageSizeList?: Array<number>;
@@ -19,17 +16,21 @@ export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
   } = props;
 
   const sizeList: Array<number> = pageSizeList;
-  checkDefaultSizeExist(sizeList, pagination.pageSize);
 
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    handleChangePageSize(event.target.value, setPagination);
+  const handleChangeOption = (event: ChangeEvent<HTMLSelectElement>) => {
+    changePageSize(event.target.value, setPagination);
   };
+
+  useLayoutEffect(function setInitPageSize() {
+    const initPageSize = pageSizeList[getMedianIndexOfArray(pageSizeList)];
+    setPagination({ ...pagination, pageSize: initPageSize });
+  }, []);
 
   return (
     <select
       id="pageSizeSelect"
       value={String(pagination.pageSize)}
-      onChange={handleSelectChange}
+      onChange={handleChangeOption}
     >
       {sizeList.map((size) => (
         <option key={size} value={size}>

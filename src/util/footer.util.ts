@@ -3,18 +3,11 @@ import { Dispatch, SetStateAction } from "react";
 
 type SetPaginationType = Dispatch<SetStateAction<PaginationState>>;
 
-// 1) page size select
-export const checkDefaultSizeExist = (
-  sizeList: Array<number>,
-  defaulSize: number
-) => {
-  if (!sizeList.includes(defaulSize)) {
-    sizeList.push(defaulSize);
-    sizeList.sort((a, b) => a - b);
-  }
+export const getMedianIndexOfArray = (arr: number[]) => {
+  return Math.floor(arr.length / 2);
 };
 
-export const handleChangePageSize = (
+export const changePageSize = (
   pageSize: string | null,
   setPagination: SetPaginationType
 ) => {
