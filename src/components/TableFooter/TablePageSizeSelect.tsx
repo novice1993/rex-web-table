@@ -27,11 +27,7 @@ export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
   }, []);
 
   return (
-    <select
-      id="pageSizeSelect"
-      value={String(pagination.pageSize)}
-      onChange={handleChangeOption}
-    >
+    <select value={String(pagination.pageSize)} onChange={handleChangeOption}>
       {sizeList.map((size) => (
         <option key={size} value={size}>
           {size}
