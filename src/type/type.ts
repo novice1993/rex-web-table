@@ -19,7 +19,7 @@ export interface RowClickEventParam {
 }
 
 export interface CellClickEventParam {
-  cellIndex: number;
   rowIndex: number;
+  cellIndex: number;
   e: React.MouseEvent<HTMLTableCellElement>;
 }
