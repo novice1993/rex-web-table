@@ -9,6 +9,9 @@ import { HeaderOptionType } from "./type/type";
 import useSubRowContents from "./hook/useSubRowContents";
 import useSubRowExpand from "./hook/useSubRowExpand";
 
+import { TablePagination } from "./components/TableFooter/TablePagination";
+import { TablePageSizeSelect } from "./components/TableFooter/TablePageSizeSelect";
+
 export interface Example {
   No: number;
   firstName: string;
@@ -31,7 +34,7 @@ const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "No",
     header: "No",
-    size: 10,
+    size: 20,
   },
   {
     accessorKey: "name",
@@ -157,13 +160,30 @@ function App() {
             },
           }}
         />
+        <TableFooter
+          totalPageNum={totalPageNum}
+          pagination={pagination}
+          setPagination={setPagination}
+        />
       </TableProvider>
 
-      <TableFooter
-        totalPageNum={totalPageNum}
-        pagination={pagination}
-        setPagination={setPagination}
-      />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <TablePageSizeSelect
+          pagination={pagination}
+          setPagination={setPagination}
+        />
+        <TablePagination
+          pagination={pagination}
+          setPagination={setPagination}
+          totalPageNum={totalPageNum}
+        />
+      </div>
     </>
   );
 }
