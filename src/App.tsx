@@ -12,6 +12,17 @@ import useSubRowExpand from "./hook/useSubRowExpand";
 import { TablePagination } from "./components/TableFooter/TablePagination";
 import { TablePageSizeSelect } from "./components/TableFooter/TablePageSizeSelect";
 
+/**
+ * 1. ci/cd 정리 및 npm publish 전까지 구축
+ * 2. pagination 관련 style option 구현
+ * 3. sorting 관련 기능 수정 -> 기능 제거 (배포 후 수정)
+ * 4. 문서화 (예시 코드) + 영어 문서 작성
+ * 5. npm 배포
+ *
+ * -> 2,4 우선
+ * -> 1, 5번
+ */
+
 export interface Example {
   No: number;
   firstName: string;
@@ -19,6 +30,24 @@ export interface Example {
 }
 
 const dummyData: Array<Example> = [
+  { No: 1, firstName: "kim", add: "-" },
+  { No: 2, firstName: "kim", add: "-" },
+  { No: 3, firstName: "kim", add: "-" },
+  { No: 4, firstName: "kim", add: "-" },
+  { No: 5, firstName: "kim", add: "-" },
+  { No: 6, firstName: "kim", add: "-" },
+  { No: 7, firstName: "kim", add: "-" },
+  { No: 8, firstName: "kim", add: "-" },
+  { No: 9, firstName: "kim", add: "-" },
+  { No: 1, firstName: "kim", add: "-" },
+  { No: 2, firstName: "kim", add: "-" },
+  { No: 3, firstName: "kim", add: "-" },
+  { No: 4, firstName: "kim", add: "-" },
+  { No: 5, firstName: "kim", add: "-" },
+  { No: 6, firstName: "kim", add: "-" },
+  { No: 7, firstName: "kim", add: "-" },
+  { No: 8, firstName: "kim", add: "-" },
+  { No: 9, firstName: "kim", add: "-" },
   { No: 1, firstName: "kim", add: "-" },
   { No: 2, firstName: "kim", add: "-" },
   { No: 3, firstName: "kim", add: "-" },

@@ -2,10 +2,10 @@ import {
   ColumnDef,
   getCoreRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
+  // getSortedRowModel,
   useReactTable,
   PaginationState,
-  SortingState,
+  // SortingState,
 } from "@tanstack/react-table";
 
 import { useState } from "react";
@@ -23,9 +23,9 @@ const useTable = <T>(props: TableManagerProps<T>) => {
     pageIndex: 0,
     pageSize: 10,
   });
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "No", desc: false },
-  ]);
+  // const [sorting, setSorting] = useState<SortingState>([
+  //   { id: "No", desc: false },
+  // ]);
 
   const table = useReactTable<T>({
     data,
@@ -37,11 +37,12 @@ const useTable = <T>(props: TableManagerProps<T>) => {
     onPaginationChange: setPagination,
 
     // 2) about sorting
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-    enableSortingRemoval: false,
+    // getSortedRowModel: getSortedRowModel(),
+    // onSortingChange: setSorting,
+    // enableSortingRemoval: false,
 
-    state: { pagination, sorting },
+    // state: { pagination, sorting },
+    state: { pagination },
   });
 
   return {
