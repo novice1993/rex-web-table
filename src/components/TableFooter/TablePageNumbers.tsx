@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { generatePageNumbers } from "../../util/footer.util";
 
 interface TablePageNumberProps {
@@ -7,6 +8,15 @@ interface TablePageNumberProps {
 }
 
 const dots = "⋯";
+
+const contentsStyle: CSSProperties = {
+  boxSizing: "border-box",
+  width: "30px",
+  height: "30px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
 
 export const TablePageNumbers = (props: TablePageNumberProps) => {
   const { pageIndex, totalPageNum, handleClickPageButton } = props;
@@ -20,7 +30,7 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
         /** When it is an ellipsis (⋯) */
         if (content === "dots") {
           return (
-            <div key={idx} style={{ margin: "0 4px" }}>
+            <div key={idx} style={{ ...contentsStyle }}>
               {dots}
             </div>
           );
@@ -31,7 +41,10 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
           <button
             key={idx}
             onClick={() => handleClickPageButton(content)}
-            style={{ fontWeight: currentPage === content ? "bold" : "normal" }}
+            style={{
+              fontWeight: currentPage === content ? "bold" : "normal",
+              ...contentsStyle,
+            }}
           >
             {content}
           </button>

@@ -16,7 +16,7 @@ const TableFooter = (props: TableFooterProps) => {
           <div
             style={{
               width: "100%",
-              marginTop: "2px",
+              marginTop: "4px",
               display: "flex",
               justifyContent: "space-between",
             }}
