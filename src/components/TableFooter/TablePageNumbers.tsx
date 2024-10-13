@@ -1,30 +1,52 @@
 import { CSSProperties } from "react";
 import { generatePageNumbers } from "../../util/footer.util";
+import { PageButtonStyleProps } from "./TablePagination";
+
+const dots = "⋯";
 
 interface TablePageNumberProps {
   pageIndex: number;
   totalPageNum: number;
   handleClickPageButton: (pageIndex: number) => void;
+  style?: PageButtonStyleProps;
 }
 
-const dots = "⋯";
-
-const contentsStyle: CSSProperties = {
-  boxSizing: "border-box",
-  width: "30px",
-  height: "30px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "3px",
-  border: "1px solid darkgray",
-};
-
 export const TablePageNumbers = (props: TablePageNumberProps) => {
-  const { pageIndex, totalPageNum, handleClickPageButton } = props;
+  const { pageIndex, totalPageNum, handleClickPageButton, style } = props;
 
   const currentPage = pageIndex + 1;
   const pageNumberContents = generatePageNumbers(currentPage, totalPageNum);
+
+  const contentsStyle: CSSProperties = {
+    boxSizing: "border-box",
+    width: "30px",
+    height: "30px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "3px",
+
+    // style props
+    color: style?.fontColor,
+    border: style?.border ? style.border : "1px solid darkgray",
+  };
+
+  // style props about backgroundColor
+  const getSelectedButtonColor = (pageNum: number) => {
+    let backgroundColor: string | undefined;
+
+    if (currentPage !== pageNum) {
+      backgroundColor = style?.backgroundColor;
+    }
+
+    if (currentPage === pageNum) {
+      backgroundColor = style?.selectedNumberButtonColor
+        ? style.selectedNumberButtonColor
+        : style?.backgroundColor;
+    }
+
+    return backgroundColor;
+  };
 
   return (
     <div style={{ display: "flex", gap: "6px" }}>
@@ -51,8 +73,9 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
             key={idx}
             onClick={() => handleClickPageButton(content)}
             style={{
-              fontWeight: currentPage === content ? "bold" : "normal",
               ...contentsStyle,
+              fontWeight: currentPage === content ? "bold" : "normal",
+              backgroundColor: getSelectedButtonColor(content),
             }}
           >
             {content}
