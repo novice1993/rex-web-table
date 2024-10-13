@@ -16,6 +16,8 @@ const arrowButtonStyle: CSSProperties = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  borderRadius: "3px",
+  border: "1px solid darkgray",
 };
 
 export const TablePagination = (props: TablePaginationProps) => {

@@ -16,6 +16,8 @@ const contentsStyle: CSSProperties = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  borderRadius: "3px",
+  border: "1px solid darkgray",
 };
 
 export const TablePageNumbers = (props: TablePageNumberProps) => {
@@ -30,7 +32,14 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
         /** When it is an ellipsis (⋯) */
         if (content === "dots") {
           return (
-            <div key={idx} style={{ ...contentsStyle }}>
+            <div
+              key={idx}
+              style={{
+                ...contentsStyle,
+                border: "none",
+                fontWeight: "bolder",
+              }}
+            >
               {dots}
             </div>
           );

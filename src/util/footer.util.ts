@@ -8,7 +8,7 @@ export const getMedianIndexOfArray = (arr: number[]) => {
 };
 
 export const changePageSize = (
-  pageSize: string | null,
+  pageSize: string | undefined,
   setPagination: SetPaginationType
 ) => {
   setPagination((prevState: PaginationState) => {
