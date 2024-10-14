@@ -5,14 +5,14 @@ import { TableProps } from "../../type/type";
 
 const TableHeader = <T,>(props: TableProps<T>) => {
   const { table, headerOption, style } = props;
-  const { borderTopNone } = useTableContext();
+  const { borderLeftNone, borderTopNone } = useTableContext();
   const headerGroups = getHeader({ table, headerOption });
 
   return (
     <thead
       style={{
         ...style,
-        borderLeft: "none",
+        borderLeft: borderLeftNone ? "none" : style?.border,
         borderTop: borderTopNone ? "none" : style?.border,
       }}
     >

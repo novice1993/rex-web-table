@@ -9,146 +9,13 @@ import { HeaderOptionType } from "./type/type";
 import useSubRowContents from "./hook/useSubRowContents";
 import useSubRowExpand from "./hook/useSubRowExpand";
 
-import { TablePagination } from "./components/TableFooter/TablePagination";
-import { TablePageSizeSelect } from "./components/TableFooter/TablePageSizeSelect";
-
-/**
- * 1. ci/cd 정리 및 npm publish 전까지 구축
- * 2. pagination 관련 style option 구현
- * 3. sorting 관련 기능 수정 -> 기능 제거 (배포 후 수정)
- * 4. 문서화 (예시 코드) + 영어 문서 작성
- * 5. npm 배포
- *
- * -> 2,4 우선
- * -> 1, 5번
- */
-
 export interface Example {
   No: number;
   firstName: string;
   add: string;
 }
 
-const dummyData: Array<Example> = [
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
+const data: Array<Example> = [
   { No: 1, firstName: "kim", add: "-" },
   { No: 2, firstName: "kim", add: "-" },
   { No: 3, firstName: "kim", add: "-" },
@@ -162,29 +29,26 @@ const columns: ColumnDef<Example>[] = [
   {
     accessorKey: "No",
     header: "No",
-    size: 20,
+    size: 10,
   },
   {
     accessorKey: "name",
     header: "Name",
-    size: 200,
     columns: [
       {
         accessorKey: "firstName",
         header: "First Name",
-        size: 120,
+        size: 140,
+        cell: (value) => {
+          return <div style={{ color: "red" }}>{value.getValue()}</div>;
+        },
       },
       {
         accessorKey: "lastName",
         header: "Last Name",
-        size: 120,
+        size: 140,
       },
     ],
-  },
-  {
-    accessorKey: "add",
-    header: "add",
-    size: 100,
   },
 ];
 
@@ -193,7 +57,6 @@ const headerOption: HeaderOptionType[] = [
   { accessorKey: "name", layer: 1, colSpan: 2, rowSpan: 1 },
   { accessorKey: "firstName", layer: 2, colSpan: 1, rowSpan: 1 },
   { accessorKey: "lastName", layer: 2, colSpan: 1, rowSpan: 1 },
-  { accessorKey: "add", layer: 1, colSpan: 1, rowSpan: 2 },
 ];
 
 const subRowDummy = [
@@ -201,7 +64,6 @@ const subRowDummy = [
     {
       No: 10,
       firstName: "park",
-      lastName: "h",
       add: "-",
     },
     {
@@ -246,7 +108,7 @@ const subRowDummy = [
 
 function App() {
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
-    data: dummyData,
+    data,
     columns,
     isPagination: true,
   });
@@ -261,12 +123,16 @@ function App() {
     <div style={{ width: "100%", height: "100%" }}>
       <nav
         style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "18px",
           border: "1px solid black",
           width: "100%",
           height: "70px",
         }}
       >
-        top nav
+        Top Navigation
       </nav>
 
       <div
@@ -279,7 +145,10 @@ function App() {
         <nav
           style={{
             width: "150px",
-            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "18px",
             border: "1px solid black",
             borderTop: "none",
           }}
@@ -305,16 +174,16 @@ function App() {
                 table={table}
                 headerOption={headerOption}
                 style={{
-                  textAlign: "center",
+                  fontSize: "14px",
                   padding: "4px",
                   border: "1px solid black",
-                  fontSize: "11px",
-                  backgroundColor: "ivory",
+                  backgroundColor: "darkgray",
                 }}
               />
               <TableBody
                 table={table}
                 style={{
+                  fontSize: "14px",
                   border: "1px solid black",
                   textAlign: "center",
                 }}
@@ -335,7 +204,6 @@ function App() {
             styles={{
               containerStyle: {
                 padding: "2px 3px",
-                height: "100%",
                 border: "1px solid darkgray",
                 borderLeft: "none",
               },
