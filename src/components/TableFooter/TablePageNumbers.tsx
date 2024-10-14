@@ -26,6 +26,7 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
     alignItems: "center",
     borderRadius: "3px",
     cursor: "pointer",
+    fontSize: "14px",
 
     // style props
     color: style?.fontColor,

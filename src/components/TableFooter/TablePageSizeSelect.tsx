@@ -50,6 +50,7 @@ export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
     width: "100%",
     height: "100%",
     backgroundColor: "transparent",
+    fontSize: "14px",
 
     border: "none",
     outline: "none",
