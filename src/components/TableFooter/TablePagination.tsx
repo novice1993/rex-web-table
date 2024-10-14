@@ -11,6 +11,7 @@ export interface PageButtonStyleProps {
 
   selectedNumberButtonColor?: string;
   disabledArrowButtonColor?: string;
+  disabledArrowColor?: string;
 }
 
 export interface TablePaginationProps {
@@ -35,9 +36,9 @@ export const TablePagination = (props: TablePaginationProps) => {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "3px",
+    cursor: "pointer",
 
     // style props
-    color: styles?.fontColor,
     border: styles?.border ? styles.border : "1px solid darkgray",
   };
 
@@ -58,6 +59,21 @@ export const TablePagination = (props: TablePaginationProps) => {
     return backgroundColor;
   };
 
+  // style props about arrow color
+  const getArrowColor = (isDisabled: boolean) => {
+    let color: string | undefined;
+
+    if (isDisabled) {
+      color = styles?.disabledArrowColor
+        ? styles.disabledArrowColor
+        : styles?.fontColor;
+    } else {
+      color = styles?.fontColor;
+    }
+
+    return color;
+  };
+
   return (
     <div
       style={{
@@ -75,7 +91,10 @@ export const TablePagination = (props: TablePaginationProps) => {
         }}
         onClick={() => handleClickPageButton(pagination.pageIndex)}
       >
-        <svg viewBox="0 0 16 16" fill={styles?.fontColor}>
+        <svg
+          viewBox="0 0 16 16"
+          fill={getArrowColor(pagination.pageIndex === 0)}
+        >
           <path d="M7.219 8l3.3 3.3-.943.943L5.333 8l4.243-4.243.943.943-3.3 3.3z"></path>
         </svg>
       </button>
@@ -99,7 +118,10 @@ export const TablePagination = (props: TablePaginationProps) => {
         }}
         onClick={() => handleClickPageButton(pagination.pageIndex + 2)}
       >
-        <svg viewBox="0 0 16 16" fill={styles?.fontColor}>
+        <svg
+          viewBox="0 0 16 16"
+          fill={getArrowColor(pagination.pageIndex === totalPageNum - 1)}
+        >
           <path d="M8.781 8l-3.3-3.3.943-.943L10.667 8l-4.243 4.243-.943-.943 3.3-3.3z" />
         </svg>
       </button>

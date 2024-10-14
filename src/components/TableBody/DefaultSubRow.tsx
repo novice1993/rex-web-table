@@ -21,7 +21,8 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
   const { contents, style, subRowStyles } = props;
 
   const key = useRef(0);
-  const { subRowClickEvent, subRowCellClickEvent } = useTableContext();
+  const { subRowClickEvent, subRowCellClickEvent, borderLeftNone } =
+    useTableContext();
 
   const handleClickSubRow = (
     rowIndex: number,
@@ -72,6 +73,8 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
                 ...style,
                 ...subRowStyles?.style,
                 backgroundColor: undefined,
+                height: "36px",
+                borderLeft: borderLeftNone ? "none" : style?.border,
               }}
               onClick={(e) => {
                 setClickedCellContent(value);

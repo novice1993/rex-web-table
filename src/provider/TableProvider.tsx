@@ -19,6 +19,8 @@ interface TableProviderProps {
     rowIndex,
     e,
   }: CellClickEventParam) => void;
+  borderLeftNone?: boolean;
+  borderTopNone?: boolean;
 }
 
 const TableContext = createContext<TableProviderProps | null>(null);
@@ -32,6 +34,8 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
     cellClickEvent,
     subRowClickEvent,
     subRowCellClickEvent,
+    borderLeftNone,
+    borderTopNone,
   } = props;
 
   return (
@@ -44,6 +48,8 @@ export const TableProvider = (props: PropsWithChildren<TableProviderProps>) => {
         cellClickEvent,
         subRowClickEvent,
         subRowCellClickEvent,
+        borderLeftNone,
+        borderTopNone,
       }}
     >
       <TableContainer>{props.children}</TableContainer>

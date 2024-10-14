@@ -16,7 +16,7 @@ const TableBodyCell = <T,>({
   rowIndex,
   style,
 }: TableBodyCellProps<T>) => {
-  const { cellClickEvent } = useTableContext();
+  const { cellClickEvent, borderLeftNone } = useTableContext();
 
   // If it's a function, apply custom cell value when generating columns
   const cellValue =
@@ -34,7 +34,12 @@ const TableBodyCell = <T,>({
 
   return (
     <td
-      style={{ ...style, backgroundColor: undefined }}
+      style={{
+        ...style,
+        backgroundColor: undefined,
+        height: "36px",
+        borderLeft: borderLeftNone ? "none" : style?.border,
+      }}
       onClick={handleClickCell}
     >
       {cellValue}

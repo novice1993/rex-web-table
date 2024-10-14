@@ -5,6 +5,7 @@ const TableContainer = ({ children }: { children: ReactNode }) => {
     <table
       style={{
         width: "100%",
+        height: "fit-content",
         borderCollapse: "collapse",
       }}
     >

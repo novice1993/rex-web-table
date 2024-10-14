@@ -156,90 +156,6 @@ const dummyData: Array<Example> = [
   { No: 5, firstName: "kim", add: "-" },
   { No: 6, firstName: "kim", add: "-" },
   { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
 ];
 
 const columns: ColumnDef<Example>[] = [
@@ -342,51 +258,100 @@ function App() {
   };
 
   return (
-    <>
-      <TableProvider
-        useParentRowUi={true}
-        subRowContents={subRowContents}
-        rowClickEvent={handleClickRow}
+    <div style={{ width: "100%", height: "100%" }}>
+      <nav
+        style={{
+          border: "1px solid black",
+          width: "100%",
+          height: "70px",
+        }}
       >
-        <TableHeader
-          table={table}
-          headerOption={headerOption}
-          style={{
-            textAlign: "center",
-            padding: "4px",
-            border: "1px solid black",
-            fontSize: "11px",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        />
-        <TableBody
-          table={table}
-          style={{
-            border: "1px solid black",
-            textAlign: "center",
-          }}
-          subRowProps={{
-            expandState,
-            style: {
-              backgroundColor: "ivory",
-            },
-          }}
-        />
-        <TableFooter
-          totalPageNum={totalPageNum}
-          pagination={pagination}
-          setPagination={setPagination}
-        />
-      </TableProvider>
+        top nav
+      </nav>
 
       <div
         style={{
-          width: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          width: "100%",
+          height: "calc(100% - 70px)",
         }}
-      ></div>
-    </>
+      >
+        <nav
+          style={{
+            width: "150px",
+            height: "100%",
+            border: "1px solid black",
+            borderTop: "none",
+          }}
+        >
+          left side nav
+        </nav>
+
+        <div
+          style={{
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ height: "calc(100% - 35px)", overflowY: "auto" }}>
+            <TableProvider
+              useParentRowUi={true}
+              subRowContents={subRowContents}
+              rowClickEvent={handleClickRow}
+              borderLeftNone={true}
+              borderTopNone={true}
+            >
+              <TableHeader
+                table={table}
+                headerOption={headerOption}
+                style={{
+                  textAlign: "center",
+                  padding: "4px",
+                  border: "1px solid black",
+                  fontSize: "11px",
+                  backgroundColor: "ivory",
+                }}
+              />
+              <TableBody
+                table={table}
+                style={{
+                  border: "1px solid black",
+                  textAlign: "center",
+                }}
+                subRowProps={{
+                  expandState,
+                  style: {
+                    backgroundColor: "ivory",
+                  },
+                }}
+              />
+            </TableProvider>
+          </div>
+
+          <TableFooter
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPageNum={totalPageNum}
+            styles={{
+              containerStyle: {
+                padding: "2px 3px",
+                height: "100%",
+                border: "1px solid darkgray",
+                borderLeft: "none",
+              },
+              pageSizeSelectStyle: {
+                border: "none",
+              },
+              pageNumButtonStyle: {
+                border: "none",
+                backgroundColor: "transparent",
+                disabledArrowColor: "darkgray",
+              },
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
