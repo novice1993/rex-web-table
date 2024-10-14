@@ -1,190 +1,431 @@
 ## 1. Introduction
 
-#### If you need the Korean documentation, please refer to the README(ko).md
+**If you need documentation in Korean, please refer to README(ko).md.**
 
-- This is a table library implemented using `tanstack/react-table` and `jotai`.
-- It can be used in `React`-based projects.
-- Provides table column/data settings, sorting, pagination, and custom table data functionality.
-  <span style="color: darkgray;"> The sorting feature is limited to columns named "No".</span>
-- It is designed as a headless UI, allowing for flexible styling and customization.
+- This is a table library implemented using `tanstack/react-table`.
+- It can be used in projects based on `React`.
+- It provides features such as column/data configuration for tables, pagination, and table data customization.
+- It is designed as a Headless UI, allowing for custom styling.
 
-## 2. Installation
+## 2. Quick Start
 
-- using npm : `npm install rex-table`
-- using yarn : `yarn add rex-table`
+### Installation
 
-## 3. Dependencies (Libraries Used)
+- using npm: `npm install rex-table`
+- using yarn: `yarn add rex-table`
 
-##### \* Version reference date: September 2024
+### Example
 
-- It is recommended to use the library with the versions specified or higher.
-- The versions of each library are based on the most stable versions at the time of module development.
+```typescript
+const Table = () => {
+  // 1. Define the data type for each row in the table
+  interface Example {
+    no: number;
+    name: string;
+  }
 
-#### 1) Dependencies
+  // 2. Define the column structure of the table
+  const columns: ColumnDef<Example>[] = [
+    {
+      accessorKey: "no", // Key mapped to data
+      header: "No.", // Column header
+      size: 10, // Column size (optional)
+    },
+    {
+      accessorKey: "name",
+      header: "Name", // Column header
+      size: 90,
+    },
+  ];
 
-- @tanstack/react-table (^8.20.5)
-- jotai (^2.9.3)
-- jotai-immer (^18.3.1)
+  // 3. Define the data to display in the table
+  const data: Array<Example> = [
+    {
+      no: 1,
+      name: "kim",
+    },
+    {
+      no: 2,
+      name: "park",
+    },
+  ];
 
-#### 2) PeerDependencies
+  // 4. Call the useTable hook to generate the table and pagination data
+  const { table, pagination, setPagination, totalPageNum } = useTable({
+    data, // Table data
+    columns, // Table columns
+    isPagination: true, // Apply pagination
+  });
 
-- react (^18.3.1)
-- react-dom (^18.3.1)
+  // 5. Render the table using the provided components (TableProvider, TableHeader, TableBody, TableFooter)
+  return (
+    <div>
+      <TableProvider>
+        <TableHeader table={table} /> {/* Render table header */}
+        <TableBody table={table} /> {/* Render table body */}
+      </TableProvider>
 
-## 4. Structure (Directories and Files)
+      {/* Render footer with pagination controls */}
+      <TableFooter
+        pagination={pagination}
+        setPagination={setPagination}
+        totalPageNum={totalPageNum}
+      />
+    </div>
+  );
+};
 
-<pre>
-📦src
- ┣ 📂atom
- ┃ ┗ 📜subRowContentsAtom.ts
- ┣ 📂components
- ┃ ┣ 📂TableBody
- ┃ ┃ ┣ 📜DefaultSubRow.tsx
- ┃ ┃ ┣ 📜TableBodyCell.tsx
- ┃ ┃ ┣ 📜TableBodyRow.tsx
- ┃ ┃ ┗ 📜TableSubRow.tsx
- ┃ ┃ ┗ 📜index.tsx
- ┃ ┣ 📂TableContainer
- ┃ ┃ ┗ 📜TableContainer.tsx
- ┃ ┣ 📂TableFooter
- ┃ ┃ ┣ 📜TablePageNumbers.tsx
- ┃ ┃ ┣ 📜TablePageSizeSelect.tsx
- ┃ ┃ ┗ 📜TablePagination.tsx
- ┃ ┃ ┗ 📜index.tsx
- ┃ ┗ 📂TableHeader
- ┃ ┃ ┣ 📜TableHeaderCell.tsx
- ┃ ┃ ┣ 📜TableHeaderRow.tsx
- ┃ ┃ ┗ 📜index.tsx
- ┣ 📂hook
- ┃ ┣ 📜useSubRowContent.ts
- ┃ ┗ 📜useTable.ts
- ┣ 📂provider
- ┃ ┗ 📜TableProvider.tsx
- ┣ 📂type
- ┃ ┗ 📜type.ts
- ┣ 📂util
- ┃ ┣ 📜content.util.ts
- ┃ ┣ 📜body.util.ts
- ┃ ┣ 📜footer.util.ts
- ┃ ┗ 📜header.util.ts
- ┗ 📜index.ts
-</pre>
-
-#### 1) TableProvider
-
-- `TableProvider` wraps `TableHeader`, `TableBody`, and `TableFooter`, serving to pass `props` to each component.
-- The `props` to be passed when calling the component are as follows.
-  | Props | Type | Explain | Required |
-  | ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-  | `SubRowComponent` | `ReactNode` | Used when customizing the `SubRow`, pass the component directly for customization. | `optional` |
-  | `useParentRowUi` | `boolean` | Determines whether to use the parent row UI when using `SubRow`. | `optional` |
-  | `rowClickEvent` | `function` | Function triggered when a row in the `Table` is clicked. | `optional` |
-  | `subRowClickEvent` | `function` | Function triggered when a row in the `SubRow` is clicked. <br/><br/>\* Applicable only when `useParentRowUi` is set to `true`. <br/> If `SubRowComponent` is provided, the click event can be handled directly within the component. | `optional` |
-  | `subRowCellClickEvent` | `function` | Function triggered when a cell in the `SubRow` is clicked. <br/><br/>\* Applicable only when `useParentRowUi` is set to `true`. <br/> If `SubRowComponent` is provided, the click event can be handled directly within the component. | `optional` |
+export default Table;
+```
 
 <br/>
 
-#### 2) TableHeader
+## 3. API Reference
 
-- This component renders the column headers of the table.
-- You can control `layer`, `rowSpan`, and `colSpan` via the `header option`.
-- The `props` to be passed when calling the component are as follows.
-  | Props | Type | Explain | Required |
-  | -------------- | ------------------ | -------------------------------------------------------------------------- | ---------- |
-  | `table` | `Table<TData>` | The table data and method-related instance returned by the `useTable` hook. | `required` |
-  | `style` | `CSSProperties` | Set CSS properties via `inline Style`. | `optional` |
-  | `headerOption` | `HeaderOptionType` | Defines detailed properties related to rendering the `header`. (Detailed description attached below) | `optional` |
+### 3.1 TableProvider
 
-<br/>
-
-- The `header option` type is as follows.
-  | Property | Type | Explain |
-  | ------------- | -------- | ----------------------------------------------------------------------- |
-  | `accessorKey` | `string` | The `key` value mapping the `header` with the `header option`. |
-  | `layer` | `number` | Determines on which row the `header` starts. |
-  | `rowSpan` | `number` | Determines the height the `header` occupies based on the specified `layer`. |
-  | `colSpan` | `number` | Determines the width the `header` occupies. |
+- The `TableProvider` wraps `TableHeader`, `TableBody`, and handles passing `props` to the components.
+  | Props | Type | Description | Required |
+  |-----------------------|--------------|------------------------------------------------------------------------------------------------------------------|-----------|
+  | `useParentRowUi` | `boolean` | Determines whether to inherit the parent's row UI when using `SubRow`. Inherits parent UI if `true`. | `optional`|
+  | `SubRowComponent` | `ReactNode` | Custom component for `SubRow`. | `optional`|
+  | `subRowContents` | `Array<object[]>` | Data used in `SubRow`. | `optional`|
+  | `rowClickEvent` | `function` | Function triggered when a table row is clicked. | `optional`|
+  | `cellClickEvent` | `function` | Function triggered when a table cell is clicked. | `optional`|
+  | `subRowClickEvent` | `function` | Function triggered when a sub-row is clicked. Works only if `useParentRowUi` is `true`. | `optional`|
+  | `subRowCellClickEvent` | `function` | Function triggered when a sub-row cell is clicked. Works only if `useParentRowUi` is `true`. | `optional`|
+  | `borderLeftNone` | `boolean` | Controls whether the left border of the table is displayed. Useful with `left nav bar`. | `optional`|
+  | `borderTopNone` | `boolean` | Controls whether the top border of the table is displayed. Useful with `top nav bar`. | `optional`|
 
 <br/>
 
-#### 3) TableBody
+```typescript
+/** Define the data to be used in the sub-row.
+Each index represents the data for the sub-row corresponding to each parent row. **/
+const subRowData: Object[] = [
+  [
+    {
+      no: 1,
+      name: "kim", // First item in the first sub-row
+    },
+    {
+      no: 2,
+      name: "park", // Second item in the first sub-row
+    },
+  ],
+  [
+    {
+      no: 1,
+      name: "lee", // First item in the second sub-row
+    },
+    {
+      no: 2,
+      name: "heo", // Second item in the second sub-row
+    },
+  ],
+];
 
-- This component renders the actual table data and is composed of rows (`TableBodyRow`) and the cells that make up those rows (`TableBodyCell`).
-- The `props` to be passed when calling the component are as follows.
-  | Props | Type | Explain | Required |
-  | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-  | `table` | `Table<TData>` | The table data and method-related instance returned by the `useTable` hook. | `required` |
-  | `style` | `CSSProperties` | Set CSS properties via `inline Style`. | `optional` |
-  | `subRowStyle` | `CSSProperties` | Customize `CSS` for `subRow` if necessary. <br/><br/> \* Applicable only when `useParentRowUi` is set to `true`. <br/> If `SubRowComponent` is provided, customization can be handled directly within the component. | `optional` |
+// Call the useSubRowContents hook to get the state and state management function to set up the sub-row.
+const { subRowContents } = useSubRowContents(subRowData);
 
-#### 4) TableFooter
-
-- This component handles pagination functionality and can be used optionally when needed.
-- It consists of two main components:
-
-  1. `TablePageSizeSelect`: A component that allows changing the number of contents displayed per page.
-  2. `TablePagination`: Handles the page number changing functionality.
-     <br/>
-
-- The `props` to be passed when calling the component are as follows.
-  | Props | Type | Explain | Required |
-  | --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------- |
-  | `pagination` | `PaginationState` | Pagination-related state returned by the `useTable` hook. | `required` |
-  | `setPagination` | `Dispatch<SetStateAction<PaginationState>>` | Pagination state management function returned by the `useTable` hook. | `required` |
-  | `totalPageNum` | `number` | Total number of pages returned by the `useTable` hook. | `required` |
-  | `pageSizeList` | `Array<number>` | List of options for the number of contents displayed per page. The default values are `[10, 15, 20, 25, 30]`. | `optional` |
-
-<br/>
-
-#### 5) useTable
-
-- A custom hook that returns the data to be passed as `props` for `TableHeader`, `TableBody`, and `TableFooter` components.
-- The `props` to be passed when calling the hook are as follows.
-  | Props | Type | Explain | Required |
-  | -------------- | --------------------- | ----------------------------------------------- | ---------- |
-  | `data` | `Array<T>` | The data to be rendered in the table body. | `required` |
-  | `columns` | `Array<ColumnDef<T>>` | The data used to configure the table columns. | `required` |
-  | `isPagination` | `boolean` | Determines whether pagination is enabled. | `optional` |
-
-<br/>
-
-- The values returned by the hook are as follows.
-  | Returned Value | Type | Explain |
-  | ---------------- | ------------------- | -------------------------------------------- |
-  | `table` | `Table<TData>` | The instance object used for table settings. Used as a `prop` in `TableHeader` and `TableBody`. |
-  | `pagination` | `PaginationState` | Pagination-related state. Used as a `prop` in `TableFooter`. |
-  | `setPagination` | `Dispatch<SetStateAction<PaginationState>>` | Pagination state management function. Used as a `prop` in `TableFooter`. |
+return (
+  <TableProvider
+    useParentRowUi={true} // Set to inherit the parent's row UI for the sub-row
+    subRowContents={subRowContents} // Pass the data to use in the sub-row
+    borderLeftNone={true} // Set whether to show the left border
+    borderTopNone={true} // Set whether to show the top border
+  >
+    <TableHeader table={table} /> // Render the table header
+    <TableBody table={table} /> // Render the table body
+  </TableProvider>
+);
+```
 
 <br/>
 
-#### 6) useSubRowContent
-
-- A custom hook that returns functions to retrieve and modify data used in the `SubRow`.
-- Internally, `jotai atom` is used to store values.
-- The values returned by the hook are as follows.
-  | Returned Value | Explain |
-  | --------------------------- | ------------------------------------------------------------------------------------------------- |
-  | `getSubRowContentOfEntire` | A function that retrieves the data for the entire `SubRow`. |
-  | `setSubRowContentOfEntire` | A function that modifies the data for the entire `SubRow`. |
-  | `getSubRowContentOfSelected` | A function that retrieves the `SubRow` data for a specific row. |
-  | `setSubRowContentOfSelected` | A function that modifies the `SubRow` data for a specific row. |
-
-<br/>
-
-#### 7) Type
-
-- `Type` definitions used for `props` data, custom hooks, and event handler parameters.
-  | Type | Explain |
-  | ------------------ | -------------------------------------------------------------------- |
-  | `ColumnDef` | `Type` related to the `columns` parameter of `useTable`. |
-  | `Row` | `Type` related to `Row` data used in `TableBodyRow`. |
-  | `Cell` | `Type` related to `Cell` data used in `TableBodyCell`. |
-  | `HeaderOptionType` | `Type` related to the `headerOption` prop passed to `TableHeader`. |
-
+- **`SubRowComponent` and `clickEvent` parameters are as follows**
   <br/>
 
-## 5. Usage (Sample Code)
+  1. `SubRowComponent`
+     | Params | Type | Description | Required |
+     |------------|--------------|--------------------------------------------------------------------------------------------------|-----------|
+     | `contents` | `object[]` | The data passed from `TableProvider` through the `subRowContents` prop. | optional |
+  2. `rowClickEvent` and `subRowClickEvent`
+     | Params | Type | Description | Required |
+     |------------|--------------|--------------------------------------------------------------------------------------------------|-----------|
+     | `rowIndex` | `number` | Index of the clicked row | optional |
+     | `e` | `MouseEvent` | Event object for the click event | optional |
+  3. `cellClickEvent` and `subRowCellClickEvent`
+     | Params | Type | Description | Required |
+     |------------|--------------|--------------------------------------------------------------------------------------------------|-----------|
+     | `rowIndex` | `number` | Index of the row to which the clicked cell belongs | optional |
+     | `cellIndex`| `number` | Index of the clicked cell | optional |
+     | `e` | `MouseEvent` | Event object for the click event | optional |
 
-- To be added
+<br/>
 
-## 6. issue
+```typescript
+/* 1. Define the custom sub-row component */
+const SubRowComponent = ({ contents }: { contents: Array<object> }) => {
+  // Customize and return the UI of the sub-row.
+  return; // Add custom UI logic here.
+};
+
+return (
+  <TableProvider
+    SubRowComponent={SubRowComponent} // Pass the custom sub-row component
+    subRowContents={subRowContents} // Pass the data to use in the sub-row
+  >
+    <TableHeader table={table} />
+    <TableBody table={table} />
+  </TableProvider>
+);
+
+/* 2. Define click event handlers */
+
+// Row click event handler
+const handleClickRow = ({ rowIndex, e }: RowClickEventParam) => {
+  // Write logic using the clicked row's index and event object
+  /* Write event handler logic using rowIndex, e */
+};
+
+// Cell click event handler
+const handleClickCell = ({ cellIndex, rowIndex, e }: CellClickEventParam) => {
+  // Write logic using the clicked cell's index, row index, and event object
+  /* Write event handler logic using cellIndex, rowIndex, e */
+};
+
+/*
+  * Examples of using parameters in the event handler
+    1. rowIndex, cellIndex: Use when writing logic for a specific row or column.
+       Ex) For logic when clicking the second column 'name':
+       if(cellIndex === 1) { * Write logic * }
+
+    2. e: Use the event object to handle specific click events.
+       Ex) Prevent event bubbling when a specific cell is clicked:
+       e.stopPropagation(); // Prevent event bubbling
+
+  ** Sub-row/cell click events are handled in the same way.
+*/
+
+return (
+  <TableProvider
+    useParentRowUi={true} // Set to inherit the parent's row UI for the sub-row
+    subRowContents={subRowContents} // Pass the data to use in the sub-row
+    rowClickEvent={handleClickRow} // Pass the row click event handler
+    cellClickEvent={handleClickCell} // Pass the cell click event handler
+  >
+    <TableHeader table={table} />
+    <TableBody table={table} />
+  </TableProvider>
+);
+```
+
+### 3.2 TableHeader
+
+- This component renders the table column headers.
+- You can control `layer`, `rowSpan`, and `colSpan` through the `header option`.
+- The `props` to pass when calling the component are as follows.
+  | Props | Type | Explanation | Required |
+  |---------------|-----------------|-----------------------------------------------------------------------------|----------|
+  | `table` | `Table<TData>` | The table data instance returned by the `useTable` hook | required |
+  | `style` | `CSSProperties` | Inline style to set CSS properties | optional |
+  | `headerOption`| `HeaderOptionType`| Detailed options for rendering the header | optional |
+
+<br/>
+
+- The type of `headerOption` is as follows.
+  | Property | Type | Explanation |
+  |---------------|----------|--------------------------------------------------------------------------|
+  | `accessorKey` | `string` | Key to map between the header and header option |
+  | `layer` | `number` | Determines at which row the header starts |
+  | `rowSpan` | `number` | Determines the height the header will occupy based on the defined layer |
+  | `colSpan` | `number` | Determines the width the header will occupy |
+
+<br/>
+
+```typescript
+// Define header option type
+const headerOption: HeaderOptionType[] = [
+  { accessorKey: "no", layer: 1, colSpan: 1, rowSpan: 1 }, // Options for the 'no' column
+  { accessorKey: "name", layer: 1, colSpan: 1, rowSpan: 1 }, // Options for the 'name' column
+];
+
+// Call the TableHeader component
+<TableHeader
+  table={table} // Table data instance returned from the useTable hook
+  headerOption={headerOption} // Pass the rendering options for each column
+  style={{
+    fontSize: "14px", // Set CSS properties
+    padding: "4px", // Set CSS properties
+    border: "1px solid black", // Set CSS properties
+    backgroundColor: "darkgray", // Set CSS properties
+  }}
+/>;
+```
+
+<br/>
+
+### 3.3 TableBody
+
+- This component renders the actual table data, consisting of `TableBodyRow` for each row and `TableBodyCell` for each cell.
+- The `props` to pass when calling the component are as follows.
+  | Props | Type | Explanation | Required |
+  |--------------------|------------------------------|------------------------------------------------------------------------------------|----------|
+  | `table` | `Table<TData>` | The table data instance returned by the `useTable` hook | required |
+  | `interactiveStyles`| `{ hoverColor: string; clickedColor: string; }` | Styles for hover and click background colors on table rows | optional |
+  | `subRowProps` | `object` | Settings related to `subRow` | optional |
+
+<br/>
+
+```typescript
+<TableBody
+  table={table} // Pass the table data instance returned by the useTable hook
+  style={{
+    // Set styles for the table body using CSS properties
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // Set background color when hovering over a row
+    clickedColor: "black", // Set background color when a row is clicked
+  }}
+/>
+```
+
+<br/>
+
+- The structure of `subRowProps` is as follows.
+  | Props | Type | Explanation | Required |
+  |--------------|------------------|------------------------------------------------------------------------------------------------------------------|----------|
+  | `expandState`| `Array<boolean>` | State related to the expansion of `subRow` | optional |
+  | `style` | `CSSProperties` | Inline style to set CSS properties. <br/> **Works only when `useParentRowUi` is `true`.** | optional |
+  | `hoverColor` | `string` | Set background color when hovering over a `subRow`. <br/> **Works only when `useParentRowUi` is `true`.** | optional |
+
+<br/>
+
+```typescript
+/**
+ * Use the useSubRowExpand hook to get the state and state management function related to the expansion state of sub-rows.
+ * This hook manages whether each row of the table can be expanded.
+ */
+const { expandState, changeSubRowExpandState } = useSubRowExpand();
+
+/**
+ * Define a function to change the expansion state of the clicked row.
+ * Users can create this manually and use the `changeSubRowExpandState` returned from the hook
+ * to pass the `rowIndex` of the clicked row and change its state.
+ */
+const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
+  // Use rowIndex to change the state of the clicked row
+  changeSubRowExpandState(rowIndex);
+};
+
+<TableProvider
+  useParentRowUi={true}
+  subRowContents={subRowContents}
+  rowClickEvent={handleClickRow} // Call the function defined above when a row is clicked
+>
+  <TableBody
+    table={table}
+    subRowProps={{
+      expandState, // Pass the expansion state of the sub-rows
+      style: {
+        backgroundColor: "ivory", // Set CSS properties for sub-row styles
+      },
+      hoverColor: "red", // Set background color when hovering over a sub-row
+    }}
+  />
+</TableProvider>;
+```
+
+<br/>
+
+### 3.4 TableFooter
+
+- This component handles pagination functionality, which can be used optionally if needed.
+- The `props` to pass when calling the component are as follows.
+  | Props | Type | Explanation | Required |
+  |-------------------|------------------------------------------------|------------------------------------------------------------|----------|
+  | `pagination` | `PaginationState` | State related to pagination | required |
+  | `setPagination` | `Dispatch<SetStateAction<PaginationState>>` | State management function for pagination | required |
+  | `totalPageNum` | `number` | Total number of pages | required |
+  | `pageSizeList` | `Array<number>` | Options list for the number of contents displayed per page | optional |
+  | `styles` | `{ containerStyle: CSSProperties; pageSizeSelectStyle: PageSelectStyleProps; pageNumButtonStyle: PageButtonStyleProps; }` | CSS styles for the internal components of `TableFooter` | optional |
+
+<br/>
+
+- Each component of the `style` property is structured as follows.
+  <br/>
+
+  1. `containerStyle`
+     | Props | Type | Explanation | Required |
+     |-------------------|-----------------|-----------------------------------------------------|----------|
+     | `containerStyle` | `CSSProperties` | Set the style for the container holding the component| optional |
+
+  2. `pageSizeSelectStyle`
+     | Props | Type | Explanation | Required |
+     |------------------|------------------|-------------------------------------|----------|
+     | `fontColor` | `string` | Set the text color of `select` | optional |
+     | `backgroundColor`| `string` | Set the background color of `select`| optional |
+     | `border` | `string` | Set the border of `select` | optional |
+
+  3. `pageNumButtonStyle`
+     | Props | Type | Explanation | Required |
+     |-------------------------|---------|-------------------------------------------------------------------------------------|----------|
+     | `fontColor` | `string`| Set the text color of `button` | optional |
+     | `border` | `string`| Set the border of `button` | optional |
+     | `backgroundColor` | `string`| Set the background color of the `page num button` | optional |
+     | `arrowBackgroundColor` | `string`| Set the background color of the `prev/next button` | optional |
+     | `selectedNumberButtonColor`| `string`| Set the background color of the selected `page num button` | optional |
+     | `disabledArrowButtonColor`| `string`| Set the background color when `prev/next button` is disabled (when at first/last page)| optional |
+     | `disabledArrowColor` | `string`| Set the text color when `prev/next button` is disabled | optional |
+
+<br/>
+
+```typescript
+/**
+ * Use the useTable hook to get the table and pagination-related data.
+ * To enable pagination, set `isPagination` to true.
+ */
+const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
+  data,
+  columns,
+  isPagination: true, // Enable pagination
+});
+
+/**
+ * Call the TableFooter component to implement pagination.
+ * Pass the necessary pagination state and related settings as props.
+ */
+<TableFooter
+  pagination={pagination} // Pass the current pagination state
+  setPagination={setPagination} // Pass the function to manage pagination state
+  totalPageNum={totalPageNum} // Pass the total number of pages
+  styles={{
+    containerStyle: {
+      // Set the style for the container in TableFooter
+      padding: "2px 3px",
+      border: "1px solid darkgray",
+      borderLeft: "none",
+    },
+    pageSizeSelectStyle: {
+      // Set the style for the page size select dropdown
+      border: "none",
+    },
+    pageNumButtonStyle: {
+      // Set the style for the page number buttons
+      border: "none",
+      backgroundColor: "transparent",
+      disabledArrowColor: "darkgray",
+    },
+  }}
+/>;
+```
+
+<br/>
+
+## 4. Issue
+
+- The `sorting` functionality is currently unimplemented and will need further development in the future.
