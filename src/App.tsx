@@ -8,21 +8,22 @@ import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
 import useSubRowContents from "./hook/useSubRowContents";
 import useSubRowExpand from "./hook/useSubRowExpand";
+import { useState } from "react";
 
 export interface Example {
   No: number;
   firstName: string;
-  add: string;
+  lastName: string;
 }
 
 const data: Array<Example> = [
-  { No: 1, firstName: "kim", add: "-" },
-  { No: 2, firstName: "kim", add: "-" },
-  { No: 3, firstName: "kim", add: "-" },
-  { No: 4, firstName: "kim", add: "-" },
-  { No: 5, firstName: "kim", add: "-" },
-  { No: 6, firstName: "kim", add: "-" },
-  { No: 7, firstName: "kim", add: "-" },
+  { No: 1, firstName: "yh", lastName: "kim" },
+  { No: 2, firstName: "yh", lastName: "kim" },
+  { No: 3, firstName: "yh", lastName: "kim" },
+  { No: 4, firstName: "yh", lastName: "kim" },
+  { No: 5, firstName: "yh", lastName: "kim" },
+  { No: 6, firstName: "yh", lastName: "kim" },
+  { No: 7, firstName: "yh", lastName: "kim" },
 ];
 
 const columns: ColumnDef<Example>[] = [
@@ -64,49 +65,51 @@ const subRowDummy = [
     {
       No: 10,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 20,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 30,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 40,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
   ],
   [
     {
       No: 10,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 20,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 30,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
     {
       No: 40,
       firstName: "park",
-      add: "-",
+      lastName: "-",
     },
   ],
 ];
 
 function App() {
+  const [testPage, setTestPage] = useState(false);
+
   const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data,
     columns,
@@ -121,6 +124,8 @@ function App() {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
+      <button onClick={() => setTestPage(!testPage)}>change page</button>
+
       <nav
         style={{
           display: "flex",
@@ -187,11 +192,16 @@ function App() {
                   border: "1px solid black",
                   textAlign: "center",
                 }}
+                interactiveStyles={{
+                  hoverColor: "white",
+                  clickedColor: "black",
+                }}
                 subRowProps={{
                   expandState,
                   style: {
                     backgroundColor: "ivory",
                   },
+                  hoverColor: "red",
                 }}
               />
             </TableProvider>
