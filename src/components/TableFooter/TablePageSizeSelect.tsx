@@ -53,6 +53,7 @@ export const TablePageSizeSelect = (props: TablePageSizeSelectProps) => {
 
     border: "none",
     outline: "none",
+    cursor: "pointer",
 
     // style props
     color: styles?.fontColor,
