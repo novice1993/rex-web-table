@@ -424,6 +424,217 @@ const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
 />;
 ```
 
+### 3.5 useTable
+
+- A custom hook that returns the data to be passed as `props` to the `TableHeader`, `TableBody`, and `TableFooter` components.
+- The `props` to be passed when calling the hook are as follows:
+
+| Props          | Type                  | Explain                                   | Required |
+| -------------- | --------------------- | ----------------------------------------- | -------- |
+| `data`         | `Array<T>`            | Data used to compose the table `body`.    | required |
+| `columns`      | `Array<ColumnDef<T>>` | Data used for table `column` settings.    | required |
+| `isPagination` | `boolean`             | Determines whether pagination is enabled. | optional |
+
+<br/>
+
+- The values returned by the hook are as follows:
+
+| Returned Value  | Type                                        | Explain                                                                                     |
+| --------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `table`         | `Table<TData>`                              | Instance object used for table settings. Used as `props` for `TableHeader` and `TableBody`. |
+| `pagination`    | `PaginationState`                           | Pagination state. Used as `props` for `TableFooter`.                                        |
+| `setPagination` | `Dispatch<SetStateAction<PaginationState>>` | Function to manage pagination state. Used as `props` for `TableFooter`.                     |
+| `totalPageNum`  | `number`                                    | Total number of pages. Used as `props` for `TableFooter`.                                   |
+
+<br/>
+
+```typescript
+/**
+ * Sample data to be displayed in the table's body.
+ */
+const data = [
+  { id: 1, name: "kim", age: 28 },
+  { id: 2, name: "lee", age: 22 },
+];
+
+/**
+ * Column definitions for the table.
+ * You can customize each cell using the `cell` property.
+ */
+const columns: ColumnDef<{ id: number; name: string; age: number }>[] = [
+  { accessorKey: "id", header: "ID" },
+  { accessorKey: "name", header: "Name" },
+  {
+    accessorKey: "age",
+    header: "Age",
+    cell: ({ getValue }) => {
+      const age = getValue();
+      return <span>{age} years old</span>;
+    },
+  },
+];
+
+/**
+ * Calling the useTable hook to get the table and pagination states.
+ */
+const { table, totalPageNum, pagination, setPagination } = useTable<{
+  id: number;
+  name: string;
+  age: number;
+}>({
+  data,
+  columns,
+  isPagination: true,
+});
+
+/**
+ * Rendering the table components.
+ */
+return (
+  <TableProvider>
+    <TableHeader table={table} />
+    <TableBody table={table} />
+    <TableFooter
+      pagination={pagination}
+      setPagination={setPagination}
+      totalPageNum={totalPageNum}
+    />
+  </TableProvider>
+);
+```
+
+<br/>
+
+### 3.6 useSubRowContents
+
+- A custom hook that returns the state and state management function to be passed as `subRowContents` to the `TableProvider`.
+- The values returned by the hook are as follows:
+
+| Returned Value      | Type                                        | Explain                                            |
+| ------------------- | ------------------------------------------- | -------------------------------------------------- |
+| `subRowContents`    | `Array<object[]>`                           | State used for `TableProvider`'s `subRowContents`. |
+| `setSubRowContents` | `Dispatch<SetStateAction<Array<object[]>>>` | Function to manage `subRowContents` state.         |
+
+<br/>
+
+```typescript
+/**
+ * Sample data for sub-rows, where each index corresponds to sub-row data for a parent row.
+ */
+const subRowData: object[][] = [
+  [
+    { no: 1, name: "lee" },
+    { no: 2, name: "kim" },
+  ],
+  [
+    { no: 1, name: "park" },
+    { no: 2, name: "choi" },
+  ],
+];
+
+/**
+ * Calling the useSubRowContents hook to manage the sub-row contents state.
+ */
+const { subRowContents, setSubRowContents } = useSubRowContents(subRowData);
+
+/**
+ * Rendering the table with sub-row contents.
+ */
+return (
+  <TableProvider useParentRowUi={true} subRowContents={subRowContents}>
+    <TableHeader table={table} />
+    <TableBody table={table} />
+  </TableProvider>
+);
+```
+
+<br/>
+
+### 3.7 useSubRowExpand
+
+- A custom hook that returns the state and state management function for `expandState` in the `TableBody`.
+- The values returned by the hook are as follows:
+
+| Returned Value            | Type                                  | Explain                                                  |
+| ------------------------- | ------------------------------------- | -------------------------------------------------------- |
+| `expandState`             | `Array<boolean>`                      | The current state of `expandState` in `TableBody`.       |
+| `setExpandState`          | `Dispatch<SetStateAction<boolean[]>>` | Function to manage the `expandState`.                    |
+| `changeSubRowExpandState` | `function`                            | Function to toggle the `expandState` of the clicked row. |
+
+<br/>
+
+```typescript
+/**
+ * Manages the expansion state of sub-rows.
+ * Returns the current expansion state and a function to toggle the state.
+ */
+const { expandState, changeSubRowExpandState } = useSubRowExpand();
+
+/**
+ * Handler function that is called when a specific table row is clicked.
+ * Receives the clicked row's index and toggles the expansion state.
+ */
+const handleRowClick = ({ rowIndex }: { rowIndex: number }) => {
+  changeSubRowExpandState(rowIndex);
+};
+
+/**
+ * Uses TableProvider to render the table, managing the sub-row expansion state.
+ * Passes the handler to `rowClickEvent` to change the expansion state when clicked.
+ */
+return (
+  <TableProvider
+    useParentRowUi={true} // Inherits parent row UI in the sub-row
+    subRowContents={subRowContents} // Data to use in the sub-rows
+    rowClickEvent={handleRowClick} // Click handler to change expansion state
+  >
+    <TableBody
+      table={table}
+      subRowProps={{
+        expandState, // Expansion state for sub-rows
+      }}
+    />
+  </TableProvider>
+);
+```
+
+<br/>
+
+### 3.8 getClickedRowContent, getClickedCellContent
+
+- Utility functions that return the content of the clicked row or cell.
+- Example usage is as follows:
+
+```typescript
+/**
+ * Example of retrieving the clicked row's content in a click event handler.
+ * You can perform additional actions using the row data if needed.
+ */
+const handleClickRow = () => {
+  const rowContent = getClickedRowContent(); // Retrieve the clicked row's content
+  console.log("Clicked row data:", rowContent);
+};
+
+/**
+ * Example of retrieving the clicked cell's content in a click event handler.
+ * You can use the cell data as needed.
+ */
+const handleClickCell = () => {
+  const cellContent = getClickedCellContent(); // Retrieve the clicked cell's content
+  console.log("Clicked cell data:", cellContent);
+};
+
+return (
+  <TableProvider
+    rowClickEvent={handleClickRow} // Pass the row click event handler
+    cellClickEvent={handleClickCell} // Pass the cell click event handler
+  >
+    <TableHeader table={table} />
+    <TableBody table={table} />
+  </TableProvider>
+);
+```
+
 <br/>
 
 ## 4. Issue
