@@ -1,7 +1,7 @@
-import { ReactNode, CSSProperties } from "react";
-import { useTableContext } from "../../provider/TableProvider";
-import { Header } from "@tanstack/react-table";
-import { handleClickHeaderForSorting } from "../../util/header.util";
+import { ReactNode, CSSProperties } from 'react';
+import { useTableContext } from '../../provider/TableProvider';
+import { Header } from '@tanstack/react-table';
+import { handleClickHeaderForSorting } from '../../util/header.util';
 
 interface TableHeaderCellProps<T> {
   header: Header<T, unknown>;
@@ -18,9 +18,9 @@ const TableHeaderCell = <T,>({ header, style }: TableHeaderCellProps<T>) => {
       style={{
         width: `${header.getSize()}px`,
         ...style,
-        height: "28px",
-        borderLeft: "none",
-        borderTop: borderTopNone ? "none" : style?.border,
+        height: '28px',
+        borderLeft: 'none',
+        borderTop: borderTopNone ? 'none' : style?.border
       }}
       colSpan={header.colSpan}
       rowSpan={header.rowSpan}
@@ -28,9 +28,9 @@ const TableHeaderCell = <T,>({ header, style }: TableHeaderCellProps<T>) => {
     >
       <div
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         {headerName}
