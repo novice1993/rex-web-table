@@ -19,7 +19,7 @@
 ```typescript
 /* To correctly apply the hoverColor for TableBody rows and subRows, a CSS import is required.
    Other styles (e.g., padding, margin, border) work without importing this CSS file. */
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 ```
 
 ### Example
@@ -288,7 +288,7 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 
 <TableBody
   table={table} // Pass the table data instance returned by the useTable hook
@@ -317,7 +317,7 @@ import "rex-web-table/dist/style.css";
 <br/>
 
 ```typescript
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 
 /**
  * Use the useSubRowExpand hook to get the state and state management function related to the expansion state of sub-rows.

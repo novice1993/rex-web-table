@@ -19,7 +19,7 @@
 ```typescript
 /* TableBody의 row 및 subRow의 hoverColor를 올바르게 적용하려면, CSS import가 필요합니다. 
    hoverColor를 제외한 다른 스타일 (예: padding, margin, border 등)은 CSS import 없이도 정상적으로 작동합니다. */
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 ```
 
 ### Example
@@ -291,7 +291,7 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 
 <TableBody
   table={table} // useTable 훅에서 반환된 테이블 데이터 인스턴스 전달
@@ -320,7 +320,7 @@ import "rex-web-table/dist/style.css";
 <br/>
 
 ```typescript
-import "rex-web-table/dist/style.css";
+import "rex-web-table/dist/index.css";
 
 /**
  * useSubRowExpand 훅을 사용하여 서브 행의 확장 상태와 관련된 상태와 상태 관리 함수를 가져옵니다.
