@@ -62,6 +62,7 @@ export const TablePagination = (props: TablePaginationProps) => {
       style={{
         height: "100%",
         display: "flex",
+        alignItems: "center",
         gap: "6px",
       }}
     >
