@@ -367,69 +367,63 @@ const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
 
 <br/>
 
-- Each component of the `style` property is structured as follows.
+- `style` consists of the following elements.
   <br/>
 
   1. `containerStyle`
-     | Props | Type | Explanation | Required |
-     |-------------------|-----------------|-----------------------------------------------------|----------|
-     | `containerStyle` | `CSSProperties` | Set the style for the container holding the component| optional |
-
+     | Props | Type | Explain | Required |
+     | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
+     | `containerStyle` | `CSSProperties` | Style settings for the `container` holding the component | optional |
   2. `pageSizeSelectStyle`
-     | Props | Type | Explanation | Required |
-     |------------------|------------------|-------------------------------------|----------|
-     | `fontColor` | `string` | Set the text color of `select` | optional |
-     | `backgroundColor`| `string` | Set the background color of `select`| optional |
-     | `border` | `string` | Set the border of `select` | optional |
-
+     | Props | Type | Explain | Required |
+     | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
+     | `fontColor` | `string` | Sets the font color of the `select` | optional |
+     | `backgroundColor` | `string` | Sets the background color of the `select` | optional |
   3. `pageNumButtonStyle`
-     | Props | Type | Explanation | Required |
-     |-------------------------|---------|-------------------------------------------------------------------------------------|----------|
-     | `fontColor` | `string`| Set the text color of `button` | optional |
-     | `border` | `string`| Set the border of `button` | optional |
-     | `backgroundColor` | `string`| Set the background color of the `page num button` | optional |
-     | `arrowBackgroundColor` | `string`| Set the background color of the `prev/next button` | optional |
-     | `selectedNumberButtonColor`| `string`| Set the background color of the selected `page num button` | optional |
-     | `disabledArrowButtonColor`| `string`| Set the background color when `prev/next button` is disabled (when at first/last page)| optional |
-     | `disabledArrowColor` | `string`| Set the text color when `prev/next button` is disabled | optional |
+     | Props | Type | Explain | Required |
+     | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
+     | `fontColor` | `string` | Sets the font color of the `button` | optional |
+     | `selectedNumColor` | `string` | Sets the font color of the selected `page num button` | optional |
+     | `selectedNumBackgroundColor` | `string` | Sets the background color of the selected `page num button` | optional |
+     | `arrowButtonColor` | `string` | Sets the color of the `prev/next button` | optional |
+     | `disabledArrowButtonColor` | `string` | Sets the color of the `prev/next button` when disabled (at the first/last page) | optional |
 
 <br/>
 
 ```typescript
 /**
- * Use the useTable hook to get the table and pagination-related data.
+ * Retrieves table-related state and pagination data using the useTable hook.
  * To enable pagination, set `isPagination` to true.
  */
 const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
   data,
   columns,
-  isPagination: true, // Enable pagination
+  isPagination: true, // Enable pagination functionality
 });
 
 /**
- * Call the TableFooter component to implement pagination.
+ * Implements pagination by calling the TableFooter component.
  * Pass the necessary pagination state and related settings as props.
  */
 <TableFooter
-  pagination={pagination} // Pass the current pagination state
-  setPagination={setPagination} // Pass the function to manage pagination state
-  totalPageNum={totalPageNum} // Pass the total number of pages
+  pagination={pagination} // Passes the current pagination state
+  setPagination={setPagination} // Passes the function to manage pagination state
+  totalPageNum={totalPageNum} // Passes the total number of pages
   styles={{
     containerStyle: {
-      // Set the style for the container in TableFooter
+      // Sets the style of the TableFooter container
       padding: "2px 3px",
       border: "1px solid darkgray",
       borderLeft: "none",
     },
     pageSizeSelectStyle: {
-      // Set the style for the page size select dropdown
-      border: "none",
+      // Sets the style for the page size selector
+      fontColor: "black",
     },
     pageNumButtonStyle: {
-      // Set the style for the page number buttons
-      border: "none",
+      // Sets the style for the page number buttons
       backgroundColor: "transparent",
-      disabledArrowColor: "darkgray",
+      disabledArrowButtonColor: "darkgray",
     },
   }}
 />;

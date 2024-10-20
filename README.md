@@ -375,23 +375,19 @@ const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
      | Props | Type | Explain | Required |
      | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
      | `containerStyle` | `CSSProperties` | 컴포넌트를 담는 `container` 의 스타일 설정 | optional |
-
   2. `pageSizeSelectStyle`
      | Props | Type | Explain | Required |
      | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
      | `fontColor` | `string` | `select` 글자색 설정 | optional |
      | `backgroundColor` | `string` | `select` 배경색 설정 | optional |
-     | `border` | `string` | `select` 윤곽선 설정 | optional |
   3. `pageNumButtonStyle`
      | Props | Type | Explain | Required |
      | --------------- | ------------------------------------------- | ------------------------------------------- | -------- |
      | `fontColor` | `string` | `button` 글자색 설정 | optional |
-     | `border` | `string` | `button` 윤곽선 설정 | optional |
-     | `backgroundColor` | `string` | `page num button` 배경색 설정 | optional |
-     | `arrowBackgroundColor` | `string` | `prev/next button` 배경색 설정 | optional |
-     | `selectedNumberButtonColor` | `string` | 현재 선택된 `page num button` 배경색 설정 | optional |
-     | `disabledArrowButtonColor` | `string` | `prev/next button` 비활성화 시 (맨 앞/뒤 페이지일 경우) 배경색 설정 | optional |
-     | `disabledArrowColor` | `string` | `prev/next button` 비활성화 시 글자색 설정 | optional |
+     | `selectedNumColor` | `string` | 현재 선택된 `page num button` 글자색 설정 | optional |
+     | `selectedNumBackgroundColor` | `string` | 현재 선택된 `page num button` 배경색 설정 | optional |
+     | `arrowButtonColor` | `string` | `prev/next button` 색상 설정 | optional |
+     | `disabledArrowButtonColor` | `string` | `prev/next button` 비활성화 시 (맨 앞/뒤 페이지일 경우) 색상 설정 | optional |
 
 <br/>
 
@@ -423,13 +419,12 @@ const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     },
     pageSizeSelectStyle: {
       // 페이지 사이즈 선택의 스타일 설정
-      border: "none",
+      fontColor: "black",
     },
     pageNumButtonStyle: {
       // 페이지 번호 버튼의 스타일 설정
-      border: "none",
       backgroundColor: "transparent",
-      disabledArrowColor: "darkgray",
+      disabledArrowButtonColor: "darkgray",
     },
   }}
 />;
