@@ -17,15 +17,14 @@
 ### CSS Import
 
 ```typescript
-/* 스타일을 올바르게 적용하려면 CSS import가 필요합니다. */
-import "rex-web-table/dist/TableBody/style.css";
+/* TableBody의 row 및 subRow의 hoverColor를 올바르게 적용하려면, CSS import가 필요합니다. 
+   hoverColor를 제외한 다른 스타일 (예: padding, margin, border 등)은 CSS import 없이도 정상적으로 작동합니다. */
+import "rex-web-table/dist/style.css";
 ```
 
 ### Example
 
 ```typescript
-import "rex-web-table/src/style/style.css";
-
 const Table = () => {
   // 1. 테이블의 각 행에 대한 데이터 타입 정의
   interface Example {
@@ -281,6 +280,7 @@ const headerOption: HeaderOptionType[] = [
 ### 3.3 TableBody
 
 - 실제 테이블 데이터를 렌더링하는 컴포넌트로, 각 행 `TableBodyRow`와 이를 구성하는 셀 `TableBodyCell`로 구성되어 있습니다.
+- **중요**: **row**와 **subRow**의 **hoverColor** 스타일을 적용하려면 별도로 CSS import가 필요합니다. **hoverColor** 외의 다른 스타일은 CSS import 없이도 정상적으로 작동합니다.
 - 컴포넌트 호출 시 전달해야 하는 `props`는 아래와 같습니다.
   | Props | Type | Explain | Required |
   | ------------------- | ----------------------------------------------- | ----------------------------------------------- | -------- |
@@ -291,6 +291,8 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
+import "rex-web-table/dist/style.css";
+
 <TableBody
   table={table} // useTable 훅에서 반환된 테이블 데이터 인스턴스 전달
   style={{
@@ -303,7 +305,7 @@ const headerOption: HeaderOptionType[] = [
     hoverColor: "white", // 행 hover 시 배경색 설정
     clickedColor: "black", // 행 클릭 시 배경색 설정
   }}
-/>
+/>;
 ```
 
 <br/>
@@ -318,6 +320,8 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
+import "rex-web-table/dist/style.css";
+
 /**
  * useSubRowExpand 훅을 사용하여 서브 행의 확장 상태와 관련된 상태와 상태 관리 함수를 가져옵니다.
  * 이 훅을 통해 테이블의 각 행이 확장될 수 있는지를 관리할 수 있습니다.

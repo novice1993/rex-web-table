@@ -16,18 +16,15 @@
 
 ### CSS Import
 
-- To apply hover styles for rows and sub-rows, import the provided CSS file:
-
 ```typescript
-/* CSS import is required to apply the styles correctly. */
-import "rex-web-table/dist/TableBody/style.css";
+/* To correctly apply the hoverColor for TableBody rows and subRows, a CSS import is required.
+   Other styles (e.g., padding, margin, border) work without importing this CSS file. */
+import "rex-web-table/dist/style.css";
 ```
 
 ### Example
 
 ```typescript
-import "rex-web-table/dist/TableBody/style.css";
-
 const Table = () => {
   // 1. Define the data type for each row in the table
   interface Example {
@@ -280,6 +277,7 @@ const headerOption: HeaderOptionType[] = [
 ### 3.3 TableBody
 
 - This component renders the actual table data, consisting of `TableBodyRow` for each row and `TableBodyCell` for each cell.
+- **Note**: To apply the **hoverColor** style for both **rows** and **subRows**, a CSS import is required. Other styles, such as padding, margin, and border, do not require the CSS file and will work correctly without it.
 - The `props` to pass when calling the component are as follows.
   | Props | Type | Explanation | Required |
   |--------------------|------------------------------|------------------------------------------------------------------------------------|----------|
@@ -290,6 +288,8 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
+import "rex-web-table/dist/style.css";
+
 <TableBody
   table={table} // Pass the table data instance returned by the useTable hook
   style={{
@@ -302,7 +302,7 @@ const headerOption: HeaderOptionType[] = [
     hoverColor: "white", // Set background color when hovering over a row
     clickedColor: "black", // Set background color when a row is clicked
   }}
-/>
+/>;
 ```
 
 <br/>
@@ -317,6 +317,8 @@ const headerOption: HeaderOptionType[] = [
 <br/>
 
 ```typescript
+import "rex-web-table/dist/style.css";
+
 /**
  * Use the useSubRowExpand hook to get the state and state management function related to the expansion state of sub-rows.
  * This hook manages whether each row of the table can be expanded.
