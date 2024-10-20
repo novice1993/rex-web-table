@@ -5,7 +5,7 @@ import {
   setClickedCellContent,
 } from "../../util/content.util";
 
-import "@/components/TableBody/style.css";
+import "./style.css";
 
 interface DefaultSubRowProps {
   contents: Array<object>;
@@ -74,9 +74,6 @@ const DefaultSubRow = (props: DefaultSubRowProps) => {
                 ...subRowStyles?.style,
                 backgroundColor: undefined,
                 height: "36px",
-                borderTop: style?.border,
-                borderRight: style?.border,
-                borderBottom: style?.border,
                 borderLeft: borderLeftNone ? "none" : style?.border,
               }}
               onClick={(e) => {

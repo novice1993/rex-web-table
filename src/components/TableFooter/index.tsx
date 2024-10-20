@@ -1,10 +1,7 @@
-import { CSSProperties, Dispatch, SetStateAction } from "react";
-import { PaginationState } from "@tanstack/react-table";
-import {
-  TablePageSizeSelect,
-  PageSelectStyleProps,
-} from "./TablePageSizeSelect";
-import { TablePagination, PageButtonStyleProps } from "./TablePagination";
+import { CSSProperties, Dispatch, SetStateAction } from 'react';
+import { PaginationState } from '@tanstack/react-table';
+import { TablePageSizeSelect, PageSelectStyleProps } from './TablePageSizeSelect';
+import { TablePagination, PageButtonStyleProps } from './TablePagination';
 
 interface TableFooterProps {
   pagination: PaginationState;
@@ -20,30 +17,20 @@ interface TableFooterProps {
 }
 
 const TableFooter = (props: TableFooterProps) => {
-  const { pageSizeList, totalPageNum, pagination, setPagination, styles } =
-    props;
+  const { pageSizeList, totalPageNum, pagination, setPagination, styles } = props;
 
   return (
     <div
       style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-        ...styles?.containerStyle,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        ...styles?.containerStyle
       }}
     >
-      <TablePageSizeSelect
-        pageSizeList={pageSizeList}
-        pagination={pagination}
-        setPagination={setPagination}
-        styles={styles?.pageSizeSelectStyle}
-      />
-      <TablePagination
-        totalPageNum={totalPageNum}
-        pagination={pagination}
-        setPagination={setPagination}
-        styles={styles?.pageNumButtonStyle}
-      />
+      <TablePageSizeSelect pageSizeList={pageSizeList} pagination={pagination} setPagination={setPagination} styles={styles?.pageSizeSelectStyle} />
+      <TablePagination totalPageNum={totalPageNum} pagination={pagination} setPagination={setPagination} styles={styles?.pageNumButtonStyle} />
     </div>
   );
 };

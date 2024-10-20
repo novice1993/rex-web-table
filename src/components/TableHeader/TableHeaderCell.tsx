@@ -19,8 +19,6 @@ const TableHeaderCell = <T,>({ header, style }: TableHeaderCellProps<T>) => {
         width: `${header.getSize()}px`,
         ...style,
         height: "28px",
-        borderRight: style?.border,
-        borderBottom: style?.border,
         borderLeft: borderLeftNone ? "none" : style?.border,
         borderTop: borderTopNone ? "none" : style?.border,
       }}

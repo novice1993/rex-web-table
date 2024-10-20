@@ -27,31 +27,36 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
     borderRadius: "3px",
     cursor: "pointer",
     fontSize: "14px",
+    border: "none",
+
+    transition: "background-color 0.3s ease-in-out",
+    outline: "none",
 
     // style props
     color: style?.fontColor,
-    border: style?.border ? style.border : "1px solid darkgray",
   };
 
-  // style props about backgroundColor
   const getSelectedButtonColor = (pageNum: number) => {
+    let color: string | undefined;
     let backgroundColor: string | undefined;
 
-    if (currentPage !== pageNum) {
-      backgroundColor = style?.backgroundColor;
-    }
-
     if (currentPage === pageNum) {
-      backgroundColor = style?.selectedNumberButtonColor
-        ? style.selectedNumberButtonColor
-        : style?.backgroundColor;
+      color = style?.selectedNumColor
+        ? style?.selectedNumColor
+        : style?.fontColor;
+      backgroundColor = style?.selectedNumBackgroundColor
+        ? style?.selectedNumBackgroundColor
+        : "transparent";
+    } else {
+      color = style?.fontColor;
+      backgroundColor = "transparent";
     }
 
-    return backgroundColor;
+    return { backgroundColor, color };
   };
 
   return (
-    <div style={{ display: "flex", gap: "6px" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
       {pageNumberContents.map((content, idx) => {
         /** When it is an ellipsis (⋯) */
         if (content === "dots") {
@@ -77,7 +82,7 @@ export const TablePageNumbers = (props: TablePageNumberProps) => {
             style={{
               ...contentsStyle,
               fontWeight: currentPage === content ? "bold" : "normal",
-              backgroundColor: getSelectedButtonColor(content),
+              ...getSelectedButtonColor(content),
             }}
           >
             {content}
