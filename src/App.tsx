@@ -181,8 +181,8 @@ function App() {
                 style={{
                   fontSize: "14px",
                   padding: "4px",
-                  border: `1px solid ${testPage ? "red" : "darkblue"}`,
-                  backgroundColor: testPage ? "black" : "darkblue",
+                  // border: `1px solid ${testPage ? "red" : "darkblue"}`,
+                  // backgroundColor: testPage ? "black" : "darkblue",
                 }}
               />
               <TableBody
@@ -191,7 +191,8 @@ function App() {
                   fontSize: "14px",
                   border: "1px solid black",
                   textAlign: "center",
-                  backgroundColor: testPage ? "black" : "darkblue",
+
+                  // backgroundColor: testPage ? "black" : "darkblue",
                 }}
                 interactiveStyles={{
                   hoverColor: testPage ? "black" : "darkblue",
@@ -215,7 +216,7 @@ function App() {
             styles={{
               containerStyle: {
                 padding: "2px 3px",
-                border: "1px solid darkgray",
+                border: "1px solid black",
                 borderLeft: "none",
               },
               pageSizeSelectStyle: {},

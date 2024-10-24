@@ -32,13 +32,25 @@ const TableBodyCell = <T,>({
     }
   };
 
+  // border가 있으면 제거한 새로운 스타일 객체 생성
+  const { border, ...restStyle } = style || {};
+
+  // border 속성을 개별적으로 나눔 (오버라이딩 방지)
+  const borderTop = style?.borderTop || border;
+  const borderRight = style?.borderRight || border;
+  const borderBottom = style?.borderBottom || border;
+  const borderLeft = borderLeftNone ? "none" : style?.borderLeft || border;
+
   return (
     <td
       style={{
-        ...style,
+        ...restStyle,
         backgroundColor: undefined,
         height: "36px",
-        borderLeft: borderLeftNone ? "none" : style?.border,
+        borderTop, // borderTop 설정
+        borderRight, // borderRight 설정
+        borderBottom, // borderBottom 설정
+        borderLeft, // borderLeft는 조건에 따라 설정
       }}
       onClick={handleClickCell}
     >
