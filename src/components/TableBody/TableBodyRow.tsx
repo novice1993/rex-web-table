@@ -76,7 +76,7 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
   useEffect(
     function updateRowSelection() {
       //  prevent init excution
-      if (!selectedRowIndex) return;
+      if (selectedRowIndex === null) return;
 
       // when selectionType grouped, set selected range
       if (
