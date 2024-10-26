@@ -1,6 +1,6 @@
 import { Header } from "@tanstack/react-table";
 import { SortDirection } from "@tanstack/react-table";
-import { TableProps } from "../type/type";
+import { TableHeaderProps } from "../components/TableHeader";
 
 export interface HeaderDataType<T> {
   depth: number;
@@ -34,7 +34,7 @@ const groupByDepthAndSort = <T>(
   return grouped;
 };
 
-export const getHeader = <T>({ table, headerOption }: TableProps<T>) => {
+export const getHeader = <T>({ table, headerOption }: TableHeaderProps<T>) => {
   let result;
 
   const tableHeaderData = table.getHeaderGroups();

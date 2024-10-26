@@ -181,8 +181,6 @@ function App() {
                 style={{
                   fontSize: "14px",
                   padding: "4px",
-                  // border: `1px solid ${testPage ? "red" : "darkblue"}`,
-                  // backgroundColor: testPage ? "black" : "darkblue",
                 }}
               />
               <TableBody
@@ -191,12 +189,9 @@ function App() {
                   fontSize: "14px",
                   border: "1px solid black",
                   textAlign: "center",
-
-                  // backgroundColor: testPage ? "black" : "darkblue",
                 }}
                 interactiveStyles={{
                   hoverColor: testPage ? "black" : "darkblue",
-                  clickedColor: testPage ? "yellow" : "darkblue",
                 }}
                 subRowProps={{
                   expandState,

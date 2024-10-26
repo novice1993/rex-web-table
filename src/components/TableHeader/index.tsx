@@ -1,9 +1,13 @@
 import { useTableContext } from "../../provider/TableProvider";
 import { getHeader } from "../../util/header.util";
 import TableHeaderRow from "./TableHeaderRow";
-import { TableProps } from "../../type/type";
+import { TableProps, HeaderOptionType } from "../../type/type";
 
-const TableHeader = <T,>(props: TableProps<T>) => {
+export interface TableHeaderProps<T> extends TableProps<T> {
+  headerOption?: HeaderOptionType[];
+}
+
+const TableHeader = <T,>(props: TableHeaderProps<T>) => {
   const { table, headerOption, style } = props;
   const { borderLeftNone, borderTopNone } = useTableContext();
   const headerGroups = getHeader({ table, headerOption });
