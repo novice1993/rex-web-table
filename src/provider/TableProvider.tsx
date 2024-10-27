@@ -66,3 +66,5 @@ export const useTableContext = () => {
 
   return context as TableProviderProps;
 };
+
+export default TableProvider;
