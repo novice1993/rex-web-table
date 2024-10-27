@@ -181,8 +181,6 @@ function App() {
                 style={{
                   fontSize: "14px",
                   padding: "4px",
-                  border: "1px solid black",
-                  backgroundColor: "darkgray",
                 }}
               />
               <TableBody
@@ -193,8 +191,7 @@ function App() {
                   textAlign: "center",
                 }}
                 interactiveStyles={{
-                  hoverColor: "white",
-                  clickedColor: "black",
+                  hoverColor: testPage ? "black" : "darkblue",
                 }}
                 subRowProps={{
                   expandState,
@@ -214,17 +211,10 @@ function App() {
             styles={{
               containerStyle: {
                 padding: "2px 3px",
-                border: "1px solid darkgray",
+                border: "1px solid black",
                 borderLeft: "none",
               },
-              pageSizeSelectStyle: {
-                border: "none",
-              },
-              pageNumButtonStyle: {
-                border: "none",
-                backgroundColor: "transparent",
-                disabledArrowColor: "darkgray",
-              },
+              pageSizeSelectStyle: {},
             }}
           />
         </div>
