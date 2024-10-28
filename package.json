@@ -15,7 +15,7 @@
     "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm install && npm run build"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5"
