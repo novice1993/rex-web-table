@@ -3,7 +3,7 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "files": [
     "dist",
     "package.json",
