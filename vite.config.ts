@@ -1,11 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
-import { unlinkSync } from "fs";
 import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+import { unlinkSync } from "fs";
 
-// __dirname 대신 dirname과 resolve를 사용하여 경로 처리
-const __dirname = dirname(new URL(import.meta.url).pathname);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [
@@ -16,13 +16,13 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": resolve(__dirname, "./src"), // 경로 통일성 있게 변경
+      "@": resolve(__dirname, "./src"),
     },
   },
   build: {
     cssCodeSplit: true,
     lib: {
-      entry: resolve(__dirname, "./src/index.ts"), // 경로 통일성 있게 변경
+      entry: resolve(__dirname, "./src/index.ts"),
       name: "RexWebTable",
       formats: ["es", "umd"],
       fileName: (format) => `index.${format}.js`,
