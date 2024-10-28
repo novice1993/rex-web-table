@@ -32,3 +32,5 @@ jobs:
 
       - name: npm publish with semantic-release
         run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
