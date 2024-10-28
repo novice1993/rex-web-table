@@ -282,19 +282,39 @@ const headerOption: HeaderOptionType[] = [
 - 실제 테이블 데이터를 렌더링하는 컴포넌트로, 각 행 `TableBodyRow`와 이를 구성하는 셀 `TableBodyCell`로 구성되어 있습니다.
 - **중요**: **row**와 **subRow**의 **hoverColor** 스타일을 적용하려면 별도로 CSS import가 필요합니다. **hoverColor** 외의 다른 스타일은 CSS import 없이도 정상적으로 작동합니다.
 - 컴포넌트 호출 시 전달해야 하는 `props`는 아래와 같습니다.
-  | Props | Type | Explain | Required |
-  | ------------------- | ----------------------------------------------- | ----------------------------------------------- | -------- |
-  | `table` | `Table<TData>` | `useTable` 훅이 반환하는 테이블 데이터 인스턴스 | required |
-  | `interactiveStyles` | `{ hoverColor: string; clickedColor: string; }` | 테이블 행의 마우스 hover 시와 클릭 시 배경색 지정 | optional |
-  | `subRowProps` | `object` | `subRow` 관련 설정 | optional |
+
+| Props                 | Type                                            | Explain                                                                                                          | Required                                                                                |
+| --------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `table`               | `Table<TData>`                                  | `useTable` 훅이 반환하는 테이블 데이터 인스턴스                                                                  | required                                                                                |
+| `interactiveStyles`   | `{ hoverColor: string; clickedColor: string; }` | 테이블 행의 마우스 hover 시와 클릭 시 배경색 지정                                                                | `hoverColor` : optional, <br/> `clickedColor` : `rowSelectionType`이 설정된 경우에 필수 |
+| `subRowProps`         | `object`                                        | `subRow` 관련 설정                                                                                               | optional                                                                                |
+| `rowSelectionType`    | `"single"` or `"multiple"` or `"grouped"`       | 행 선택 타입을 설정                                                                                              | optional                                                                                |
+| `groupSelectionRange` | `number`                                        | `rowSelectionType`이 `grouped`일 때, 그룹 선택 범위를 설정합니다. (선택한 행 기준, range 만큼 위/아래 추가 선택) | `rowSelectionType`이 `grouped`일 때 필수                                                |
 
 <br/>
 
 ```typescript
 import "rex-web-table/dist/index.css";
 
+1) rowSelectionType을 설정하지 않은 경우
+
 <TableBody
-  table={table} // useTable 훅에서 반환된 테이블 데이터 인스턴스 전달
+  table={table}
+  style={{
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // 행 hover 시 배경색 설정
+  }}
+/>;
+
+
+2) rowSelectionType이 "single" 혹은 "multiple"인 경우
+
+<TableBody
+  table={table}
   style={{
     // 테이블 바디의 CSS 속성을 설정하여 스타일을 전달
     fontSize: "14px",
@@ -303,36 +323,45 @@ import "rex-web-table/dist/index.css";
   }}
   interactiveStyles={{
     hoverColor: "white", // 행 hover 시 배경색 설정
-    clickedColor: "black", // 행 클릭 시 배경색 설정
+    clickedColor: "black", // rowSelectionType이 설정되었으므로, clicekd Color 설정
   }}
+  rowSelectionType="single"
+/>;
+
+
+3) rowSelectionType이 "grouped"인 경우
+
+<TableBody
+  table={table}
+  style={{
+    // 테이블 바디의 CSS 속성을 설정하여 스타일을 전달
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // 행 hover 시 배경색 설정
+    clickedColor: "black", // rowSelectionType이 설정되었으므로, clicekd Color 설정
+  }}
+  rowSelectionType="grouped",
+  groupSelectionRange={1} // range가 1이므로, 선택한 행 기준 위/아래 각 1개씩 총 3개의 행이 선택됨
 />;
 ```
 
-<br/>
+### `subRowProps`의 구성은 아래와 같습니다.
 
-- **`subRowProps` 의 구성은 아래와 같습니다.**
-  | Props | Type | Explain | Required |
-  | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-  | `expandState` | `Array<boolean>` | `subRow` 확장과 관련된 상태입니다. | optional |
-  | `style` | `CSSProperties` | inline Style 을 통해 CSS 속성을 설정할 수 있습니다. <br/> **`useParentRowUi`가 `true`일 때만 작동합니다.**| optional |
-  | `hoverColor` | `string` | subRow에 마우스를 hover 했을 때 발생하는 배경색을 설정할 수 있습니다. <br/> **`useParentRowUi`가 `true`일 때만 작동합니다.** | optional |
-
-<br/>
+| Props         | Type             | Explain                                                               | Required |
+| ------------- | ---------------- | --------------------------------------------------------------------- | -------- |
+| `expandState` | `Array<boolean>` | `subRow` 확장과 관련된 상태입니다.                                    | optional |
+| `style`       | `CSSProperties`  | `inline Style` 을 통해 CSS 속성을 설정할 수 있습니다.                 | optional |
+| `hoverColor`  | `string`         | subRow에 마우스를 hover 했을 때 발생하는 배경색을 설정할 수 있습니다. | optional |
 
 ```typescript
 import "rex-web-table/dist/index.css";
 
-/**
- * useSubRowExpand 훅을 사용하여 서브 행의 확장 상태와 관련된 상태와 상태 관리 함수를 가져옵니다.
- * 이 훅을 통해 테이블의 각 행이 확장될 수 있는지를 관리할 수 있습니다.
- */
+// useSubRowExpand 훅을 사용하여 서브 행의 확장 상태와 관련된 상태와 상태 관리 함수를 가져옵니다.
 const { expandState, changeSubRowExpandState } = useSubRowExpand();
 
-/**
- * 클릭한 행의 확장 상태를 변경하는 함수를 정의합니다.
- * 유저가 직접 만들어 활용할 수 있으며, 훅에서 반환한 `changeSubRowExpandState`를 사용하여
- * 클릭한 행의 `rowIndex`를 전달하여 서브 행의 상태를 변경합니다.
- */
 const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
   // rowIndex를 사용해 클릭한 행의 상태를 변경
   changeSubRowExpandState(rowIndex);
@@ -355,8 +384,6 @@ const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
   />
 </TableProvider>;
 ```
-
-<br/>
 
 ### 3.4 TableFooter
 

@@ -276,33 +276,72 @@ const headerOption: HeaderOptionType[] = [
 
 ### 3.3 TableBody
 
-- This component renders the actual table data, consisting of `TableBodyRow` for each row and `TableBodyCell` for each cell.
-- **Note**: To apply the **hoverColor** style for both **rows** and **subRows**, a CSS import is required. Other styles, such as padding, margin, and border, do not require the CSS file and will work correctly without it.
-- The `props` to pass when calling the component are as follows.
-  | Props | Type | Explanation | Required |
-  |--------------------|------------------------------|------------------------------------------------------------------------------------|----------|
-  | `table` | `Table<TData>` | The table data instance returned by the `useTable` hook | required |
-  | `interactiveStyles`| `{ hoverColor: string; clickedColor: string; }` | Styles for hover and click background colors on table rows | optional |
-  | `subRowProps` | `object` | Settings related to `subRow` | optional |
+- This component is responsible for rendering the table data, consisting of each row (`TableBodyRow`) and its corresponding cells (`TableBodyCell`).
+- **Important**: To apply **hoverColor** styles for **row** and **subRow**, you need to import CSS separately. Other styles except for **hoverColor** will work fine without importing the CSS.
+- The `props` required to call the component are listed below.
+
+| Props                 | Type                                            | Explain                                                                                                               | Required                                                                                |
+| --------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `table`               | `Table<TData>`                                  | The table instance returned by the `useTable` hook                                                                    | required                                                                                |
+| `interactiveStyles`   | `{ hoverColor: string; clickedColor: string; }` | Defines background colors for rows on hover and click events                                                          | `hoverColor` : optional, <br/> `clickedColor` : required when `rowSelectionType` is set |
+| `subRowProps`         | `object`                                        | Configuration for `subRow`                                                                                            | optional                                                                                |
+| `rowSelectionType`    | `"single"` or `"multiple"` or `"grouped"`       | Specifies the row selection type                                                                                      | optional                                                                                |
+| `groupSelectionRange` | `number`                                        | When `rowSelectionType` is set to `grouped`, specifies the range of additional rows to select around the selected one | required if `rowSelectionType` is `grouped`                                             |
 
 <br/>
 
 ```typescript
 import "rex-web-table/dist/index.css";
 
-<TableBody
-  table={table} // Pass the table data instance returned by the useTable hook
+1) Without setting `rowSelectionType`
+
+&lt;TableBody
+  table={table}
   style={{
-    // Set styles for the table body using CSS properties
     fontSize: "14px",
     border: "1px solid black",
     textAlign: "center",
   }}
   interactiveStyles={{
-    hoverColor: "white", // Set background color when hovering over a row
-    clickedColor: "black", // Set background color when a row is clicked
+    hoverColor: "white", // Sets background color when hovering over a row
   }}
-/>;
+/&gt;
+
+
+2) When `rowSelectionType` is set to "single" or "multiple"
+
+&lt;TableBody
+  table={table}
+  style={{
+    // Sets the CSS properties for the table body
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // Sets background color when hovering over a row
+    clickedColor: "black", // `clickedColor` must be set when `rowSelectionType` is defined
+  }}
+  rowSelectionType="single"
+/&gt;
+
+
+3) When `rowSelectionType` is set to "grouped"
+
+&lt;TableBody
+  table={table}
+  style={{
+    // Sets the CSS properties for the table body
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // Sets background color when hovering over a row
+    clickedColor: "black", // `clickedColor` must be set when `rowSelectionType` is defined
+  }}
+  rowSelectionType="grouped"
+  groupSelectionRange={1} // With a range of 1, selects the row and the one above and below, totaling 3 rows
 ```
 
 <br/>
