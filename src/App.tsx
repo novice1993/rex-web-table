@@ -1,71 +1,225 @@
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import useTable from "./hook/useTable";
 
-import { Table } from "@mantine/core";
-import TableHeader from "./components/TableHeader";
+import { TableProvider } from "./provider/TableProvider";
+import TableHeader from "./components/TableHeader/index";
 import TableBody from "./components/TableBody/index";
 import TableFooter from "./components/TableFooter";
-
-import { data, columns, headerOptionType } from "./dummyData";
-
-import useTablePagination from "./hook/useTablePagination";
-import useTableSorting from "./hook/useTableSorting";
+import { ColumnDef } from "@tanstack/react-table";
+import { HeaderOptionType } from "./type/type";
+import useSubRowContents from "./hook/useSubRowContents";
+import useSubRowExpand from "./hook/useSubRowExpand";
+import { useState } from "react";
 
 export interface Example {
   No: number;
   firstName: string;
   lastName: string;
-  height: number;
-  weight: number;
-  "10kg": "yes";
-  "20kg": "no";
 }
 
-function App() {
-  const { pagination, setPagination } = useTablePagination(10);
-  const { sorting, setSorting } = useTableSorting();
+const data: Array<Example> = [
+  { No: 1, firstName: "yh", lastName: "kim" },
+  { No: 2, firstName: "yh", lastName: "kim" },
+  { No: 3, firstName: "yh", lastName: "kim" },
+  { No: 4, firstName: "yh", lastName: "kim" },
+  { No: 5, firstName: "yh", lastName: "kim" },
+  { No: 6, firstName: "yh", lastName: "kim" },
+  { No: 7, firstName: "yh", lastName: "kim" },
+];
 
-  const table = useReactTable<Example>({
-    // 1) default table setting
+const columns: ColumnDef<Example>[] = [
+  {
+    accessorKey: "No",
+    header: "No",
+    size: 10,
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    columns: [
+      {
+        accessorKey: "firstName",
+        header: "First Name",
+        size: 140,
+        cell: (value) => {
+          return <div style={{ color: "red" }}>{value.getValue()}</div>;
+        },
+      },
+      {
+        accessorKey: "lastName",
+        header: "Last Name",
+        size: 140,
+      },
+    ],
+  },
+];
+
+const headerOption: HeaderOptionType[] = [
+  { accessorKey: "No", layer: 1, colSpan: 1, rowSpan: 2 },
+  { accessorKey: "name", layer: 1, colSpan: 2, rowSpan: 1 },
+  { accessorKey: "firstName", layer: 2, colSpan: 1, rowSpan: 1 },
+  { accessorKey: "lastName", layer: 2, colSpan: 1, rowSpan: 1 },
+];
+
+const subRowDummy = [
+  [
+    {
+      No: 10,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 20,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 30,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 40,
+      firstName: "park",
+      lastName: "-",
+    },
+  ],
+  [
+    {
+      No: 10,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 20,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 30,
+      firstName: "park",
+      lastName: "-",
+    },
+    {
+      No: 40,
+      firstName: "park",
+      lastName: "-",
+    },
+  ],
+];
+
+function App() {
+  const [testPage, setTestPage] = useState(false);
+
+  const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-
-    // 2) about pagination
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-
-    // 3) about sorting
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-
-    // 해당 hook에서 관리 중인 state
-    state: { pagination, sorting },
+    isPagination: true,
   });
+  const { subRowContents } = useSubRowContents(subRowDummy);
+  const { expandState, changeSubRowExpandState } = useSubRowExpand();
+
+  const handleClickRow = ({ rowIndex }: { rowIndex: number }) => {
+    changeSubRowExpandState(rowIndex);
+  };
 
   return (
-    <>
-      <Table
-        withTableBorder
-        withColumnBorders
-        withRowBorders
-        stickyHeader
-        highlightOnHover
-      >
-        <TableHeader table={table} headerOptionType={headerOptionType} />
-        <TableBody table={table} />
-      </Table>
+    <div style={{ width: "100%", height: "100%" }}>
+      <button onClick={() => setTestPage(!testPage)}>change page</button>
 
-      <TableFooter
-        totalPageNum={table.getPageCount()}
-        pagination={pagination}
-        setPagination={setPagination}
-      />
-    </>
+      <nav
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "18px",
+          border: "1px solid black",
+          width: "100%",
+          height: "70px",
+        }}
+      >
+        Top Navigation
+      </nav>
+
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "calc(100% - 70px)",
+        }}
+      >
+        <nav
+          style={{
+            width: "150px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "18px",
+            border: "1px solid black",
+            borderTop: "none",
+          }}
+        >
+          left side nav
+        </nav>
+
+        <div
+          style={{
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ height: "calc(100% - 35px)", overflowY: "auto" }}>
+            <TableProvider
+              useParentRowUi={true}
+              subRowContents={subRowContents}
+              rowClickEvent={handleClickRow}
+              borderLeftNone={true}
+              borderTopNone={true}
+            >
+              <TableHeader
+                table={table}
+                headerOption={headerOption}
+                style={{
+                  fontSize: "14px",
+                  padding: "4px",
+                }}
+              />
+              <TableBody
+                table={table}
+                style={{
+                  fontSize: "14px",
+                  border: "1px solid black",
+                  textAlign: "center",
+                }}
+                interactiveStyles={{
+                  hoverColor: testPage ? "black" : "darkblue",
+                }}
+                subRowProps={{
+                  expandState,
+                  style: {
+                    backgroundColor: "ivory",
+                  },
+                  hoverColor: "red",
+                }}
+              />
+            </TableProvider>
+          </div>
+
+          <TableFooter
+            pagination={pagination}
+            setPagination={setPagination}
+            totalPageNum={totalPageNum}
+            styles={{
+              containerStyle: {
+                padding: "2px 3px",
+                border: "1px solid black",
+                borderLeft: "none",
+              },
+              pageSizeSelectStyle: {},
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 

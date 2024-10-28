@@ -1,12 +1,24 @@
+import { CSSProperties } from "react";
 import { Table } from "@tanstack/react-table";
 
 export interface HeaderOptionType {
   accessorKey: string;
-  layer: number; // 몇번째 행에 위치시킬지
-  rowSpan: number; // 높이
-  colSpan: number; // 너비
+  layer: number; // Which row to place the header in
+  rowSpan: number; // Height (row span)
+  colSpan: number; // Width (column span)
 }
 export interface TableProps<T> {
   table: Table<T>;
-  headerOptionType?: HeaderOptionType[];
+  style?: CSSProperties;
+}
+
+export interface RowClickEventParam {
+  rowIndex: number;
+  e: React.MouseEvent<HTMLTableRowElement>;
+}
+
+export interface CellClickEventParam {
+  rowIndex: number;
+  cellIndex: number;
+  e: React.MouseEvent<HTMLTableCellElement>;
 }

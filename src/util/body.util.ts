@@ -1,13 +1,26 @@
-import { Cell } from "@tanstack/react-table";
 import { ReactNode } from "react";
+import { Cell, Row, Table, createRow } from "@tanstack/react-table";
 
-// cell click event
-export const handleClickTableCell = <T>(
-  e: React.MouseEvent<HTMLTableCellElement>,
-  cellValue: ReactNode,
-  cell: Cell<T, unknown>
+export const getCellValue = <T>(cell: Cell<T, unknown>) => {
+  const value = cell.getContext().getValue() as ReactNode;
+  return value as ReactNode;
+};
+
+export const changeTableCellValue = <T>(
+  row: Row<T>,
+  table: Table<T>,
+  keyName: string | number,
+  value: unknown
 ) => {
-  console.log("table cell click event", e);
-  console.log("table cell value", cellValue);
-  console.log("table cell data", cell);
+  const updatedRowOriginal = { ...row.original, [keyName]: value };
+
+  const updatedRow = createRow(
+    table,
+    row.id,
+    updatedRowOriginal,
+    row.index,
+    row.depth
+  );
+
+  return updatedRow;
 };
