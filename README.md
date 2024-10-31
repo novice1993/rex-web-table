@@ -283,13 +283,14 @@ const headerOption: HeaderOptionType[] = [
 - **중요**: **row**와 **subRow**의 **hoverColor** 스타일을 적용하려면 별도로 CSS import가 필요합니다. **hoverColor** 외의 다른 스타일은 CSS import 없이도 정상적으로 작동합니다.
 - 컴포넌트 호출 시 전달해야 하는 `props`는 아래와 같습니다.
 
-| Props                 | Type                                            | Explain                                                                                                            | Required                                                                                |
-| --------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| `table`               | `Table<TData>`                                  | `useTable` 훅이 반환하는 테이블 데이터 인스턴스                                                                    | required                                                                                |
-| `interactiveStyles`   | `{ hoverColor: string; clickedColor: string; }` | 테이블 행의 마우스 hover 시와 클릭 시 배경색 지정                                                                  | `hoverColor` : optional, <br/> `clickedColor` : `rowSelectionType`이 설정된 경우에 필수 |
-| `subRowProps`         | `object`                                        | `subRow` 관련 설정                                                                                                 | optional                                                                                |
-| `rowSelectionType`    | `"single"` or `"multiple"` or `"grouped"`       | 행 선택 타입을 설정                                                                                                | optional                                                                                |
-| `groupSelectionRange` | `number`                                        | `rowSelectionType`이 `grouped`일 때, 그룹 선택 범위를 설정합니다. (선택한 행 기준, `range` 만큼 위/아래 추가 선택) | `rowSelectionType`이 `grouped`일 때 필수                                                |
+| Props                     | Type                                            | Explain                                                                                                            | Required                                                                                |
+| ------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| `table`                   | `Table<TData>`                                  | `useTable` 훅이 반환하는 테이블 데이터 인스턴스                                                                    | required                                                                                |
+| `interactiveStyles`       | `{ hoverColor: string; clickedColor: string; }` | 테이블 행의 마우스 hover 시와 클릭 시 배경색 지정                                                                  | `hoverColor` : optional, <br/> `clickedColor` : `rowSelectionType`이 설정된 경우에 필수 |
+| `subRowProps`             | `object`                                        | `subRow` 관련 설정                                                                                                 | optional                                                                                |
+| `rowSelectionType`        | `"single"` or `"multiple"` or `"grouped"`       | 행 선택 타입을 설정                                                                                                | optional                                                                                |
+| `defaultSelectedRowIndex` | `number`                                        | `rowSelectionType` 이 `single` 일 때, 기본 값으로 선택될 행의 인덱스를 설정합니다.                                 | `rowSelectionType`이 `single`일 때 optional                                             |
+| `groupSelectionRange`     | `number`                                        | `rowSelectionType`이 `grouped`일 때, 그룹 선택 범위를 설정합니다. (선택한 행 기준, `range` 만큼 위/아래 추가 선택) | `rowSelectionType`이 `grouped`일 때 필수                                                |
 
 <br/>
 
@@ -311,7 +312,7 @@ import "rex-web-table/dist/index.css";
 />;
 
 
-2) rowSelectionType이 "single" 혹은 "multiple"인 경우
+2) rowSelectionType이 "single"인 경우
 
 <TableBody
   table={table}
@@ -326,10 +327,28 @@ import "rex-web-table/dist/index.css";
     clickedColor: "black", // rowSelectionType이 설정되었으므로, clicekd Color 설정
   }}
   rowSelectionType="single"
+  defaultSelectedRowIndex={0} // (rowSelectionType이 single일 때) 0번째 행 기본 값으로 선택
+/>;
+
+3) rowSelectionType이 "multiple"인 경우
+
+<TableBody
+  table={table}
+  style={{
+    // 테이블 바디의 CSS 속성을 설정하여 스타일을 전달
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // 행 hover 시 배경색 설정
+    clickedColor: "black", // rowSelectionType이 설정되었으므로, clicekd Color 설정
+  }}
+  rowSelectionType="multiple"
 />;
 
 
-3) rowSelectionType이 "grouped"인 경우
+4) rowSelectionType이 "grouped"인 경우
 
 <TableBody
   table={table}
