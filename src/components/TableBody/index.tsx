@@ -12,12 +12,23 @@ interface BaseTableBodyProps<T> extends TableProps<T> {
   };
 }
 
-type SingleOrMultipleSelectionProps<T> = BaseTableBodyProps<T> & {
-  rowSelectionType: "single" | "multiple";
+type SingleSelectionProps<T> = BaseTableBodyProps<T> & {
+  rowSelectionType: "single";
   interactiveStyles: {
     hoverColor?: string;
     clickedColor: string;
   };
+  defaultSelectedRowIndex?: number;
+  groupSelectionRange?: never;
+};
+
+type MultipleSelectionProps<T> = BaseTableBodyProps<T> & {
+  rowSelectionType: "multiple";
+  interactiveStyles: {
+    hoverColor?: string;
+    clickedColor: string;
+  };
+  defaultSelectedRowIndex?: never;
   groupSelectionRange?: never;
 };
 
@@ -27,6 +38,7 @@ type GroupedSelectionProps<T> = BaseTableBodyProps<T> & {
     hoverColor?: string;
     clickedColor: string;
   };
+  defaultSelectedRowIndex?: never;
   groupSelectionRange: number;
 };
 
@@ -36,11 +48,13 @@ type NoSelectionProps<T> = BaseTableBodyProps<T> & {
     hoverColor?: string;
     clickedColor?: never;
   };
+  defaultSelectedRowIndex?: never;
   groupSelectionRange?: never;
 };
 
 type TableBodyProps<T> =
-  | SingleOrMultipleSelectionProps<T>
+  | SingleSelectionProps<T>
+  | MultipleSelectionProps<T>
   | GroupedSelectionProps<T>
   | NoSelectionProps<T>;
 
@@ -51,11 +65,14 @@ const TableBody = <T,>(props: TableBodyProps<T>) => {
     subRowProps,
     interactiveStyles,
     rowSelectionType,
+    defaultSelectedRowIndex,
     groupSelectionRange,
   } = props;
 
   const rows = table.getRowModel().rows;
-  const [selectedRowIndex, setSelectedRowIndex] = useState<null | number>(null);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<null | number>(
+    defaultSelectedRowIndex !== undefined ? defaultSelectedRowIndex : null
+  );
 
   return (
     <tbody>

@@ -184,6 +184,7 @@ function App() {
                 }}
               />
               <TableBody
+                rowSelectionType="single"
                 table={table}
                 style={{
                   fontSize: "14px",
@@ -192,7 +193,9 @@ function App() {
                 }}
                 interactiveStyles={{
                   hoverColor: testPage ? "black" : "darkblue",
+                  clickedColor: "red",
                 }}
+                defaultSelectedRowIndex={0}
                 subRowProps={{
                   expandState,
                   style: {
