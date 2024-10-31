@@ -280,13 +280,14 @@ const headerOption: HeaderOptionType[] = [
 - **Important**: To apply **hoverColor** styles for **row** and **subRow**, you need to import CSS separately. Other styles except for **hoverColor** will work fine without importing the CSS.
 - The `props` required to call the component are listed below.
 
-| Props                 | Type                                            | Explain                                                                                                               | Required                                                                                |
-| --------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `table`               | `Table<TData>`                                  | The table instance returned by the `useTable` hook                                                                    | required                                                                                |
-| `interactiveStyles`   | `{ hoverColor: string; clickedColor: string; }` | Defines background colors for rows on hover and click events                                                          | `hoverColor` : optional, <br/> `clickedColor` : required when `rowSelectionType` is set |
-| `subRowProps`         | `object`                                        | Configuration for `subRow`                                                                                            | optional                                                                                |
-| `rowSelectionType`    | `"single"` or `"multiple"` or `"grouped"`       | Specifies the row selection type                                                                                      | optional                                                                                |
-| `groupSelectionRange` | `number`                                        | When `rowSelectionType` is set to `grouped`, specifies the range of additional rows to select around the selected one | required if `rowSelectionType` is `grouped`                                             |
+| Props                     | Type                                            | Explain                                                                                                               | Required                                                                                |
+| ------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `table`                   | `Table<TData>`                                  | The table instance returned by the `useTable` hook                                                                    | required                                                                                |
+| `interactiveStyles`       | `{ hoverColor: string; clickedColor: string; }` | Defines background colors for rows on hover and click events                                                          | `hoverColor` : optional, <br/> `clickedColor` : required when `rowSelectionType` is set |
+| `subRowProps`             | `object`                                        | Configuration for `subRow`                                                                                            | optional                                                                                |
+| `rowSelectionType`        | `"single"` or `"multiple"` or `"grouped"`       | Specifies the row selection type                                                                                      | optional                                                                                |
+| `defaultSelectedRowIndex` | `number`                                        | Sets the index of the row to be selected by default when `rowSelectionType` is set to `single`                        | Optional when `rowSelectionType` is `single`                                            |
+| `groupSelectionRange`     | `number`                                        | When `rowSelectionType` is set to `grouped`, specifies the range of additional rows to select around the selected one | required if `rowSelectionType` is `grouped`                                             |
 
 <br/>
 
@@ -308,25 +309,43 @@ import "rex-web-table/dist/index.css";
 /&gt;
 
 
-2) When `rowSelectionType` is set to "single" or "multiple"
+2) When rowSelectionType is "single":
 
-&lt;TableBody
+<TableBody
   table={table}
   style={{
-    // Sets the CSS properties for the table body
+    // Apply CSS properties to style the table body
     fontSize: "14px",
     border: "1px solid black",
     textAlign: "center",
   }}
   interactiveStyles={{
-    hoverColor: "white", // Sets background color when hovering over a row
-    clickedColor: "black", // `clickedColor` must be set when `rowSelectionType` is defined
+    hoverColor: "white", // Set background color when row is hovered
+    clickedColor: "black", // Set background color when row is clicked (as rowSelectionType is defined)
   }}
   rowSelectionType="single"
-/&gt;
+  defaultSelectedRowIndex={0} // (when rowSelectionType is single) set the 0th row as the default selected row
+/>;
+
+3) When rowSelectionType is "multiple":
+
+<TableBody
+  table={table}
+  style={{
+    // Apply CSS properties to style the table body
+    fontSize: "14px",
+    border: "1px solid black",
+    textAlign: "center",
+  }}
+  interactiveStyles={{
+    hoverColor: "white", // Set background color when row is hovered
+    clickedColor: "black", // Set background color when row is clicked (as rowSelectionType is defined)
+  }}
+  rowSelectionType="multiple"
+/>;
 
 
-3) When `rowSelectionType` is set to "grouped"
+4) When `rowSelectionType` is "grouped"
 
 &lt;TableBody
   table={table}
