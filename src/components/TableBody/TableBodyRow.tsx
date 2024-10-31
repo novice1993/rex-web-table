@@ -81,7 +81,7 @@ const TableBodyRow = <T,>(props: TableBodyRowProps<T>) => {
       // when selectionType grouped, set selected range
       if (
         rowSelectionType === "grouped" &&
-        selectedRowIndex &&
+        selectedRowIndex !== null &&
         groupSelectionRange
       ) {
         const isWithinRange =
