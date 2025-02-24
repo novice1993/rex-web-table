@@ -8,9 +8,8 @@ import useSubRowContents from "./hook/useSubRowContents";
 import useSubRowExpand from "./hook/useSubRowExpand";
 
 // virtualize test
-import { useVirtualize } from "./feature/Virtualize/useVirtualize";
+import useVirtualize from "./feature/Virtualize/useVirtualize";
 import VirtualTableBody from "./feature/Virtualize/VirtualTableBody";
-import VirtaulTableProvider from "./feature/Virtualize/VirtualTableProvider";
 
 export interface Example {
   No: number;
@@ -166,56 +165,49 @@ function App() {
             overflow: "hidden",
           }}
         >
-          <VirtaulTableProvider
-            virtualizeRef={virtualizeRef}
-            virtualizeHeight={virtuallizeHeight}
-            virtualizedOffset={getVirtualizeOffset(virtualizeItems)}
+          <TableProvider
             useParentRowUi={true}
             subRowContents={subRowContents}
             rowClickEvent={handleClickRow}
             borderLeftNone={true}
             borderTopNone={true}
+            isVirtualized={true}
+            virtualizeRef={virtualizeRef}
+            virtualizeHeight={virtuallizeHeight}
+            virtualizedOffset={getVirtualizeOffset(virtualizeItems)}
           >
-            <TableProvider
-              useParentRowUi={true}
-              subRowContents={subRowContents}
-              rowClickEvent={handleClickRow}
-              borderLeftNone={true}
-              borderTopNone={true}
-            >
-              <TableHeader
-                table={table}
-                headerOption={headerOption}
-                style={{
-                  fontSize: "14px",
-                  padding: "4px",
-                }}
-              />
+            <TableHeader
+              table={table}
+              headerOption={headerOption}
+              style={{
+                fontSize: "14px",
+                padding: "4px",
+              }}
+            />
 
-              <VirtualTableBody
-                rowSelectionType="single"
-                table={table}
-                virtualizeItems={virtualizeItems}
-                style={{
-                  fontSize: "14px",
-                  border: "1px solid black",
-                  textAlign: "center",
-                }}
-                interactiveStyles={{
-                  hoverColor: "darkblue",
-                  clickedColor: "red",
-                }}
-                defaultSelectedRowIndex={0}
-                subRowProps={{
-                  expandState,
-                  style: {
-                    backgroundColor: "ivory",
-                  },
-                  hoverColor: "red",
-                }}
-              />
-            </TableProvider>
-          </VirtaulTableProvider>
+            <VirtualTableBody
+              rowSelectionType="single"
+              table={table}
+              virtualizeItems={virtualizeItems}
+              style={{
+                fontSize: "14px",
+                border: "1px solid black",
+                textAlign: "center",
+              }}
+              interactiveStyles={{
+                hoverColor: "darkblue",
+                clickedColor: "red",
+              }}
+              defaultSelectedRowIndex={0}
+              subRowProps={{
+                expandState,
+                style: {
+                  backgroundColor: "ivory",
+                },
+                hoverColor: "red",
+              }}
+            />
+          </TableProvider>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useVirtualizer, VirtualItem } from "@tanstack/react-virtual";
 
-export const useVirtualize = ({ tableData }: { tableData: unknown[] }) => {
+const useVirtualize = ({ tableData }: { tableData: unknown[] }) => {
   const virtualizeRef = useRef<HTMLDivElement | null>(null);
 
   const virtualizer = useVirtualizer({
@@ -24,3 +24,5 @@ export const useVirtualize = ({ tableData }: { tableData: unknown[] }) => {
     getVirtualizeOffset,
   };
 };
+
+export default useVirtualize;
