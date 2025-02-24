@@ -17,7 +17,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.20.5"
+    "@tanstack/react-table": "^8.20.5",
+    "@tanstack/react-virtual": "^3.13.0"
   },
   "peerDependencies": {
     "react": "^18.3.1",
