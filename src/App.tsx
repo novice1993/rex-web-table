@@ -1,14 +1,16 @@
 import useTable from "./hook/useTable";
-
 import { TableProvider } from "./provider/TableProvider";
 import TableHeader from "./components/TableHeader/index";
-import TableBody from "./components/TableBody/index";
-import TableFooter from "./components/TableFooter";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { HeaderOptionType } from "./type/type";
 import useSubRowContents from "./hook/useSubRowContents";
 import useSubRowExpand from "./hook/useSubRowExpand";
-import { useState } from "react";
+
+// virtualize test
+import { useVirtualize } from "./feature/Virtualize/useVirtualize";
+import VirtualTableBody from "./feature/Virtualize/VirtualTableBody";
+import VirtaulTableProvider from "./feature/Virtualize/VirtualTableProvider";
 
 export interface Example {
   No: number;
@@ -16,15 +18,11 @@ export interface Example {
   lastName: string;
 }
 
-const data: Array<Example> = [
-  { No: 1, firstName: "yh", lastName: "kim" },
-  { No: 2, firstName: "yh", lastName: "kim" },
-  { No: 3, firstName: "yh", lastName: "kim" },
-  { No: 4, firstName: "yh", lastName: "kim" },
-  { No: 5, firstName: "yh", lastName: "kim" },
-  { No: 6, firstName: "yh", lastName: "kim" },
-  { No: 7, firstName: "yh", lastName: "kim" },
-];
+const data: Array<Example> = [{ No: 1, firstName: "yh", lastName: "kim" }];
+
+for (let i = 2; i < 100000; i++) {
+  data.push({ No: i, firstName: "yh", lastName: "kim" });
+}
 
 const columns: ColumnDef<Example>[] = [
   {
@@ -108,13 +106,7 @@ const subRowDummy = [
 ];
 
 function App() {
-  const [testPage, setTestPage] = useState(false);
-
-  const { table, totalPageNum, pagination, setPagination } = useTable<Example>({
-    data,
-    columns,
-    isPagination: true,
-  });
+  const { table } = useTable<Example>({ data, columns });
   const { subRowContents } = useSubRowContents(subRowDummy);
   const { expandState, changeSubRowExpandState } = useSubRowExpand();
 
@@ -122,10 +114,17 @@ function App() {
     changeSubRowExpandState(rowIndex);
   };
 
+  const {
+    virtualizeRef,
+    virtualizeItems,
+    virtuallizeHeight,
+    getVirtualizeOffset,
+  } = useVirtualize({
+    tableData: data,
+  });
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <button onClick={() => setTestPage(!testPage)}>change page</button>
-
       <nav
         style={{
           display: "flex",
@@ -167,7 +166,16 @@ function App() {
             overflow: "hidden",
           }}
         >
-          <div style={{ height: "calc(100% - 35px)", overflowY: "auto" }}>
+          <VirtaulTableProvider
+            virtualizeRef={virtualizeRef}
+            virtualizeHeight={virtuallizeHeight}
+            virtualizedOffset={getVirtualizeOffset(virtualizeItems)}
+            useParentRowUi={true}
+            subRowContents={subRowContents}
+            rowClickEvent={handleClickRow}
+            borderLeftNone={true}
+            borderTopNone={true}
+          >
             <TableProvider
               useParentRowUi={true}
               subRowContents={subRowContents}
@@ -183,16 +191,18 @@ function App() {
                   padding: "4px",
                 }}
               />
-              <TableBody
+
+              <VirtualTableBody
                 rowSelectionType="single"
                 table={table}
+                virtualizeItems={virtualizeItems}
                 style={{
                   fontSize: "14px",
                   border: "1px solid black",
                   textAlign: "center",
                 }}
                 interactiveStyles={{
-                  hoverColor: testPage ? "black" : "darkblue",
+                  hoverColor: "darkblue",
                   clickedColor: "red",
                 }}
                 defaultSelectedRowIndex={0}
@@ -205,21 +215,7 @@ function App() {
                 }}
               />
             </TableProvider>
-          </div>
-
-          <TableFooter
-            pagination={pagination}
-            setPagination={setPagination}
-            totalPageNum={totalPageNum}
-            styles={{
-              containerStyle: {
-                padding: "2px 3px",
-                border: "1px solid black",
-                borderLeft: "none",
-              },
-              pageSizeSelectStyle: {},
-            }}
-          />
+          </VirtaulTableProvider>
         </div>
       </div>
     </div>
